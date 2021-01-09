@@ -1,0 +1,40 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <form [formGroup]="login" (ngSubmit)="onSubmit()">
+                  <h1>Password Recovery</h1>
+                  <p class="text-muted">Get password recovery link to your email</p>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <input type="text" formControlName="Email" class="form-control" placeholder="Email"
+                          [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                        <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                          <div *ngIf="f.Email.errors.required">Email is required</div>
+                          <div *ngIf="f.Email.errors?.pattern">Enter valid Email</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="submit" class="btn btn-primary px-4">Submit</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button type="button" [routerLink]="['/login']" class="btn btn-link px-0">Login</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

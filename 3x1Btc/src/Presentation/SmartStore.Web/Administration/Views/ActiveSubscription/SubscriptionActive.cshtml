@@ -1,0 +1,50 @@
+﻿@model ActiveSubscriptionModel
+@using SmartStore.Admin.Models.ActiveSubscription;
+@Html.ValidationSummary(false)
+<style>
+	.bg-primary {
+		background-color: #1955a4 !important;
+	}
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+<div class="content-box">
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			Subscription Details
+		</div>
+		<div class="col-lg-3 form-group">
+			1$ Subscription, Validity 30 Days
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			@T("Investment.Deposit.Processor")
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.DropDownListFor(model => model.ProcessorId, Model.AvailableProcessor)
+			@Html.ValidationMessageFor(model => model.ProcessorId)
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			No Of Months
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.TextBoxFor(model => model.NoOfMonths, new { @placeholder = "Enter no of Months" })
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="options">
+
+				<button type="submit" name="save" value="save" class="btn btn-primary">
+					<i class="fa fa-check"></i>
+					<span>Proceed</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+}
+

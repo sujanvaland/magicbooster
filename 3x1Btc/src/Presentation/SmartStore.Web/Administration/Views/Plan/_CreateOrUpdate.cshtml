@@ -1,0 +1,190 @@
+﻿@model PlanModel
+@using SmartStore.Admin.Models.Hyip;
+@using Telerik.Web.Mvc.UI;
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@*@Html.SmartStore().TabStrip().Name("plan-edit").OnAjaxSuccess("planEditTab_onAjaxSuccess").Style(TabsStyle.Material).Position(TabsPosition.Left).Items(x => {
+
+		x.Add().Text(T("Admin.Plan.Plans.Info").Text).Icon("fa fa-pencil fa-lg fa-fw").Content(TabInfo()).Selected(true);
+		//generate an event
+		EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "category-edit", this.Html, this.Model));
+	})*@
+@*@helper TabInfo()
+	{*@
+@if (Model.Id != 0)
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.Id)
+			</td>
+			<td class="adminData">
+				@Html.TextBoxFor(model => model.Id, new { @readonly = "readonly", @class = "form-control-plaintext" })
+				@Html.ValidationMessageFor(model => model.Id)
+			</td>
+		</tr>
+	</table>
+}
+
+@(Html.LocalizedEditor<PlanModel, PlanLocalizedModel>("category-info-localized",
+					@<table class="adminContent">
+						<tr>
+							<td class="adminTitle">
+								@Html.SmartLabelFor(model => model.Locales[item].Name)
+							</td>
+							<td class="adminData">
+								@*IMPORTANT: Do not delete, this hidden element contains the id to assign localized values to the corresponding language *@
+								@Html.HiddenFor(model => model.Locales[item].LanguageId)
+								@Html.EditorFor(model => Model.Locales[item].Name)
+								@Html.ValidationMessageFor(model => model.Locales[item].Name)
+							</td>
+						</tr>
+
+					</table>
+										,
+										@<table class="adminContent">
+											<tr>
+												<td class="adminTitle">
+													@Html.SmartLabelFor(model => model.Name)
+												</td>
+												<td class="adminData">
+													@Html.EditorFor(model => model.Name)
+													@Html.ValidationMessageFor(model => model.Name)
+												</td>
+											</tr>
+											<tr style="display:none;">
+												<td class="adminTitle">
+													@Html.SmartLabelFor(model => model.PlanDetails)
+												</td>
+												<td class="adminData">
+													@Html.EditorFor(model => model.PlanDetails)
+													@Html.ValidationMessageFor(model => model.PlanDetails)
+												</td>
+											</tr>
+
+										</table>
+														))
+
+<table class="adminContent">
+	<tr class="description-container" style="display:none;">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.PlanDetails)
+		</td>
+		<td class="adminData wide">
+			@Html.EditorFor(model => model.PlanDetails, "Html")
+			@Html.ValidationMessageFor(model => model.PlanDetails)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Daily Pair Limit</span>@*@Html.SmartLabelFor(model => model.NoOfPayouts)*@
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.NoOfPayouts)
+			@Html.ValidationMessageFor(model => model.NoOfPayouts)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Price</span>@*@Html.SmartLabelFor(model => model.DailyIncome)*@
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.ROIPercentage)
+			@Html.ValidationMessageFor(model => model.ROIPercentage)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Pay Per Point</span>@*@Html.SmartLabelFor(model => model.MinimumInvestment)*@
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.MinimumInvestment)
+			@Html.ValidationMessageFor(model => model.MinimumInvestment)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Points Per Pair</span>@*@Html.SmartLabelFor(model => model.MaximumInvestment)*@
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.MaximumInvestment)
+			@Html.ValidationMessageFor(model => model.MaximumInvestment)
+			<span>e.g. SB1 = 10, SB3 = 12, SB7 = 15</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Direct Income</span>@*@Html.SmartLabelFor(model => model.PayEveryXDays)*@
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.PayEveryXDays)
+			@Html.ValidationMessageFor(model => model.PayEveryXDays)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.Published)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.Published)
+			@Html.ValidationMessageFor(model => model.Published)
+		</td>
+	</tr>
+	<tr style="display:none">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.IsPrincipalBack)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.IsPrincipalBack)
+			@Html.ValidationMessageFor(model => model.IsPrincipalBack)
+		</td>
+	</tr>
+	<tr style="display:none">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.StartROIAfterHours)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.StartROIAfterHours)
+			@Html.ValidationMessageFor(model => model.StartROIAfterHours)
+		</td>
+	</tr>
+	<tr style="display:none;">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.DisplayOrder)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.DisplayOrder)
+			@Html.ValidationMessageFor(model => model.DisplayOrder)
+		</td>
+	</tr>
+	@if (Model.CreatedOn.HasValue)
+	{
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CreatedOn)
+			</td>
+			<td class="adminData">
+				<div class="form-control-plaintext">
+					@Html.DisplayFor(model => model.CreatedOn)
+				</div>
+			</td>
+		</tr>
+	}
+	@if (Model.UpdatedOn.HasValue)
+	{
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.UpdatedOn)
+			</td>
+			<td class="adminData">
+				<div class="form-control-plaintext">
+					@Html.DisplayFor(model => model.UpdatedOn)
+				</div>
+			</td>
+		</tr>
+	}
+</table>
+@*}*@
+<script>
+
+</script>

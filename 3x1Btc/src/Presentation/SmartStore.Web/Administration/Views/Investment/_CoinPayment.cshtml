@@ -1,0 +1,84 @@
+﻿@model CoinPaymentModel
+@using SmartStore.Admin.Models.PaymentMethods;
+
+@*@using (Html.BeginForm(Model.PaymentURL, null, FormMethod.Post))
+{*@
+<form action="@Model.PaymentURL" method="post">
+	<div class="content-box">
+		<div class="section-header">
+			<div class="title">
+				<i class="fa fa-sitemap"></i>
+				@T("Admin.Investment.DepositConfirm")
+				<div class="btn-group ml-2" style="vertical-align: text-top">
+					<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+						<i class="fa fa-bars"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<input type='hidden' name='cmd' value='_pay_simple'>
+			<input type='hidden' name='reset' value='1'>
+			<input type='hidden' name='merchant' value='@Model.MerchantAcc'>
+			<input type='hidden' name='currency' value='@Model.CurrencyCode'>
+			<input type='hidden' name='amountf' value='@Model.FinalAmount'>
+			<input type='hidden' name='item_name' value='@Model.PaymentMemo'>
+			<input type='hidden' name='custom' value='@Model.TransactionId'>
+			<input type='hidden' name='ipn_url' value='@ViewBag.StoreUrl/IPNHandler/CoinpaymentIPN'>
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.EnteredAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DisplayFor(model => model.Amount) @Model.CurrencyCode
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.Fees")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DisplayFor(model => model.DepositFees) %
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.FinalAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DisplayFor(model => model.FinalAmount) @Model.CurrencyCode
+			</div>
+		</div>
+		<div class="row d-none">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedPlan")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DisplayFor(model => model.PlanName)
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedProcessor")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DisplayFor(model => model.ProcessorName)
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-6 form-group">
+				<div class="options">
+					<button type="submit" name="save" value="save" class="btn btn-primary">
+						<i class="fa fa-check"></i>
+						<span>@T("Admin.Common.ContinuePayment")</span>
+					</button>
+					<a href="@Url.Action("Deposit","Investment")" class="btn btn-secondary">
+						<span>@T("Admin.Common.Cancel")</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+@*}*@
+

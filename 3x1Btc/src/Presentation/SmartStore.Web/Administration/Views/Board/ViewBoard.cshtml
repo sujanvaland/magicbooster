@@ -1,0 +1,145 @@
+﻿@model BoardModel
+@using Telerik.Web.Mvc.UI
+@using SmartStore.Admin.Models.Board
+@{
+	ViewBag.Title = T("Admin.Catalog.Plans.Manage").Text;
+}
+
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-sitemap"></i>
+		@T("Admin.Hyip.CommissionReport")
+		<div class="btn-group ml-2" style="vertical-align: text-top">
+			<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+				<i class="fa fa-bars"></i>
+			</a>
+			
+		</div>
+	</div>
+</div>
+<h3>To view cycled position, click on "Show Cycled Position"</h3>
+<div class="row mt-3 grid-filter">
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.StartDate)
+		@Html.EditorFor(model => Model.StartDate)
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.EndDate)
+		@Html.EditorFor(model => Model.EndDate)
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		Select Board
+		@Html.DropDownList("StatusIds", Model.AvailableBoard, null, new { multiple = "multiple", @class = "form-control" })
+	</div>
+	<div class="col-sm-3 col-lg-4 col-xl-3 form-group">
+		@*@Html.SmartLabelFor(model => model.IsCycled)*@
+		@*@Html.EditorFor(model => Model.IsCycled)*@
+		<b>Show Cycled Position</b>
+		<input type="checkbox" id="chkCycled" name="chkCycled" />
+	</div>
+	@*<div class="col-sm-3 col-lg-4 col-xl-3 form-group d-none">
+		@Html.SmartLabelFor(model => model.ShowmyPosition)
+		@Html.EditorFor(model => Model.ShowmyPosition)
+	</div>*@
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		<label>&nbsp;</label>
+		<button type="submit" id="btnSearch" value="btnSearch" class="btn btn-secondary btn-block">
+			<span>@T("Admin.Common.ApplyFilter")</span>
+		</button>
+	</div>
+</div>
+<div class="mt-2">
+	@(Html.Telerik().Grid<BoardModel>()
+						.Name("plans-grid")
+						.DataKeys(keys => { keys.Add(x => x.Id); })
+
+						.ClientEvents(events =>
+						{
+							events.OnDataBinding("onDataBinding");
+							events.OnDataBound("onDataBound");
+						})
+						.Columns(columns =>
+						{
+							columns.Bound(x => x.Id)
+							.Centered();
+							columns.Bound(x => x.Id)
+							.ClientTemplate("<button id=\"viewboard\" onclick=\"ViewBoardMember('<#= Id #>');\" name=\"viewboard\" type=\"button\" class=\"btn btn-primary\" >View Members</button>")
+							.Title("View Board")
+							.Width(50)
+							.Centered();
+							columns.Bound(x => x.Id)
+							.ClientTemplate("<button id=\"viewboard\" onclick=\"TreeView('<#= Id #>');\" name=\"viewboard\" type=\"button\" class=\"btn btn-primary\" >Tree View</button>")
+							.Title("Tree View")
+							.Width(50)
+								.Centered();
+							columns.Bound(x => x.PlacedUnderPositionId)
+							.Title("Placed Under Position")
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.BoardName)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.CustomerName)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.NoOfPositionFilled)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.NoOfPositionRemaining)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.PurchaseDate)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.IsCycledString)
+							.Title("Is Cycled")
+							.Width(160)
+							.Centered();
+						})
+						.Pageable(settings => settings.PageSize(Model.GridPageSize).Position(GridPagerPosition.Both))
+						.DataBinding(dataBinding =>
+						{
+							dataBinding.Ajax()
+								.Select("ListCyclerBonus", "Board");
+						})
+						.PreserveGridState()
+						.EnableCustomBinding(true))
+</div>
+<script type="text/javascript">
+	
+	// Filter toggler
+	$('.btn-toggle-filter').on('click', function (e) {
+		$('.grid-filter').slideToggle({ duration: 200, easing: 'ease-in-out' });
+	});
+
+	//search button
+	$('#btnSearch').click(function () {
+		//search
+		var grid = $('#plans-grid').data('tGrid');
+		grid.currentPage = 1; //new search. Set page size to 1
+		grid.ajaxRequest();
+		return false;
+	});
+	function ViewBoardMember(id) {
+		window.location.href = '@Url.Action("ViewBoardMember", "Board")' + "/?positionid=" + id;
+	}
+	function TreeView(id) {
+		window.location.href = '@Url.Action("TreeView", "Board")' + "?PositionId=" + id;
+	}
+	
+	function onDataBinding(e) {
+		var searchModel = {
+			StartDate: $('#@Html.FieldIdFor(model => model.StartDate)').val(),
+			EndDate: $('#@Html.FieldIdFor(model => model.EndDate)').val(),
+			IsCycled: $('#chkCycled').is(':checked'),
+			BoardIds: jQuery.makeArray($('#@Html.FieldIdFor(model => model.BoardIds)').val()).join(),
+		};
+		console.log(searchModel);
+		e.data = searchModel;
+	}
+
+	function onDataBound(e) {
+
+	}
+</script>
+

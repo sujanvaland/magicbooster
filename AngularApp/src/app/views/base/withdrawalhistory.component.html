@@ -1,0 +1,36 @@
+<div class="animated fadeIn">
+  <div class="card" > 
+    <div class="card-header">
+      <i class="fa fa-align-justify"></i> Withdrawal Report
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Request No.</th>
+            <th>Email</th>
+            <th>Amount</th>
+            <th>Payment Mode</th>
+            <th>Withdrawal Acc</th>
+            <th>Transaction Date</th>
+            <th>Transaction Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let withdrawal of WithdrawalData">
+            <td>{{withdrawal.Id}}</td>
+            <td>{{withdrawal.CustomerEmail}}</td>
+            <td>{{withdrawal.FinalAmountRaw}}</td>
+            <td>{{withdrawal.ProcessorName}}</td>
+            <td>{{withdrawal.WithdrawalAccount}}</td>
+            <td>{{withdrawal.TransactionDate |  date:'mediumDate'}}</td>
+            <td>
+              <span [ngClass]="{'badge-success': withdrawal.StatusId == 2,
+                                'badge-danger': withdrawal.StatusId == 1}" class="badge">{{withdrawal.TransStatusString}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

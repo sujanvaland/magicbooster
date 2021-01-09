@@ -1,0 +1,44 @@
+﻿@model  List<AdCampaign>
+@using SmartStore.Core.Domain.Advertisments
+
+@{
+	ViewBag.Title = "ProgramListing";
+}
+<div class="hero-wrap hero-wrap-2" style="background-image: url('/Content/theme/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-start">
+			<div class="col-md-8 ftco-animate text-center text-md-left mb-5">
+				<p class="breadcrumbs mb-0"><span class="mr-3"><a href="@Url.Action("Index","Home")">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Program Listing</span></p>
+				<h1 class="mb-3 bread">Program Listing</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="pagewidth">
+	<div class="container">
+		<div class="page contact-page">
+			<div class="page-title mt-50">
+				<h1>@T("ProgramListing")</h1>
+			</div>
+			<div class="options">
+				<a href="@Url.Action("ProgramListing","Common")" class="btn btn-primary">
+					<i class="fa fa-angle-right"></i>
+					<span>@T("ProgramListing.Next")</span>
+				</a>
+			</div>
+			@foreach (var banner in Model)
+			{
+				<div class="row mt-50">
+					<div class="col-lg-6">
+						<img src="@banner.Banner486" title="@banner.Name" />
+					</div>
+					<div class="col-lg-6">
+						<img src="@banner.Banner486" title="@banner.Name" />
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+

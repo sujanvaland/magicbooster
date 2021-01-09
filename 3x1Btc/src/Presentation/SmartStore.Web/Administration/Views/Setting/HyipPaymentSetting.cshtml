@@ -1,0 +1,331 @@
+﻿@model HyipPaymentSettingsModel
+@using SmartStore.Core.Domain.Customers;
+@{
+	ViewBag.Title = T("Admin.Hyip.Settings.Payment").Text;
+}
+@using (Html.BeginForm())
+{
+	<div class="section-header">
+		<div class="title">
+			<i class="fa fa-users"></i>
+			@T("Admin.Hyip.Settings.Payment")
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-warning">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+		</div>
+	</div>
+
+	Html.RenderAction("StoreScopeConfiguration", "Setting");
+
+	@Html.ValidationSummary(false)
+
+	@Html.SmartStore().TabStrip().Name("customersettings-edit").Style(TabsStyle.Material).Position(TabsPosition.Top).Items(x =>
+	{
+		x.Add().Text(T("Admin.Hyip.Settings.Processor.CoinPayments").Text).Content(TabCoinPayments()).Selected(true);
+		x.Add().Text(T("Admin.Hyip.Settings.Processor.SolitTrustPay").Text).Content(TabSolitTrustPay().ToHtmlString());
+		x.Add().Text(T("Admin.Hyip.Settings.Processor.Payza").Text).Content(TabPayza().ToHtmlString());
+		x.Add().Text(T("Admin.Hyip.Settings.Processor.PM").Text).Content(TabPM());
+		x.Add().Text(T("Admin.Hyip.Settings.Processor.Payeers").Text).Content(TabPayeers());
+		EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "processorsettings-edit", this.Html, this.Model));
+	})
+}
+@helper TabCoinPayments()
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_MerchantId)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_MerchantId)
+				@Html.ValidationMessageFor(model => model.CoinPaymentSettings.CP_MerchantId)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_PublicKey)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_PublicKey)
+				@Html.ValidationMessageFor(model => model.CoinPaymentSettings.CP_PublicKey)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_ApiSecretKey)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_ApiSecretKey)
+				@Html.ValidationMessageFor(model => model.CoinPaymentSettings.CP_ApiSecretKey)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_SecretKey)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_SecretKey)
+				@Html.ValidationMessageFor(model => model.CoinPaymentSettings.CP_SecretKey)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_TestMode)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_TestMode)
+				@Html.ValidationMessageFor(model => model.CoinPaymentSettings.CP_TestMode)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.CP_IsActivePaymentMethod)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.CP_IsActivePaymentMethod)
+
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CoinPaymentSettings.DepositFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.CoinPaymentSettings.DepositFees)
+
+			</td>
+		</tr>
+	</table>
+}
+@helper TabSolitTrustPay()
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_MerchantAccount)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_MerchantAccount)
+				@Html.ValidationMessageFor(model => model.SolitTrustPaySettings.STP_MerchantAccount)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_Sci_Name)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_Sci_Name)
+				@Html.ValidationMessageFor(model => model.SolitTrustPaySettings.STP_Sci_Name)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_CancelUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_CancelUrl)
+				@Html.ValidationMessageFor(model => model.SolitTrustPaySettings.STP_CancelUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_NotifyUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_NotifyUrl)
+				@Html.ValidationMessageFor(model => model.SolitTrustPaySettings.STP_NotifyUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_TestMode)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_TestMode)
+				@Html.ValidationMessageFor(model => model.SolitTrustPaySettings.STP_TestMode)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.STP_IsActivePaymentMethod)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.STP_IsActivePaymentMethod)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.SolitTrustPaySettings.DepositFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.SolitTrustPaySettings.DepositFees)
+
+			</td>
+		</tr>
+	</table>
+}
+@helper TabPayza()
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_MerchantAccount)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_MerchantAccount)
+				@Html.ValidationMessageFor(model => model.PayzaSettings.PZ_MerchantAccount)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_Sci_Name)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_Sci_Name)
+				@Html.ValidationMessageFor(model => model.PayzaSettings.PZ_Sci_Name)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_CancelUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_CancelUrl)
+				@Html.ValidationMessageFor(model => model.PayzaSettings.PZ_CancelUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_NotifyUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_NotifyUrl)
+				@Html.ValidationMessageFor(model => model.PayzaSettings.PZ_NotifyUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_ReturnUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_ReturnUrl)
+				@Html.ValidationMessageFor(model => model.PayzaSettings.PZ_ReturnUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.PZ_IsActivePaymentMethod)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.PZ_IsActivePaymentMethod)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayzaSettings.DepositFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayzaSettings.DepositFees)
+			</td>
+		</tr>
+	</table>
+}
+@helper TabPM()
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.PM_PayeeAccount)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.PM_PayeeAccount)
+				@Html.ValidationMessageFor(model => model.PMSettings.PM_PayeeAccount)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.PM_CancelUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.PM_CancelUrl)
+				@Html.ValidationMessageFor(model => model.PMSettings.PM_CancelUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.PM_NotifyUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.PM_NotifyUrl)
+				@Html.ValidationMessageFor(model => model.PMSettings.PM_NotifyUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.PM_ReturnUrl)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.PM_ReturnUrl)
+				@Html.ValidationMessageFor(model => model.PMSettings.PM_ReturnUrl)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.PM_IsActivePaymentMethod)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.PM_IsActivePaymentMethod)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PMSettings.DepositFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PMSettings.DepositFees)
+			</td>
+		</tr>
+	</table>
+}
+@helper TabPayeers()
+{
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayeerSettings.PY_MerchantShop)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayeerSettings.PY_MerchantShop)
+				@Html.ValidationMessageFor(model => model.PayeerSettings.PY_MerchantShop)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayeerSettings.PY_SecretKey)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayeerSettings.PY_SecretKey)
+				@Html.ValidationMessageFor(model => model.PayeerSettings.PY_SecretKey)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayeerSettings.PY_IsActivePaymentMethod)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayeerSettings.PY_IsActivePaymentMethod)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PayeerSettings.DepositFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PayeerSettings.DepositFees)
+			</td>
+		</tr>
+	</table>
+}

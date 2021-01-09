@@ -1,0 +1,125 @@
+<section class="page-wrapper">
+    <!---- header section-->
+    <header>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-5 col-md-3 col-sm-12 col-xs-12">
+              <div class="loginbtn desktophide">
+                <a [routerLink]="['/login']"><img src="assets/img/avatar.svg" style="width:18px; height:18px;" /> Login</a> | <a
+                  [routerLink]="['/register']">Register</a>
+              </div>
+              <a href="#" class="logo"><img src="assets/img/logo.png" alt="Business Solution Team" /></a>
+            </div>
+            <div class="col-lg-7 col-md-9  col-sm-12 col-xs-12">
+              <div class="loginbtn devicehide">
+                <a [routerLink]="['/login']"><img src="assets/img/avatar.svg" style="width:18px; height:18px;" /> Login</a> | <a [routerLink]="['/register']"><img
+                    src="assets/img/contract.svg" style="width:18px; height:18px;" /> Register</a>
+              </div>
+              <!----------- navigation-->
+              <nav class="navbar navbar-expand-md ">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                  aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
+                </button>
+  
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                  <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#countrymanagers">Country Manager</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link active" href="#package">Package</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#product">Products</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">About us</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#">Products</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#">Packages</a>
+                    </li> -->
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#contactus">Contact</a>
+                    </li>
+                  </ul>
+  
+                </div>
+              </nav>
+  
+            </div>
+          </div>
+        </div>
+      </header>
+    <!-- end header section-->
+
+    <section class="homebanner">
+      <div class="innerbanner">
+        <img src="images/bannercontact.jpg" alt="" />
+      </div>
+    </section>
+
+    <!----- content area start -->
+    <section class="contentarea ">
+      <div class="container contactus pad60">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <h3>Business Solution Team</h3>
+            <p class="addressbox" style="color: white;">4213 - B Tingkat 1,<br />
+              Jalan Kebun Sultan, 15350 Kota Bharu, Kelantan Malaysia</p>
+            <!-- <p class="telebox" style="color: white;">Tel : (770) 270-5597</p>
+            <p class="faxbox" style="color: white;">Fax : (770) 414-5351</p> -->
+            <div class="googlemap">
+              <iframe
+                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=4213%20-%20B%20Tingkat%201,Jalan%20Kebun%20Sultan,%2015350%20Kota%20Bharu,%20Kelantan%20Malaysia+(Business%20Solution%20Team)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                width="100%" height="250" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <h3 class="ipadmt25">Feedback Form</h3>
+            <form [formGroup]="contactUs" (ngSubmit)="onSubmit()">
+            <div class="contactform">
+              <ul>
+                <li>
+                  <div class="form-group">
+                  <input type="text" formControlName="Fname" placeholder="First Name" class="form-control" />
+                </div>
+                </li>
+                <li>
+                  <div class="form-group"><input type="text" formControlName="Lname" placeholder="Last Name" class="form-control" /></div></li>
+                <li><div class="form-group"><input type="text" formControlName="Email" placeholder="Email Address" class="form-control" /></div></li>
+                <li><div class="form-group"><input type="text" formControlName="Subject" placeholder="Subject" class="form-control" /></div></li>
+                <li class="wdth100"><div class="form-group"><textarea placeholder="Message" formControlName="Enquiry" class="form-control"></textarea></div></li>
+                <li class="wdth100"><input type="submit" class="btn btn-primary" value="Submit" /></li>
+              </ul>
+            </div>
+</form>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!--- Footer area -->
+
+      <!--- Footer area -->
+
+      <div class="footerarea">
+        <div class="container">
+          <div class="col-md-12">
+            <p class="mt20 copyright">Copyright &copy; 2020 Magic Booster. All rights
+              reserved.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- content area end -->
+
+  </section>

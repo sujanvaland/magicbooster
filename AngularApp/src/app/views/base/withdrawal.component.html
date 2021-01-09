@@ -1,0 +1,69 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Withdraw Funds</strong>
+          <!-- <a class="btn" [routerLink]="['/base/withdrawalhistory']" ><i class="cui-pie-chart"></i> &nbsp;Withdrawal History</a> -->
+        </div>
+        <div class="card-body">
+          <form [formGroup]="withdrawal" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="name">Enter Amount:</label>
+                <input type="number" (change)="CalculateFees();" formControlName="Amount" class="form-control" placeholder="Enter amount"  [ngClass]="{ 'is-invalid': submitted && f.Amount.errors }" />
+                <div *ngIf="submitted && f.Amount.errors" class="invalid-feedback">
+                  <div *ngIf="f.Amount.errors.required">Amount is required</div>
+              </div>
+              </div>
+            </div>
+          </div><!--/.row-->
+        
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <div class="form-group">
+              <label for="ccmonth">Select Payment Mode</label>
+              <select formControlName="ProcessorId" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ProcessorId.errors }">
+                <option value="">Select</option>
+                <option *ngFor="let processor of PaymentProcessor" [ngValue]="processor.Value">{{processor.Text}}</option>
+              </select>
+            
+            <div *ngIf="submitted && f.ProcessorId.errors" class="invalid-feedback">
+              <div *ngIf="f.ProcessorId.errors.required">Select Payment Mode</div>
+          </div>
+        </div>
+        </div>
+          </div><!--/.row-->
+          
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="name">Withdrawal Fees : {{CurrencyCode}} {{WithdrawalFees}}</label><br/>
+              <label for="name"> You will receive : {{CurrencyCode}} {{FinalAmount}}</label><br/>
+              <!-- <label for="name"> Your Bitcoin address : {{CustomerInfoModel.BitcoinAddress}}</label><br/> -->
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="form-group col-sm-6">
+              <label for="name">Bank Name : {{CustomerInfoModel.BankName}}</label><br/>
+              <label for="name"> Account Holder Name : {{CustomerInfoModel.AccountHolderName}}</label><br/>
+              <label for="name"> Account Number : {{CustomerInfoModel.AccountNumber}}</label><br/>
+              <label for="name"> NRIC : {{CustomerInfoModel.NICR}}</label><br/>
+            </div>
+          </div> -->
+
+          <div >
+            <button type="save" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Request Withdrawal</button>
+            <button type="cancel" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div><!--/.col-->
+   </div>
+</div>
+
+
+
+

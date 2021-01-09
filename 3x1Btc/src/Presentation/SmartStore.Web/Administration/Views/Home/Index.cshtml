@@ -1,0 +1,135 @@
+﻿@model SmartStore.Admin.Models.Hyip.HomeModel
+@{
+	ViewBag.Title = T("Admin.Dashboard").Text;
+}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0&appId=1600470036664207&autoLogAppEvents=1"></script>
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+
+<style>
+	.bg-primary {
+		background-color: #ff4800 !important;
+	}
+</style>
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-bar-chart-o"></i>
+		@T("Admin.Dashboard.StoreStatistics")
+	</div>
+</div>
+<div class="dashboard">
+	@{ Html.RenderWidget("admin_dashboard_top"); }
+
+	<div class="row">
+		<div class="col-xl-4 col-sm-4 mb-4">
+			<div class="card text-white bluebox1 o-hidden ">
+				<div class="card-body">
+					@*<div class="card-body-icon">
+							<i class="fa fa-fw fa-money"></i>
+						</div>*@
+					<div class="pricebox">
+						<span>	@ViewBag.CurrencyCode @Model.AvailableBalance</span>
+						<br />@T("MyInvestment.AvailableBalance")
+					</div>
+				</div>
+			</div>
+			<div class="card text-white bg-success o-hidden ">
+				<div class="card-body">
+					@*<div class="card-body-icon">
+							<i class="fa fa-fw fa-gift"></i>
+						</div>*@
+					<div class="pricebox">
+						<span>@ViewBag.CurrencyCode @Model.CyclerIncome</span>
+						<br />Matrix Income
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-xl-8 col-sm-8 mb-8">
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table table-bordered table-striped">
+						<thead style="font-size: 20px;background: #5e6d82;color: #fff;">
+							<tr>
+								<th colspan="2">
+									Account Information :
+								</th>
+							</tr>
+						</thead>
+						<tr>
+							<td style="font-weight:bold;">Member Id</td>
+							<td>@Model.InvestorId</td>
+						</tr>
+						<tr>
+							<td style="font-weight:bold;">Referral Link</td>
+							<td>
+								<a href="@Model.ReferralLink" target="_blank">@Model.ReferralLink</a>
+							</td>
+						</tr>
+						<tr>
+							<td style="font-weight:bold;">Name</td>
+							<td>@Model.Name</td>
+						</tr>
+						<tr>
+							<td style="font-weight:bold;">Registration Date</td>
+							<td>@Model.RegistrationDate</td>
+						</tr>
+						<tr>
+							<td style="font-weight:bold;">Referred By</td>
+							<td>@Model.ReferredBy</td>
+						</tr>
+						<tr>
+							<td style="font-weight:bold;">Status</td>
+							<td style="font-weight:bold;@((Model.Status == "Active") ? "color:green;" : "color:red;")">@Model.Status</td>
+						</tr>
+						@*@if (ViewBag.SubscriptionDate != null)
+						{
+							<tr>
+								<td style="font-weight:bold;">Subscription Status</td>
+
+								<td style="font-weight:bold">
+									<span>Expiry Date : </span>@ViewBag.SubscriptionDate
+								</td>
+							</tr>
+
+						}
+						else
+						{
+							<tr>
+								<td style="font-weight:bold;">Subscription Status</td>
+
+								<td style="font-weight:bold">
+									<a href="@Url.Action("SubscriptionActive", "ActiveSubscription")" class="btn btn-primary">Buy Subscription</a>
+								</td>
+							</tr>
+						}*@
+						<tr>
+							<td style="font-weight:bold;">My Referral</td>
+							<td>@Model.TotalReferral</td>
+						</tr>
+					</table>
+				</div>
+				@*<div class="col-md-12">
+					<table class="table table-bordered table-striped" style="margin-top: 40px;">
+						<thead style="font-size: 20px;background: #5e6d82;color: #fff;">
+							<tr>
+								<th>Active Position</th>
+								<th>Cycle Position</th>
+							</tr>
+						</thead>
+						<tr>
+							<td style="text-align:center;"><h1 style="font-size:40px;">@ViewBag.Standard</h1></td>
+							<td style="text-align:center;"><h1 style="font-size:40px;">@ViewBag.StandardCycled</h1></td>
+						</tr>
+					</table>
+				</div>*@
+			</div>
+		</div>
+
+
+	</div>
+
+	@{ Html.RenderWidget("admin_dashboard_bottom"); }
+</div>

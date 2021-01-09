@@ -1,0 +1,310 @@
+﻿td {
+	font-family:Verdana;
+	font-size:11px
+}
+input,select,textarea  
+{
+	font-family:Verdana;
+	font-size:11px;
+	border:1px #669ACC solid;
+}
+textarea, select {
+	overflow:auto
+}
+.logo {
+	text-align: center;
+	background-color: #B6C7D8;
+	width:122px;
+}
+.hdr {
+	background-color: #336699;
+	color:#FFFFFF;
+	font-size: 13px;
+	text-align:center
+}
+.strp {
+	background-color: #669ACC;
+}
+.bdr {
+	
+	font-size:11px;
+	text-align:right;
+}
+.title {
+	background-color: #BCD9E8;
+	border-top:1px #EAEAEA solid;
+	border-left:1px #EAEAEA solid;
+	border-right:1px #999999 solid;
+	border-bottom:1px #999999 solid;
+	font-size: 13px;
+	font-weight: bold;
+	color:#494949
+}
+.info {
+	background-color: #DAE5EB;
+	border:1px #EAEAEA solid;
+	font-weight: bold;
+	color:#494949;
+	font-family:Verdana,Arial;
+}
+
+/*.info_new {
+	background-color:#778899;
+	border:1px #EAEAEA solid;
+	font-weight: bold;
+	
+	color:white;
+	font-family:Verdana,Arial;
+}*/
+.info_new
+{
+	background-color:#D0E0EC;	
+	font-weight: bold;
+    font-size: 12px;
+	color:#006699;
+	text-decoration:none;
+	text-align:left;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+.fontColor
+{
+	font-family :Verdana,Arial;
+	color :White;
+	font-weight :bold ;	
+}
+.lpad {
+	padding-left:20px
+}
+.mndtry {
+	color:maroon
+}
+a 
+{
+	font-family:Verdana;
+	font-size:11px;
+	color:Black;
+	text-decoration:none;
+}
+.rbdr 
+{
+	border-right:solid 1px #DAE5EB
+}
+.bldr 
+{
+	font-size:15px;
+	font-weight:bold;
+	color:lightyellow;
+}
+.ftr {
+	background-color: #BCD9E8;
+	border-top:1px #EAEAEA solid;
+	border-left:1px #EAEAEA solid;
+	border-right:1px #999999 solid;
+	border-bottom:1px #999999 solid;
+	font-size: 11px;
+	font-weight: bold;
+	text-align:center;
+	color:#494949;
+	height:16px;
+}
+.ssctn 
+{
+	font-weight: bold;
+	color:#494949;
+	border-bottom:1px #EAEAEA solid;
+	background-color:#F3F3F3
+}
+a.content{
+     position:relative;
+     z-index:24;
+     color:navy;
+     text-decoration:none;
+     cursor:hand;
+     cursor:pointer
+}
+a.content span.tooltip{ display: none; }
+ /*background:; ie hack, something must be changed in a for ie to execute it*/
+a.content:hover{ z-index:15; color: #aaaaff; background:;}
+a.content:hover span.tooltip{
+     display:block;
+     position:absolute;
+     top:0px; left:0;
+	 padding: 15px 0 0 0;
+	 width:400px;
+	 color: #993300;
+	 filter: alpha(opacity:90);
+	 KHTMLOpacity: 0.90;
+	 MozOpacity: 0.90;
+	 opacity: 0.90;
+	 text-align:left;
+}
+a.content:hover span.top{
+	 display: block;
+	 padding: 30px 8px 0; /* 30px 8px 0;
+     background: url(../images/bubble.gif) no-repeat top;
+}
+a.content:hover span.middle{ /* different middle bg for stretch */
+	 display: block;
+	 padding: 0 0px;  /* 8px;  */
+	 background: url(../images/bubble_filler.gif) repeat bottom; 
+}
+a.content:hover span.bottom{
+	 display: block;
+	 padding:3px 8px 10px;
+	 color: #548912;
+     background: url(../images/bubble.gif) no-repeat bottom;
+}
+#Service_Level td, #Service_Level input {
+     text-align:center;
+     border:none;
+}
+#Service_Courteous td, #Service_Courteous input {
+     text-align:center;
+     border:none;
+}
+#Service_Knowledgeable td, #Service_Knowledgeable input {
+     text-align:center;
+     border:none;
+}
+#Service_Timeframe td, #Service_Timeframe input {
+     text-align:center;
+     border:none;
+}
+#Service_Updates td, #Service_Updates input {
+     text-align:center;
+     border:none;
+}
+.jstfy {
+	text-align:justify
+}
+pre {
+	white-space: pre-wrap; /* css-3 */
+	white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+	word-wrap: break-word; /* Internet Explorer 5.5+ */
+	white-space: normal;
+	font-family: Verdana;
+	font-size: 11px
+}
+.nbdr input
+{
+	border:none;	
+}
+
+
+ .infoGrid 
+{
+    background-color: #CAD9E1;
+    border:1px #EAEAEA solid;
+    font-weight: bold;
+    color:#000000;
+    font-family:Verdana,Arial;
+    font-size:11px;
+}
+.row
+{
+	background-color:#FCFDFD;
+	border-bottom:solid 1px #E0DFE3;
+	border-right:solid 1px #E0DFE3;
+}
+.alterRow
+{
+	background-color:#F3F7F9;
+	border-bottom:solid 1px #E0DFE3;
+	border-right:solid 1px #E0DFE3;
+}
+.PrefRed input
+{
+    background-image: url(../images/pref-red.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
+    width:30px;
+    border:none;
+}
+.PrefGreen input
+{
+    background-image: url(../images/pref-green.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
+    width:30px;
+    border:none;
+    font-size:11px;
+	font-weight:normal;
+}
+.PrefYellow input
+{
+    background-image: url(../images/pref-yellow.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
+    width:30px;
+    border:none;
+    
+}
+.subTit
+{
+    color: #053362;
+  
+    font-size:14px;
+    font-weight:bold;
+    height:17px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+#EditMenu {
+  float:left;
+  width:100%;
+  /*background: url("../images/bg.gif") repeat-x bottom;*/
+  font-size:11px;
+  color: #666;
+  }
+#EditMenu ul {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0;
+  list-style:none;
+  }
+#EditMenu li {
+  float:left;
+  background:url("../images/editMenuLeft.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0px 4px;
+  }
+#EditMenu a {
+  float:left;
+  display:block;
+  background:url("../images/editMenuRight.gif") no-repeat right top;
+  padding:5px 20px 2px 6px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#333;
+  }
+#EditMenu a:hover {
+  color:#497E22;
+}
+#EditMenu .current {
+  background-image:url("../images/editMenuLeft_on.gif");
+  }
+#EditMenu .current a {
+  background-image:url("../images/editMenuRight_on.gif");
+  /*color:#055F73;*/
+  color:White;
+  position:relative;
+
+  }
+html>body #EditMenu .current a {
+  background-image:url("../images/editMenuRight_on.gif");
+  /*color:#055F73;*/
+  color:#497E22;
+  margin-left:0px;
+  position:relative;
+  right:0px;
+
+  }
+  
+.ni { background: url(../images/dot.gif) no-repeat; }
+/*.ticketid { background: url(../images/ticket_id.png) no-repeat; }
+.keysearch { background: url(../images/keyword.png ) no-repeat; }*/
+.keysearch { background: url(../images/keyword.png) no-repeat; font-size:11px; color:Black; border:solid 1px #A5ACB2 }
+.ticketid { background: url(../images/ticket_id.png) no-repeat; font-size:11px; color:Black; border:solid 1px #A5ACB2 }
+.row{ background-color:#E7EDF3;}
+.altrow{ background-color:#F0F4F7;}

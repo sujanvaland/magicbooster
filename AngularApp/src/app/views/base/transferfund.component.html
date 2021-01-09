@@ -1,0 +1,45 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Transfer Fund</strong>
+          <!-- <a class="btn" [routerLink]="['/base/transferhistory']" ><i class="cui-pie-chart"></i> &nbsp;Transfer History</a> -->
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card text-white bg-primary cardpinkbalance">
+                <div class="card-body">
+                  <div class="text-value">{{CustomerInfoModel.AvailableBalance}}$</div>
+                  <div class="text-label">Available Balance</div>
+                </div>
+              </div>
+            </div><!--/.col-->
+          </div><!--/.row-->
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="name">Member Username</label>
+                <input type="text" id="email-input" [(ngModel)]="CustomerEmail" name="email-input" class="form-control" placeholder="Enter Username">
+              </div>
+            </div>
+          </div><!--/.row-->
+          
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="name">Enter Amount:</label>
+                <input type="text" class="form-control" [(ngModel)]="Amount" id="name" placeholder="Enter Amount">
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div >
+            <button type="save" (click)="transferfund();" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Transfer Now</button>
+            <button type="cancel" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div><!--/.col-->
+   </div>
+</div>

@@ -1,0 +1,64 @@
+﻿@model List<SmartStore.Admin.Models.Board.CustomerPaymentModel>
+@{
+    ViewBag.Title = "Payment Received";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //$("#tblReferral").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+    });
+</script>
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <!-- BEGIN PAGE BAR -->
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <span class="headerTitle">Payment Received Till Date : @ViewBag.TotalPayment</span>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet light bordered">
+            <div class="portlet light">
+                <div class="portlet-body form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-responsive">
+                                <thead class="text-uppercase">
+                                    <tr>
+                                        <th>Sr.No</th>
+                                        <th>Paid By Member</th>
+                                        <th>Amount (BTC)</th>
+                                        <th>Status</th>
+                                        <th>Transaction Hash</th>
+                                        <th>Payment Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        foreach (var mempayment in Model)
+                                        {
+                                            i = i + 1;
+                                            <tr class="text-uppercase">
+                                                <td>@i</td>
+                                                <td>@mempayment.PayByCustomerEmail</td>
+                                                <td>@mempayment.Amount</td>
+                                                <td>@mempayment.Status</td>
+                                                <td><a id="lnkAttachment" href="https://chain.so/tx/BTC/@mempayment.Remarks" target="_blank">@mempayment.Remarks</a></td>
+                                                <td>@mempayment.Paymentdate</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,38 @@
+﻿@model Dictionary<string,string>
+@using System.Collections;
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+	var i = 0;
+}
+<div class="slider">
+	<div class="container">
+		<div class="center">
+			<div class="accordion" id="accordionExample">
+				@foreach (var faq in Model)
+				{
+					<div class="card">
+						<div class="card-header" id="headingOne">
+							<h5 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#@i" aria-expanded="true" aria-controls="collapseOne">
+									@faq.Key
+								</button>
+							</h5>
+						</div>
+
+						<div id="@i" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+							<div class="card-body">
+								@faq.Value
+							</div>
+						</div>
+					</div>
+					{	
+						i = i + 1;
+					}
+				}
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,182 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Purchase Matrix Position</strong>
+        </div>
+        <div class="card-body" [hidden]="!showform">
+          <section class="bussinessplaninner">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="col-sm-12 col-lg-8">
+                  <div class="card text-white bg-primary cardpinkbalance">
+                    <div class="card-body">
+                      <div class="btn-group float-right" dropdown>
+                        <button type="button" class="btn btn-transparent p-0 float-right">
+                          <i class="icon-settings"></i>
+                        </button>
+                      </div>
+                      <div class="text-value">0 $</div>
+                      <div class="text-label">Booster Coin Earned</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-sm-8">
+                      <label for="ccmonth">Select Phase</label>
+                      <select class="form-control" [(ngModel)]="plan">
+                        <option *ngFor="let plan of matrixPlan" [ngValue]="plan">{{plan.Name}}</option>
+                      </select>
+                    </div>
+                  </div><!--/.row-->
+                  <div>
+                    <button type="save" class="btn btn-sm btn-primary" (click)="confirmPayment()"><i class="fa fa-dot-circle-o"></i> Activate Now</button>
+                    <button type="cancel" class="btn btn-sm btn-danger" (click)="reset()"><i class="fa fa-ban"></i> Cancel</button>
+                  </div>
+                </div><!--/.col-->
+              </div>
+              <div class="col-md-6">
+                <div class="plantable pink">
+                  <div class="tablettl text-center">
+                    <span class="directbonus">Direct Referral Income</span>
+                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="text-center">When You sponsor a new member</th>
+                        <th class="wdth100 text-center">Your Income</th>
+                        <th class="wdth100 text-center">Income Limit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 1 (SB1)</td>
+                        <td class="text-center">RM 48</td>
+                        <td class="text-right">Unlimited</td>
+                      </tr>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 3 (SB3)</td>
+                        <td class="text-center">RM 144</td>
+                        <td class="text-right">Unlimited</td>
+                      </tr>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 7 (SB7)</td>
+                        <td class="text-center">RM 336</td>
+                        <td class="text-right">Unlimited</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div><!--/.col-->
+            </div><!--/.row-->
+            <div class="row">
+              <div class="col-md-6">
+
+              </div>
+              <div class="col-md-6">
+                <div class="plantable blue">
+                  <div class="tablettl text-center">
+                    <span class="directbonus">Network Income</span>
+                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Manage Packege</th>
+                        <th class="text-center">Price Package</th>
+                        <th class="text-center">Daily Income Limit</th>
+                        <th class="text-center">Monthly Income Limit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 1 (SB1)</td>
+                        <td class="text-center">RM 160 (US$40)</td>
+                        <td class="text-right">RM 80 (8 Pair)</td>
+                        <td class="text-right">RM2400</td>
+                      </tr>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 3 (SB3)</td>
+                        <td class="text-center">RM 480(US$120)</td>
+                        <td class="text-right">RM 200 (20 Pair)</td>
+                        <td class="text-right">RM6000</td>
+                      </tr>
+                      <tr class="totaldata">
+                        <td class="text-center">Magic 7 (SB7)</td>
+                        <td class="text-center">RM 1120(US$280)</td>
+                        <td class="text-right">RM 350 (35 Pair)</td>
+                        <td class="text-right">RM10,500</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!--/.row-->
+          </section>
+
+            <!-- <div class="col-md-6" *ngFor="let Phase of Phases">
+                <div class="plantable {{Phase.TableColor}}">
+                    <div class="tablettl">
+                        ${{Phase.Cost}} - {{Phase.Name}}
+                        <span class="directbonus float-right">Direct Referral Income ${{Phase.DirectBonus}}</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="wdth100">Level</th>
+                                    <th  class="wdth100" class="text-center">Member</th>
+                                    <th class="text-center">You get per member ($)</th>
+                                    <th class="text-right">Total Earning ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let level of Phase.Levels">
+                                    <td>Level {{level.LevelNo}}</td>
+                                    <td  class="text-center">{{level.Member}}</td>
+                                    <td  class="text-center">{{level.Commission}}</td>
+                                    <td  class="text-right">{{level.Member * level.Commission}}</td>
+                                </tr>
+                                <tr class="totaldata">
+                                    <td colspan="2">Total Earning</td>
+                                    <td  class="text-center"></td>
+                                    <td  class="text-right">${{Phase.TotalEarning}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+      </div>
+      <div class="card-body" [hidden]="showform">
+        <div>
+          <form action="https://www.coinpayments.net/index.php" target="_blank" method="POST" #form>
+            <input type='hidden' name='cmd' value='_pay_simple'>
+            <input type='hidden' name='reset' value='1'>
+            <input type='hidden' name='merchant' [(ngModel)]="MerchantAcc">
+            <input type='hidden' name='currency' [(ngModel)]="CurrencyCode">
+            <input type='hidden' name='amountf' [(ngModel)]="FinalAmount">
+            <input type='hidden' name='item_name' [(ngModel)]="PaymentMemo">
+            <input type='hidden' name='custom' [(ngModel)]="TransactionId">
+            <input type='hidden' name='on1' [(ngModel)]="plan.Id">
+            <!-- <input type='hidden' name='ipn_url' [(ngModel)]="ipn_url"> -->
+          </form>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label>Position to Activate : {{plan.Name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-6">
+              <label>Amount :</label>
+              <label>{{CurrencyCode}} {{plan.Price}}</label>
+            </div>
+          </div>
+          <button type="submit" (click)="form.submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Proceed to Pay</button>
+          <button type="cancel" (click)="reset()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div><!--/.col-->
+</div>

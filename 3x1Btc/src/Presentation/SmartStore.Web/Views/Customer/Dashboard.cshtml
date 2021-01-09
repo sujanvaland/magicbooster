@@ -1,0 +1,231 @@
+﻿
+@{
+	ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<div class="container">
+
+	<div class="content">
+
+		<div class="content-container">
+
+
+			<div>
+				<marquee behavior="alternate" scrollamount="2" style="color: maroon" onmouseenter="this.stop()" onmouseout="this.start()">Welcome to Baht Bucket</marquee>
+			</div>
+			<div class="row">
+
+				<div class="col-md-9 col-sm-9">
+
+					<div class="panel panel-default">
+						<div class="media v-middle">
+
+
+							<div class="media-body">
+								&nbsp;&nbsp;&nbsp;
+								Your subscription started from <span class="text-body-2">10/8/2018 3:49:19 AM</span>
+							</div>
+							<div class="media-right media-padding" style="padding: 10px;">
+								<table>
+									<tr>
+										<td>
+											<a class="btn  btn-success paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated href="/affiliate/NewInvest">
+												Deposit
+											</a>
+										</td>
+										<td>&nbsp;</td>
+										<td>
+											<a class="btn  btn-warning paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated href="/affiliate/withdrawal">
+												Withdraw
+											</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" data-toggle="isotope">
+						<div class="item col-xs-12 col-lg-6">
+							<div class="panel panel-default paper-shadow" data-z="0.5">
+								<div class="panel-heading">
+									<h4 class="text-headline margin-none">Investment</h4>
+									<p class="text-subhead text-light">Deposit</p>
+								</div>
+								<ul class="list-group">
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<a onclick="javascript:;" class="text-subhead list-group-link">Confirmed Deposit</a>
+										</div>
+										<div class="media-right">
+											<span id="confdeplbl" class="text-green-400">1700.00</span>
+										</div>
+									</li>
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<a onclick="javascript:;" class="text-subhead list-group-link">Pending Deposit</a>
+										</div>
+										<div class="media-right">
+											<span id="pendeplbl" class="text-red-400">0.00</span>
+										</div>
+									</li>
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<a onclick="javascript:;" class="text-subhead list-group-link">Active Deposit</a>
+										</div>
+										<div class="media-right">
+											<span id="actDeposit" class="text-blue-400">1700.00</span>
+										</div>
+									</li>
+
+								</ul>
+								<div class="panel-footer text-right">
+									<a href="/affiliate/investment" class="btn btn-white paper-shadow relative" data-z="0" data-hover-z="1" data-animated>View all</a>
+								</div>
+							</div>
+						</div>
+						<div class="item col-xs-12 col-lg-6">
+							<div class="panel panel-default paper-shadow" data-z="0.5">
+								<div class="panel-body">
+									<div class="pull-left">
+										<h4 class="text-headline margin-none">Wallet</h4>
+									</div>
+									<div class="pull-right">
+										<h4 class="text-green-300"><i class="fa fa-dollar"></i>0.23</h4>
+									</div>
+
+									<div class="clearfix"></div>
+
+
+								</div>
+							</div>
+
+
+							<div class="panel panel-default paper-shadow" data-z="0.5">
+								<div class="panel-heading">
+									<h4 class="text-headline margin-none">Bonus</h4>
+									<p class="text-subhead text-light">Investment Growth & Bonus</p>
+								</div>
+								<ul class="list-group">
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<a onclick="javascript:;" class="text-subhead list-group-link">Investment Growth</a>
+										</div>
+										<div class="media-right">
+											<span id="totalgwlbl">819.06</span>
+										</div>
+									</li>
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<a onclick="javascript:;" class="text-subhead list-group-link">Investment Bonus</a>
+										</div>
+										<div class="media-right">
+											<span id="relebonuslbl">0.00</span>
+										</div>
+									</li>
+
+								</ul>
+								<div class="panel-footer text-right">
+									<a href="/affiliate/investment" class="btn btn-white paper-shadow relative" data-z="0" data-hover-z="1" data-animated>View all</a>
+								</div>
+							</div>
+
+
+						</div>
+						<div class="item col-xs-12 col-lg-6">
+							<div class="panel panel-default paper-shadow" data-z="0.5">
+								<div class="panel-heading">
+									<h4 class="text-headline margin-none">Referral</h4>
+									<p class="text-subhead text-light">your referral statistics</p>
+								</div>
+								<ul class="list-group">
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<h4 class="text-subhead margin-none">
+												<a onclick="javascript:;" class="list-group-link">Total Referral</a>
+											</h4>
+
+										</div>
+										<div class="media-right text-center">
+											<div class="text-display-1">
+												0
+											</div>
+
+										</div>
+									</li>
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<h4 class="text-subhead margin-none">
+												<a onclick="javascript:;" class="list-group-link">Unconfirmed</a>
+											</h4>
+
+										</div>
+										<div class="media-right text-center">
+											<div class="text-display-1 text-red-300">
+												0
+											</div>
+
+										</div>
+									</li>
+									<li class="list-group-item media v-middle">
+										<div class="media-body">
+											<h4 class="text-subhead margin-none">
+												<a onclick="javascript:;" class="list-group-link">Confirmed</a>
+											</h4>
+
+										</div>
+										<div class="media-right text-center">
+											<div class="text-display-1 text-green-300">
+												0
+											</div>
+
+										</div>
+									</li>
+								</ul>
+								<div class="panel-footer">
+									<a href="/affiliate/referral" class="btn btn-primary paper-shadow relative" data-z="0" data-hover-z="1" data-animated>Go to Referrals</a>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<div class="item col-xs-12 col-lg-6">
+							<div class="panel panel-default paper-shadow" data-z="0.5">
+								<div class="panel-heading">
+									<h4 class="text-headline margin-none">My referrals</h4>
+
+									<p class="text-subhead text-light">Latest referrals from my account</p>
+								</div>
+								<ul class="list-group relative paper-shadow" data-hover-z="0.5" data-animated></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+
+					<div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
+						<div class="panel-heading panel-collapse-trigger">
+							<h4 class="panel-title">My Account</h4>
+						</div>
+						<div class="panel-body list-group">
+							<ul class="list-group list-group-menu">
+								<li class="list-group-item active"><a class="link-text-color" href="/affiliate">Dashboard</a></li>
+								<li class="list-group-item"><a class="link-text-color" href="/affiliate/investment">Investment</a></li>
+								<li class="list-group-item"><a class="link-text-color" href="/affiliate/Account-Settings">Profile</a></li>
+
+								<li class="list-group-item"><a class="link-text-color" href="/sign-out"><span>Logout</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /.content-container -->
+
+	</div>
+	<!-- /.content -->
+</div>

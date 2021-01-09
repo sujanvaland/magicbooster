@@ -1,0 +1,42 @@
+﻿@model AdCampaign
+@using SmartStore.Core.Domain.Advertisments
+@{
+	//page title
+	ViewBag.Title = T("Admin.AdCampaign.AddNew").Text;
+}
+<script>
+		$(document).ready(function () {
+			var timeLeft = 20;
+			var elem = document.getElementById('divTimer');
+			var timerId = setInterval(countdown, 1000);
+
+			function countdown() {
+				if (timeLeft == -1) {
+					clearTimeout(timerId);
+					doSomething();
+				} else {
+					elem.innerHTML = timeLeft + ' more';
+					timeLeft--;
+				}
+			}
+
+			function doSomething() {
+				var elem = document.getElementById('divTimer');
+				elem.innerHTML = "";
+				$('#lnkNextAd').show();
+				@*window.location.href = '@Url.Action("Index","Home")';*@
+			}
+		})
+</script>
+<div style="border: 0; width: 100%; height: 600px; display: block; position: absolute; left: 0px;top:0px;">
+	<nav style="position: relative; z-index: 2;height:80px;background:#0026ff;">
+		<div style="float:right;display:flex;font-weight:bold;margin-right:100px;margin-top:20px;">
+			<a href="@Model.WebsiteUrl" target="_blank" style="padding:10px;background:#fff;color:#0026ff;border-radius:3px;">Check this program</a>
+			<a href="@Url.Action("SurfAds","AdCampaign")" id="lnkNextAd" style="margin-left:10px;display:none;padding:10px;background:#fff;color:#0026ff;border-radius:3px;">Next Ad</a>
+		</div>
+		<div style="float:right;display:flex;color:#fff;font-weight:bold;margin-right:100px;margin-top:20px;">
+			<h1><div id="divTimer"></div></h1>
+		</div>
+	</nav>
+	<iframe src="@Model.WebsiteUrl" style="border: 0; width: 100%; height: 600px; display: block; position: absolute; left: 0px; top: 90px;" />
+</div>

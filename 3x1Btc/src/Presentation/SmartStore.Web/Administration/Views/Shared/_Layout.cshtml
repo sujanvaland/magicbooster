@@ -1,0 +1,514 @@
+﻿@using SmartStore.Core.Domain.Customers;
+@using SmartStore.Services.Common;
+@using SmartStore.Web.Framework.UI;
+
+@{ 
+	var name = this.WorkContext.CurrentCustomer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName);
+	name = name + " " + this.WorkContext.CurrentCustomer.GetAttribute<string>(SystemCustomerAttributeNames.LastName);
+}
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Welcome to 2up Live</title>
+	<meta http-equiv="X-UA-Compatible" ~/Administration/Content="IE=edge">
+	<meta ~/Administration/Content="width=device-width, initial-scale=1" name="viewport" />
+	<meta ~/Administration/Content="Trusted Shopping Site" name="description" />
+	<meta ~/Administration/Content="" name="author" />
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="~/Administration/Content/Theme/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/custom.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/bootstrap-switch.min.css" rel="stylesheet" />
+	<link href="~/Administration/Content/Theme/css/toastr.css" rel="stylesheet" />
+
+
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<link href="~/Administration/Content/Theme/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<link href="~/Administration/Content/Theme/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+	<!-- BEGIN THEME GLOBAL STYLES -->
+	<link href="~/Administration/Content/Theme/css/plugins.min.css" rel="stylesheet" />
+	<link href="~/Administration/Content/Theme/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+
+	<script src="~/Administration/Content/Theme/js/jquery-1.10.0.min.js" type="text/javascript"></script>
+	<script src="~/Administration/Content/Theme/js/jquery-ui.min.js" type="text/javascript"></script>
+
+
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<!-- END THEME GLOBAL STYLES -->
+	<!-- BEGIN THEME LAYOUT STYLES -->
+	<link href="~/Administration/Content/Theme/css/layout.min.css" rel="stylesheet" type="text/css" />
+	<link href="~/Administration/Content/Theme/css/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+	<!-- END THEME LAYOUT STYLES -->
+	<link rel="shortcut icon" href="../favicon.ico" />
+	<style>
+		.portlet.light.bordered {
+			margin-top: 0px !important;
+		}
+
+		.modalxx {
+			position: absolute;
+			left: -100px;
+			z-index: 999;
+			height: 100%;
+			width: 110%;
+			top: 0;
+			background-color: Black;
+			filter: alpha(opacity=60);
+			opacity: 0.6;
+			-moz-opacity: 0.8;
+		}
+
+		.center {
+			z-index: 1000;
+			margin: 100px auto;
+			padding: 10px;
+			width: 60px;
+			background-color: transparent;
+			border-radius: 10px;
+			filter: alpha(opacity=100);
+			opacity: 1;
+			-moz-opacity: 1;
+		}
+
+		.Cares_navHead {
+			color: #7e8a9c;
+			display: inline-block;
+			margin-left: 22px;
+			margin-top: 14px;
+		}
+
+		.officeHamberger {
+			color: #2b3643;
+			float: left;
+			margin-top: 10px;
+			background-color: rgba(9,120,213,1);
+			padding: 15px;
+			margin: 0;
+		}
+
+		.office365 {
+			float: left;
+			color: #fff;
+			margin-left: 10px;
+			margin-top: 5px;
+			font-weight: 600;
+		}
+
+		.page-sidebar .page-sidebar-menu > li.active > a {
+			background: rgba(62,74,91,1);
+		}
+
+			.page-sidebar .page-sidebar-menu > li.active > a:hover {
+				background: #2b3643;
+			}
+
+		.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+			border: 0px;
+		}
+
+		/* Start - Dahboard page*/
+
+
+		.page-container-bg-solid .page-bar, .page-~/Administration/Content-white .page-bar {
+			background-color: #eef1f5;
+			position: relative;
+			padding: 0 20px;
+			margin: -25px -20px 0;
+			/*box-shadow: 0px 1px 3px rgba(0,0,0,0.14) !important;*/
+		}
+
+
+		.page-container-bg-solid .page-~/Administration/Content {
+			background: rgba(238,241,245,1);
+		}
+
+		/* End - Dahboard page*/
+
+		/*Start - ManageTicket/assigned tikets*/
+		.font-blue-hoki {
+			color: #333 !important;
+		}
+
+		.mynewticket {
+			background: #337ab7;
+			-webkit-animation: mynewticket 10s infinite;
+			animation: mynewticket 10s infinite;
+		}
+
+		.btn-primary {
+			color: #fff;
+			background-color: #337ab7;
+			border-color: #fff;
+			border-radius: 3px !important;
+		}
+
+		.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
+			color: #fff;
+		}
+
+		.table.table-light > tbody > tr > td {
+			color: #333;
+			font-weight: 500;
+		}
+
+		.portlet.light.bordered {
+			/*border: 1px solid #e7ecf1 !important;*/
+			box-shadow: 0px 1px 1px #b3b3b3 !important;
+			margin-top: 15px;
+			border-radius: 3px !important;
+		}
+
+
+		/*End - ManageTicket/assigned tikets*/
+
+
+		/*Start - defaultPage tikets*/
+
+		.parentSearch {
+			display: inline-block;
+			position: relative;
+		}
+
+		.headerTitle {
+			color: #333 !important;
+			font-size: 16px !important;
+			font-weight: 600 !important;
+		}
+
+		.serachCares {
+			padding: 6px;
+			outline: none;
+			border-radius: 3px !important;
+			border: 1px solid #d2d2d2;
+			/* width: 50%; */
+			width: 300px;
+		}
+
+		.symbolSearch {
+			position: absolute;
+			right: 6px;
+			top: 10px;
+			color: #757575;
+		}
+
+
+
+		.form-control {
+			padding: 6px 3px;
+			border-radius: 0px 2px 2px 0px !important;
+		}
+
+		.portlet > .portlet-body {
+			padding-bottom: 5px !important;
+		}
+
+		.dashboard-stat2 {
+			box-shadow: 0px 1px 3px rgba(0,0,0,0.14) !important;
+			border-radius: 3px !important;
+		}
+
+		.serachCares {
+			width: 222px;
+		}
+	</style>
+	<script>
+		$(document).ready(function () {
+			$('#lnkHome').click(function () {
+				blockUI();
+			});
+			$('#lnkAccountDetails').click(function () {
+				blockUI();
+			});
+			$('#lnkPaymentToSend').click(function () {
+				blockUI();
+			});
+			$('#lnkApprovePayment').click(function () {
+				blockUI();
+			});
+			$('#lnkPaymentReceived').click(function () {
+				blockUI();
+			});
+			$('#lnkHelpCenter').click(function () {
+				blockUI();
+			});
+			$('#lnkMyTeam').click(function () {
+				blockUI();
+			});
+			$('#lnkDirectReferral').click(function () {
+				blockUI();
+			});
+		});
+
+		function blockUI() {
+			$.blockUI({
+				message: '<img src="../../Administration/Content/images/ajax_loader_small.gif" />',
+				css: {
+					border: 'none',
+					backgroundColor: 'transparent'
+				}
+			});
+		}
+		$(document).ready(function () {
+			var flag = "";
+			$("#menutoggle").click(function () {
+				$("#spanlogo").toggle();
+				if (flag == "") {
+					$("#sidebar_menu").css("padding-top", "60px");
+					flag = "60"
+				}
+				else {
+					$("#sidebar_menu").css("padding-top", "0px");
+					flag = ""
+				}
+			});
+		});
+	</script>
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-~/Administration/Content-white">
+        <div class="page-wrapper">
+            <!-- BEGIN HEADER -->
+            <div class="page-header navbar navbar-fixed-top" style="padding-left: 0px;">
+                <!-- BEGIN HEADER INNER -->
+                <div class="page-header-inner ">
+
+                    <div class="officeHamberger">
+
+                        <i class="fa fa-th"></i>
+
+                    </div>
+                    <div class="office365">
+						<h4>2UP Live</h4>
+                    </div>
+
+                    <!-- END LOGO -->
+                    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                    <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span></span>
+                    </a>
+                    <!-- END RESPONSIVE MENU TOGGLER -->
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+
+
+                        <ul class="nav navbar-nav pull-right">
+                            <li class="dropdown dropdown-extended dropdown-tasks" id="lilogout">
+                                <a href='@Url.Content("~/Customer/Logout")' class="dropdown-toggle" title="Logout">
+                                    <i class="fa fa-lock"></i>
+                                </a>
+                            </li>
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt=""  id="profilepic" class="img-circle" src="~/Administration/Content/Theme/images/avatar.png">
+                                    <span class="username username-hide-on-mobile"> @name </span>
+                                </a>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END HEADER INNER -->
+            </div>
+            <!-- END HEADER -->
+            <!-- BEGIN HEADER & ~/Administration/Content DIVIDER -->
+            <div class="clearfix"> </div>
+            <!-- END HEADER & ~/Administration/Content DIVIDER -->
+            <!-- BEGIN CONTAINER -->
+            <div class="page-container">
+                <!-- BEGIN SIDEBAR -->
+                <div class="page-sidebar-wrapper">
+                    <!-- BEGIN SIDEBAR -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <div class="page-sidebar navbar-collapse collapse">
+                        <!-- BEGIN SIDEBAR MENU -->
+                        <div style="display:inline-block;">
+                            <span id="spanlogo">
+                                <h4 class="Cares_navHead">BACKOFFICE</h4>
+                            </span>
+                        </div>
+                        <div id="menutoggle" class="menu-toggler sidebar-toggler">
+                            <span></span>
+                        </div>
+
+						<ul id="sidebar_menu" class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+							<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+							<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+							<!-- END SIDEBAR TOGGLER BUTTON -->
+							<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+							<li class="nav-item start" id="liHome">
+								<a href="@Url.Action("Index","Home")" id="lnkHome" clientidmode="static" class="nav-link nav-toggle">
+									<i class="fa fa-home"></i>
+									<span class="title">Dashboard</span>
+								</a>
+							</li>
+							<li class="nav-item" id="liAccountDetails">
+								<a href="@Url.Action("MyProfile","Customer")" id="lnkAccountDetails" clientidmode="static" class="nav-link nav-toggle">
+									<i class="fa fa-edit"></i>
+									<span class="title">Account Details</span>
+								</a>
+							</li>
+							@*<li class="nav-item" id="liPaymentToSend">
+			<a href="@Url.Action("PaymentsToSend", "Matrix")" id="lnkPaymentToSend" clientidmode="static" class="nav-link nav-toggle">
+				<i class="fa fa-edit"></i>
+				<span class="title">Send Payments</span>
+			</a>
+		</li>
+		<li class="nav-item" id="liPaymentReceived">
+			<a href="@Url.Action("PaymentsReceived","Matrix")" id="lnkPaymentReceived" clientidmode="static" class="nav-link nav-toggle">
+				<i class="fa fa-edit"></i>
+				<span class="title">Payments Received</span>
+
+			</a>
+		</li>*@
+							<li class="nav-item" id="liAccountDetails">
+								<a href="@Url.Action("List","AdCampaign")" id="lnkAccountDetails" clientidmode="static" class="nav-link nav-toggle">
+									<i class="fa fa-edit"></i>
+									<span class="title">Place Ads</span>
+								</a>
+							</li>
+							<li class="nav-item" id="li2">
+								<a href="@Url.Action("Banner","Home")" id="lnkMyTeam" clientidmode="static" class="nav-link nav-toggle">
+									<i class="icon-speedometer"></i>
+									<span class="title">Promo Banner</span>
+								</a>
+							</li>
+							<li class="heading">
+								<h3 class="uppercase">My Geneology</h3>
+							</li>
+							<li class="nav-item" id="li2">
+								<a href="@Url.Action("ViewBoard","Board")" id="lnkMyTeam" clientidmode="static" class="nav-link nav-toggle">
+									<i class="icon-speedometer"></i>
+									<span class="title">My Active Position</span>
+								</a>
+							</li>
+							@*<li class="nav-item" id="li2">
+			<a href="@Url.Action("Team","Customer")" id="lnkMyTeam" clientidmode="static" class="nav-link nav-toggle">
+				<i class="icon-speedometer"></i>
+				<span class="title">My Team</span>
+			</a>
+		</li>*@
+							<li class="nav-item" id="limyTeam">
+								<a href="@Url.Action("MyDirect","Customer")" id="lnkDirectReferral" clientidmode="static" class="nav-link nav-toggle">
+									<i class="fa fa-users"></i>
+									<span class="title">My Direct Referral</span>
+
+								</a>
+							</li>
+							<li class="nav-item" style="text-align:center;">
+								@{ Html.RenderAction("Banner125", "Common", new { area = "" }); }
+							</li>
+							<li>
+								&nbsp;
+							</li>
+							<li class="nav-item" style="text-align:center;">
+								@{ Html.RenderAction("Banner125", "Common", new { area = "" }); }
+							</li>
+						</ul>
+                        <!-- END SIDEBAR MENU -->
+                        <!-- END SIDEBAR MENU -->
+                    </div>
+                    <!-- END SIDEBAR -->
+                </div>
+                <!-- END SIDEBAR -->
+                <div class="theme-panel" style="display:none;">
+                    <div class="toggler tooltips" data-container="body" data-placement="left" data-html="true" data-original-title="Click to open advance theme customizer panel" style="display: block;">
+                        <i class="icon-settings"></i>
+                    </div>
+                    <div class="toggler-close" style="display: none;">
+                        <i class="icon-close"></i>
+                    </div>
+                    <div class="theme-options" style="display: none;">
+                        <div class="theme-option theme-colors clearfix">
+                            <span> THEME COLOR </span>
+                            <ul>
+                                <li class="color-default current tooltips" data-style="default" data-container="body" data-original-title="Default"> </li>
+                                <li class="color-grey tooltips" data-style="grey" data-container="body" data-original-title="Grey"> </li>
+                                <li class="color-blue tooltips" data-style="blue" data-container="body" data-original-title="Blue"> </li>
+                                <li class="color-darkblue tooltips" data-style="darkblue" data-container="body" data-original-title="Dark"> </li>
+                            </ul>
+                        </div>
+                        <div class="theme-option">
+                            <span> Header </span>
+                            <select class="page-header-option form-control input-small">
+                                <option value="fixed" selected="selected">Fixed</option>
+                                <option value="default">Default</option>
+                            </select>
+                        </div>
+                        <div class="theme-option">
+                            <span> Sidebar Mode</span>
+                            <select class="sidebar-option form-control input-small">
+                                <option value="fixed">Fixed</option>
+                                <option value="default" selected="selected">Default</option>
+                            </select>
+                        </div>
+                        <div class="theme-option">
+                            <span> Sidebar Position </span>
+                            <select class="sidebar-pos-option form-control input-small">
+                                <option value="left" selected="selected">Left</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <div class="theme-option">
+                            <span> Footer </span>
+                            <select class="page-footer-option form-control input-small">
+                                <option value="fixed">Fixed</option>
+                                <option value="default" selected="selected">Default</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @RenderBody()
+
+            </div>
+            <!-- END CONTAINER -->
+            <!-- BEGIN FOOTER -->
+            <div class="page-footer">
+                <div class="page-footer-inner">
+                    Powered by
+					<a target="_blank" href="#">9xBitcoin</a>
+                </div>
+                <div class="scroll-to-top">
+                    <i class="icon-arrow-up" style="color:#000;"></i>
+                </div>
+            </div>
+            <!-- END FOOTER -->
+        </div>
+    <script src="~/Administration/Content/Theme/js/js.cookie.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/components-bootstrap-switch.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/spin.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/ladda.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/app.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/components-date-time-pickers.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/ui-buttons-spinners.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/components-bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/ui-blockui.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/layout.min.js" type="text/javascript"></script>
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <script src="~/Administration/Content/Theme/js/demo.min.js" type="text/javascript"></script>
+    <!-- END THEME LAYOUT SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    
+    <script src="~/Administration/Content/Theme/js/moment.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/daterangepicker.min.js" type="text/javascript"></script>
+    <script src="~/Administration/Content/Theme/js/Dashboard.min.js" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+
+
+</body>
+
+</html>
+        

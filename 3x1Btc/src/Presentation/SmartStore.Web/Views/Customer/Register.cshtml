@@ -1,0 +1,239 @@
+﻿@model RegisterModel
+@using SmartStore.Web.Models.Customer;
+@{
+	Layout = "_Layout";
+	Html.AddTitleParts(T("PageTitle.Register").Text);
+}
+<section class="page-info-section">
+	<div class="container">
+		<h2>@T("Account.Register")</h2>
+		<div class="site-beradcamb">
+			<a href="">Home</a>
+			<span><i class="fa fa-angle-right"></i> @T("Account.Register")</span>
+		</div>
+	</div>
+</section>
+<div class="whitebg">
+	<div class="pagewidth">
+		<div class="container">
+			@using (Html.BeginForm("Register", "Customer", new { returnUrl = this.Context.Request.QueryString["returnUrl"] }, FormMethod.Post, new { @class = "form-horizontal" }))
+			{
+				@Html.AntiForgeryToken()
+
+				<div class="page registration-page">
+					<div class="page-title">
+						<h1 class="h3">@T("Account.Register") , Your have been referred by @Model.SponsorName</h1>
+					</div>
+					<div class="page-body row">
+						<div class="col-7">
+							@if (!ViewData.ModelState.IsValid)
+							{
+								@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+							}
+							@{ Html.RenderPartial("_ExternalAuthentication.AssociateMessage"); }
+
+							@*@if (Model.CompanyEnabled || Model.DisplayVatNumber)
+								{
+									<fieldset class="content-group">
+										<legend><span>@T("Account.CompanyDetails")</span></legend>
+										<div class="form-group row">
+											@Html.LabelFor(model => model.Company, new { @class = "col-md-12 col-form-label", @for = "SponsorId" })
+											<div class="col-md-8">
+												<div class="input-group">
+													@Html.TextBoxFor(model => model.SponsorId, new { @class = "form-control", placeholder = T("Common.SponsorId") })
+												</div>
+											</div>
+										</div>
+
+										@if (Model.DisplayVatNumber)
+										{
+											<div class="form-group row">
+												@Html.LabelFor(model => model.VatNumber, new { @class = "col-md-4 col-form-label", @for = "VatNumber" })
+												<div class="col-md-8">
+													<div class="input-group">
+														@Html.TextBoxFor(model => model.VatNumber, new { @class = "form-control", placeholder = T("Common.Optional") })
+														@if (Model.VatNumberStatusNote.HasValue())
+														{
+															<div class="input-group-append"><span class="input-group-text">@Model.VatNumberStatusNote</span></div>
+														}
+													</div>
+													<div class="form-text text-muted vat-note">@T("Account.Fields.VatNumber.Note")</div>
+												</div>
+											</div>
+										}
+									</fieldset>
+								}*@
+							<div class="row">
+								<div class="col-md-12 padleftzero">
+									<fieldset class="content-group">
+										<legend><span>@T("Account.YourPersonalDetails")</span></legend>
+										@if (this.EnableHoneypotProtection)
+										{
+											<div class="d-none">
+												@Html.HoneypotField()
+											</div>
+										}
+										@if (Model.GenderEnabled)
+										{
+											<div class="form-group row">
+												<label class="col-md-4 col-form-label">@T("Account.Fields.Gender")</label>
+												<div class="col-md-8 form-inline">
+													<div class="form-check form-check-inline">
+														@Html.RadioButton("Gender", "M", (Model.Gender == "M"), new { @class = "form-check-input", id = "gender-male" })
+														<label class="form-check-label" for="gender-male">@T("Account.Fields.Gender.Male")</label>
+													</div>
+													<div class="form-check form-check-inline">
+														@Html.RadioButton("Gender", "F", (Model.Gender == "F"), new { @class = "form-check-input", id = "gender-female" })
+														<label class="form-check-label" for="gender-female">@T("Account.Fields.Gender.Female")</label>
+													</div>
+												</div>
+											</div>
+										}
+											<div class="register-form">
+												<div class="form-group row">
+													@Html.LabelFor(model => model.Company, new { @class = "col-md-3 col-form-label", @for = "SponsorId" })
+													<div class="col-md-9">
+														<div class="input-group">
+															@Html.TextBoxFor(model => model.Company, new { @class = "form-control", placeholder = "Sponsor Id (numeric)", disabled = "disabled" })
+															<input type="hidden" value="@Model.Company" name="Company" id="Company" />
+														</div>
+													</div>
+												</div>
+												@Html.ControlGroupFor(model => model.FirstName, required: Model.FirstNameRequired, breakpoint: "md")
+												@Html.ControlGroupFor(model => model.LastName, required: Model.LastNameRequired, breakpoint: "md")
+												<div class="emailbox">
+													@Html.ControlGroupFor(model => model.Email, required: true, breakpoint: "md")
+												</div>
+												<div>
+													<div class="passwordbox">
+														<fieldset class="content-group">
+															<legend><span>@T("Account.YourPassword")</span></legend>
+															@Html.ControlGroupFor(model => model.Password, editorType: InputEditorType.Password, required: true, breakpoint: "md")
+															@Html.ControlGroupFor(model => model.ConfirmPassword, editorType: InputEditorType.Password, required: true, breakpoint: "md")
+															@if (Model.DisplayCaptcha)
+															{
+																<div class="form-group row">
+																	<div class="captcha-box col-md-12 offset-md-4">
+																		@Html.Raw(Html.GenerateCaptcha())
+																	</div>
+																</div>
+															}
+														</fieldset>
+													</div>
+												</div>
+												<div class="form-group row">
+													<div class="col-md-12">
+														<button type="submit" class="btn btn-primary btn-lg  btn-block btn-login" name="register-button">
+															@T("Account.Register.Button")
+														</button>
+													</div>
+												</div>
+											</div>
+										@if (Model.DateOfBirthEnabled)
+										{
+											<div class="form-group row dateofbirth">
+												<label class="col-md-12 col-form-label" for="DateOfBirthDay">@T("Account.Fields.DateOfBirth")</label>
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col-md-4">@Html.ValidationMessageFor(model => model.DateOfBirthDay)</div>
+														<div class="col-md-4">@Html.ValidationMessageFor(model => model.DateOfBirthMonth)</div>
+														<div class="col-md-4">@Html.ValidationMessageFor(model => model.DateOfBirthYear)</div>
+													</div>
+													<div class="col-md-12 padl-3">
+														@Html.DatePickerDropDowns(Html.FieldNameFor(x => x.DateOfBirthDay),
+															Html.FieldNameFor(x => x.DateOfBirthMonth),
+															Html.FieldNameFor(x => x.DateOfBirthYear),
+															DateTime.Now.Year - 110,
+															DateTime.Now.Year,
+															Model.DateOfBirthDay,
+															Model.DateOfBirthMonth,
+															Model.DateOfBirthYear)
+													</div>
+												</div>
+											</div>
+										}
+
+										@if (Model.UsernamesEnabled)
+										{
+											<div class="form-group row">
+												@Html.LabelFor(model => model.Username, new { @class = "col-md-12 col-form-label required", @for = "Username" })
+												<div class="col-md-12">
+													@if (Model.CheckUsernameAvailabilityEnabled)
+													{
+														<div class="input-group">
+															@Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+															@{ Html.RenderPartial("_CheckUsernameAvailability"); }
+														</div>
+													}
+													else
+													{
+														@Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+													}
+													@Html.ValidationMessageFor(model => model.Username)
+												</div>
+											</div>
+										}
+
+									</fieldset>
+								</div>
+
+							</div>
+
+
+
+
+							@if (Model.NewsletterEnabled)
+							{
+								<fieldset class="content-group">
+									<legend><span>@T("Account.Options")</span></legend>
+									<div class="form-group row">
+										<div class="col-md-3"></div>
+										<div class="col-md-9">
+											<div class="form-check">
+												@Html.EditorFor(model => model.Newsletter, new { @class = "form-check-input" })
+												<label class="form-check-label" for="Newsletter">
+													@T("Account.Fields.Newsletter", Url.RouteUrl("Topic", new { SeName = Url.TopicSeName("PrivacyInfo") }))
+												</label>
+											</div>
+										</div>
+									</div>
+								</fieldset>
+							}
+
+							@if (Model.AllowCustomersToSetTimeZone)
+							{
+								<div class="timezonebox">
+									<fieldset class="content-group">
+										<legend><span>@T("Account.Preferences")</span></legend>
+										@if (Model.AllowCustomersToSetTimeZone)
+										{
+											<div class="form-group row">
+												@Html.LabelFor(model => model.TimeZoneId, new { @class = "col-md-12 col-form-label", @for = "TimeZoneId" })
+												<div class="col-md-12">
+													@Html.DropDownList("TimeZoneId", Model.AvailableTimeZones, new { @class = "form-control" })
+													@Html.ValidationMessageFor(model => model.TimeZoneId)
+												</div>
+											</div>
+											
+										}
+									</fieldset>
+								</div>
+							}
+
+						</div>
+						<div class="col-lg-1 col-xl-1">
+						</div>
+
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+<script>
+	$('#Company').change(function () {
+		if (isNaN($('#Company').val())) {
+			$('#Company').val('');
+		}
+	});
+</script>

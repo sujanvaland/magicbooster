@@ -1,0 +1,105 @@
+﻿@model MyInvestmentPlan
+@using SmartStore.Admin.Models.Investment;
+@{
+	ViewBag.Title = "My Share";
+}
+
+	<div class="section-header">
+		<div class="title">
+			GMM Cashback
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-money"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">@ViewBag.CurrencyCode @Model.MyTotalInvestment 
+					<br />Total Purchase</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-warning o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-money"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">@ViewBag.CurrencyCode @Model.MyTotalROIToPay 
+					<br />Cashback</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-success o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-gift"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">@ViewBag.CurrencyCode @Model.MyTotalROIPaid 
+					<br />Cashback Received</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-danger o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-hourglass"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">@ViewBag.CurrencyCode @Model.MyTotalROIPending 
+					<br />Cashback Pending</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<div class="mt-2">
+	@(Html.Telerik().Grid<MyInvestmentPlan>()
+				.Name("plans-grid")
+				.ClientEvents(events => events
+					.OnDataBinding("onDataBinding")
+					.OnDataBound("onDataBound"))
+				.Columns(columns =>
+				{
+					columns.Bound(x => x.PlanName)
+						.Title("Title")
+						.Width(160)
+						.Centered();
+					columns.Bound(x => x.PurchaseDate)
+						.Width(160)
+						.Centered();
+					columns.Bound(x => x.TotalFundingString)
+						.Title("Total Funding")
+						.Width(160)
+						.Centered();
+					columns.Bound(x => x.ROIPaidString)
+						.Title("Cashback Paid")
+						.Width(160)
+						.Centered();
+					columns.Bound(x => x.ROIPendingString)
+						.Title("Cashback Pending")
+						.Width(160)
+						.Centered();
+					columns.Bound(x => x.Status)
+					.Centered()
+					.Width(160);
+				})
+				.DataBinding(dataBinding => dataBinding.Ajax().Select("ListMyInvestment", "Investment"))
+				.PreserveGridState()
+				.EnableCustomBinding(true))
+</div>
+
+<script type="text/javascript">
+	function onDataBinding(e) {
+
+	}
+
+	function onDataBound(e) {
+		
+	}
+
+
+</script>

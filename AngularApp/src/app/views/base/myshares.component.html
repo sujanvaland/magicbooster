@@ -1,0 +1,141 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> My Traffic Pack
+        </div>
+        <div class="card-body">
+          <tabset>
+            <tab heading="Beginner Packs ({{CustomerBeginnerPlan.length}})">
+              <table class="table">
+                <tr *ngFor="let pack of CustomerBeginnerPlan">
+                    <td>
+                      Purchase Date : {{pack.PurchaseDate | date:'mediumDate'}} | Status : {{pack.Status}}
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <div class="callout callout-info">
+                            <span class="trafficpacklabel">Traffic Pack Id</span>
+                            <br>
+                            <strong class="h4">{{pack.ShareId}}</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-danger">
+                            <span class="trafficpacklabel">Total Clicks</span>
+                            <br>
+                            <strong class="h4">1000</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-success">
+                            <span class="trafficpacklabel">Cost</span>
+                            <br>
+                            <strong class="h4">10 USD</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-warning">
+                            <span class="trafficpacklabel">Profit Cap</span>
+                            <br>
+                            <strong class="h4">{{pack.ROIToPayString}}</strong>
+                          </div>
+                        </div>
+                      </div>
+                      <progressbar class="progress progress-striped progress-animated" type="success" [max]="pack.ROIToPay" [value]="pack.ROIPaid">
+                        <span style="color:white; white-space:nowrap;font-size:15px;">ROI Paid {{pack.ROIPaid}} USD/ ROI to pay {{pack.ROIToPay}} USD</span>
+                      </progressbar>
+                    </td>
+                </tr>
+              </table>
+            </tab>
+            <tab heading="Professional Pack ({{CustomerProfessionalPlan.length}})">
+              <table class="table">
+                <tr *ngFor="let pack of CustomerProfessionalPlan">
+                    <td>
+                      Purchase Date : {{pack.PurchaseDate |  date:'mediumDate'}}
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <div class="callout callout-info">
+                            <span class="trafficpacklabel">Traffic Pack Id</span>
+                            <br>
+                            <strong class="h4">{{pack.ShareId}}</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-danger">
+                            <span class="trafficpacklabel">Total Clicks</span>
+                            <br>
+                            <strong class="h4">5000</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-success">
+                            <span class="trafficpacklabel">Cost</span>
+                            <br>
+                            <strong class="h4">10 USD</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-warning">
+                            <span class="trafficpacklabel">Profit Cap</span>
+                            <br>
+                            <strong class="h4">{{pack.ROIToPayString}}</strong>
+                          </div>
+                        </div>
+                      </div>
+                      <progressbar class="progress progress-striped progress-animated" type="success"  [max]="pack.ROIToPay" [value]="pack.ROIPaid">
+                        <span style="color:white; white-space:nowrap;font-size:15px;">ROI Paid {{pack.ROIPaid}} USD/ ROI to pay {{pack.ROIToPay}} USD</span>
+                      </progressbar>
+                    </td>
+                </tr>
+              </table>
+            </tab>
+            <tab heading="Enterprise Pack ({{CustomerEnterprisePlan.length}})">
+              <table class="table">
+                <tr *ngFor="let pack of CustomerEnterprisePlan">
+                    <td>
+                      Purchase Date : {{pack.PurchaseDate |  date:'mediumDate'}}
+                      <div class="row">
+                        <div class="col-sm-3">
+                          <div class="callout callout-info">
+                            <span class="trafficpacklabel">Traffic Pack Id</span>
+                            <br>
+                            <strong class="h4">{{pack.ShareId}}</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-danger">
+                            <span class="trafficpacklabel">Total Clicks</span>
+                            <br>
+                            <strong class="h4">10000</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-success">
+                            <span class="trafficpacklabel">Cost</span>
+                            <br>
+                            <strong class="h4">{{pack.TotalFundingString}}</strong>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="callout callout-warning">
+                            <span class="trafficpacklabel">Profit Cap</span>
+                            <br>
+                            <strong class="h4">{{pack.ROIToPayString}}</strong>
+                          </div>
+                        </div>
+                      </div>
+                      <progressbar class="progress progress-striped progress-animated" type="success" [max]="pack.ROIToPay" [value]="pack.ROIPaid">
+                        <span style="color:white; white-space:nowrap;font-size:15px;">ROI Paid {{pack.ROIPaid}} USD/ ROI to pay {{pack.ROIToPay}} USD</span>
+                      </progressbar>
+                    </td>
+                </tr>
+              </table>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

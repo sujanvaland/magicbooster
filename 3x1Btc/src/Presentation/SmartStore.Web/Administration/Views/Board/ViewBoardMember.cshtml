@@ -1,0 +1,72 @@
+﻿
+@using Telerik.Web.Mvc.UI
+@using SmartStore.Services.Boards;
+@{
+	ViewBag.Title = T("Admin.Catalog.Plans.Manage").Text;
+}
+
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-sitemap"></i>
+		@T("Admin.Hyip.BoardMember")
+		<div class="btn-group ml-2" style="vertical-align: text-top">
+			<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+				<i class="fa fa-bars"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<input type="hidden" id="positionid" value="@ViewBag.PositionId" />
+<div class="mt-2">
+	@(Html.Telerik().Grid<MyBoardMember>()
+						.Name("plans-grid")
+						.ClientEvents(events =>
+						{
+							events.OnDataBinding("onDataBinding");
+							events.OnDataBound("onDataBound");
+						})
+						.Columns(columns =>
+						{
+							columns.Bound(x => x.LevelId)
+								.Width(50)
+								.Centered();
+							columns.Bound(x => x.Email)
+							.Width(160)
+							.Centered();
+						})
+						.DataBinding(dataBinding =>
+						{
+							dataBinding.Ajax()
+								.Select("ListBoardMember", "Board");
+						})
+						.PreserveGridState()
+						.EnableCustomBinding(true))
+</div>
+<script type="text/javascript">
+	
+	// Filter toggler
+	$('.btn-toggle-filter').on('click', function (e) {
+		$('.grid-filter').slideToggle({ duration: 200, easing: 'ease-in-out' });
+	});
+
+	//search button
+	$('#btnSearch').click(function () {
+		//search
+		var grid = $('#plans-grid').data('tGrid');
+		grid.currentPage = 1; //new search. Set page size to 1
+		grid.ajaxRequest();
+		return false;
+	});
+
+	function onDataBinding(e) {
+		var searchModel = {
+			positionid: $('#positionid').val()
+		};
+		e.data = searchModel;
+	}
+
+	function onDataBound(e) {
+
+	}
+</script>
+

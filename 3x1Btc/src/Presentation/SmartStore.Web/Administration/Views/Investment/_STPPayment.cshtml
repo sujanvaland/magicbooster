@@ -1,0 +1,84 @@
+﻿
+@*@using (Html.BeginForm(Model.PaymentURL, null, FormMethod.Post))
+{*@
+<form action="https://solidtrustpay.com/handle.php" method="post">
+	<div class="content-box">
+		<div class="section-header">
+			<div class="title">
+				<i class="fa fa-sitemap"></i>
+				@T("Admin.Investment.DepositConfirm")
+				<div class="btn-group ml-2" style="vertical-align: text-top">
+					<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+						<i class="fa fa-bars"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<input type='hidden' name='merchantAccount' value='@ViewBag.MerchantName' />
+			<input type='hidden' name='sci_name' value='@ViewBag.AccountNo' />
+			<input type=text name='amount' style='display:none;' value='@ViewBag.Amount' />
+			<input type='hidden' name='currency' value='USD' />
+			<input type='hidden' name='cancel_url' value='@ViewBag.ReturnUrl' />
+			<input type='hidden' name='notify_url' value='@ViewBag.IPNUrl' />
+			<input type='hidden' name='item_id' value='2' /><br />
+			<input type='hidden' name='testmode' value='OFF' /><br />
+			<input type='hidden' name='user1' value='@ViewBag.TransactionId' /><br />
+
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.EnteredAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.Amount @ViewBag.CurrencyCode
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.Fees")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.DepositFees %
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.FinalAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.FinalAmount @ViewBag.CurrencyCode
+			</div>
+		</div>
+		<div class="row d-none">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedPlan")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.PlanName
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedProcessor")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.ProcessorName
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				<div class="options">
+					<button type="submit" name="save" value="save" class="btn btn-primary">
+						<i class="fa fa-check"></i>
+						<span>@T("Admin.Common.ContinuePayment")</span>
+					</button>
+					<a href="@Url.Action("Deposit","Investment")" class="btn btn-secondary">
+						<span>@T("Admin.Common.Cancel")</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+@*}*@
+

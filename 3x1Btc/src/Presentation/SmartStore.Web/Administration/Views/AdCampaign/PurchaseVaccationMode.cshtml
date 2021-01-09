@@ -1,0 +1,76 @@
+﻿@model VaccationMode
+@using SmartStore.Admin.Models.AdCampaign
+@{
+	//page title
+	ViewBag.Title = T("Admin.AdCampaign.AddNew").Text;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "category-form" }))
+{
+	<div class="section-header">
+		<div class="title">
+			@T("Admin.AdCampaign.VaccationMode")
+			<a href='@Url.Action("List")'>(@T("Admin.AdCampaign.BackToList"))</a>
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-primary">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+			<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+				<span>@T("Admin.Common.SaveContinue")</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-bullseye"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@ViewBag.CurrencyCode @Model.AvailableBalance
+						<br />@T("MyInvestment.AvailableBalance")
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-bullseye"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@Model.CurrentExpiryDate
+						<br />@T("Admin.VacationMode.Fields.CurrentExpiryDate")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h1>$0.2 Cost per day </h1>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.StartDate)
+		@Html.EditorFor(model => Model.StartDate)
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.EndDate)
+		@Html.EditorFor(model => Model.EndDate)
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="options">
+				<button type="submit" name="save" value="save" class="btn btn-primary">
+					<i class="fa fa-check"></i>
+					<span>Purchase</span>
+				</button>
+				<button type="reset" name="save" value="save-continue" class="btn btn-secondary">
+					<span>@T("Admin.Common.Cancel")</span>
+				</button>
+			</div>
+		</div>
+	</div>
+}

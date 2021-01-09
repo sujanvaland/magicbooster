@@ -1,0 +1,105 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-8 mb-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Support ticket</strong>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="supportRequest" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="name">Subject :</label>
+                  <input type="text" formControlName="Subject" class="form-control" placeholder="Enter Subject"
+                    [ngClass]="{ 'is-invalid': submitted && f.Subject.errors }" />
+                  <div *ngIf="submitted && f.Subject.errors" class="invalid-feedback">
+                    <div *ngIf="f.Subject.errors.required">First Name is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/.row-->
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="name">Enquiry :</label>
+                  <textarea formControlName="Enquiry" rows="4" cols="50" class="form-control" placeholder="Enter Enquiry"
+                    [ngClass]="{ 'is-invalid': submitted && f.Enquiry.errors }" > </textarea>
+                  <div *ngIf="submitted && f.Enquiry.errors" class="invalid-feedback">
+                    <div *ngIf="f.Enquiry.errors.required">Enquiry is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/.row-->
+            <div>
+              <button type="save" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
+              <button type="cancel" (click)="onReset()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>
+                Cancel</button>
+            </div>
+          </form>
+          <br>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Ticket No.</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>View</th>
+                <th>Status</th>
+                <th>Reply</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let news of Tickets">
+                <td>{{news.Id}}</td>
+                <td>{{news.Subject}}</td>
+                <td>{{news.Message}}</td>
+                <td>{{news.CreatedDate |  date:'mediumDate'}}</td>
+                <td>{{news.LastReplied}}</td>
+                <td>{{news.Status}}</td>
+                <td>
+                  <button class="btn btn-success">
+                    <span (click)="OpenModel(news)">
+                      <i class="fa fa-reply"> Reply</i>
+                    </span>
+                  </button>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #supportModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Reply Back</h4>
+        
+        <button type="button" class="close" (click)="supportModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <label for="ccmonth">Message</label>
+            <textarea rows=5 cols=20 type="text" [(ngModel)]="Message" class="form-control" placeholder="Enter Message"></textarea>
+          </div>
+        </div><!--/.row-->
+        <button type="submit" (click)="ReplyBack()" class="btn btn-block btn-dark btn-lg btn-block active">Send Message</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="supportModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

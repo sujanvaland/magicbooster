@@ -1,0 +1,93 @@
+﻿@model FooterModel
+@using SmartStore.Web.Models.Common;
+@{
+	var footerLinks = new List<Tuple<string, string>>
+{
+// Item1 = TopicUrl, Item2 = Locale Resource Key
+new Tuple<string, string>(Url.TopicUrl("aboutus"), "AboutUs"),
+new Tuple<string, string>(Url.TopicUrl("imprint"), "Imprint"),
+new Tuple<string, string>(Url.TopicUrl("disclaimer"), "Disclaimer"),
+new Tuple<string, string>(Url.TopicUrl("privacyinfo"), "PrivacyNotice"),
+new Tuple<string, string>(Url.TopicUrl("conditionsofuse"), "ConditionsOfUse")
+};
+
+	var socialLinks = new List<Tuple<string, string>>();
+	if (Model.FacebookLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.FacebookLink, "facebook"));
+	}
+
+	if (Model.GooglePlusLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.GooglePlusLink, "google-plus"));
+	}
+
+	if (Model.TwitterLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.TwitterLink, "twitter"));
+	}
+
+	if (Model.PinterestLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.PinterestLink, "pinterest"));
+	}
+
+	if (Model.YoutubeLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.YoutubeLink, "youtube"));
+	}
+
+	if (Model.InstagramLink.HasValue())
+	{
+		socialLinks.Add(new Tuple<string, string>(Model.InstagramLink, "instagram"));
+	}
+
+	var invserseFooter = GetThemeVariable<bool>("inverse-footer");
+}
+@{ Html.RenderWidget("footer_top"); }
+<div class="clearfix"></div>
+<!-- Footer -->
+<div class="footerbg">
+	<div class="pagewidth">
+		<div class="container">
+		<!--<div class="row">
+			<div class="col-md-4">
+				<div class="ftrcols">
+				<img src="~/images/3xBtc.png" />
+				<p>Played on this website Trademarks are used with permission right holder.</p>
+					<p>Copyright @ViewBag.SiteName&copy;2019</p>
+					</div>
+			</div>
+			<div class="col-md-3">
+				<div class="bitcoinbox">
+				<h3>Payment System</h3>
+				<img src="~/Content/theme/images/newimg/bitcoinlogo.png"/>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<h3 class="text-left">Links</h3>
+				<ul class="footerlinks">
+					<li><a href="~/home"> Home</a></li>
+					<li><a href="~/faqs"> FAQ</a></li>
+					<li><a href="~/contactus"> Support</a></li>
+					<li><a href="~/terms"> Terms</a></li>
+					<li><a href="~/privacyinfo"> Privacy Policy</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3">
+				<h3 class="text-left">Contact Us</h3>
+				<ul class="footerlinks address">
+					<li> 543 Moo 10,Soi Bonkai 1,Nongprue<br /> Banglamung, Chanburi - 20150, Thailand</li>
+					<li>Email : support@3x1btc.com</li>-->
+					@*<li>Phone : +66 943236625</li>*@
+					<!--<li style="height:15px;"></li>
+					<li><i class="fa fa-facebook fa-2x"></i> | <i class="fa fa-telegram fa-2x"></i></li>
+				</ul>
+			</div>
+		</div>-->
+		<div class="clearfix"></div>
+	</div>
+	</div>
+</div>
+<!-- End Footer -->
+@{ Html.RenderWidget("footer_bottom"); }

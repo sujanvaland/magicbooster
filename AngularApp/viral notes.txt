@@ -1,0 +1,10 @@
+in buy package - we remove all text only price - Done
+provide confirmation message before buy - Done
+remove active position on dashboard - Done
+change inviter and sponsor to username instead of id - Done
+spellcheck withdrawal - Done
+purchase history not showing - Done
+transfer history add to backoffice
+remove daily task links - Done
+Change Active Status To Currency Exchange - Done
+Transfer Fund Issue - Done

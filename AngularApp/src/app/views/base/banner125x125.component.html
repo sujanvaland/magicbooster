@@ -1,0 +1,43 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Banner 125x125</strong>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="banner125x125" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="name" formControlName="name" class="form-control" placeholder="Enter Name"  [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Amount is required</div>
+              </div>
+              </div>
+            
+              <div class="form-group">
+                <label for="ccmonth">Assign Credit</label>
+                <input type="number" formControlName="assigncredit" class="form-control" placeholder="Credit"  [ngClass]="{ 'is-invalid': submitted && f.assigncredit.errors }" />
+                <div *ngIf="submitted && f.assigncredit.errors" class="invalid-feedback">
+                  <div *ngIf="f.assigncredit.errors.required">Credit is required</div>
+              </div>
+              </div>
+            
+              <div class="form-group">
+                <label for="name">Url</label>
+                <input type="name" formControlName="url" class="form-control" placeholder="Enter URL"  [ngClass]="{ 'is-invalid': submitted && f.url.errors }" />
+                <div *ngIf="submitted && f.url.errors" class="invalid-feedback">
+                  <div *ngIf="f.url.errors.required">URL is required</div>
+              </div>
+              </div>
+              
+          <div >
+            <button type="save" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
+            <button type="cancel" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div><!--/.col-->
+   </div>
+</div>

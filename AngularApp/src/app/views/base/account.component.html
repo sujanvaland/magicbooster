@@ -1,0 +1,176 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <strong>Account Settings</strong>
+              <span class="float-right">
+                <strong>
+                  <a [routerLink]="['../changepassword']" class="btn btn-dark active">Security Settings</a>
+                </strong>
+              </span>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="accountdetail">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="name">User Name :</label>
+                      {{User}}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="name">Email:</label>
+                      {{Email}}
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <label for="name">Inviter:</label>
+                      {{Inviter}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">First Name:</label>
+                      <input type="text" formControlName="FirstName" class="form-control" placeholder="Enter first name"
+                        [ngClass]="{ 'is-invalid': submitted && f.FirstName.errors }" />
+                      <div *ngIf="submitted && f.FirstName.errors" class="invalid-feedback">
+                        <div *ngIf="f.FirstName.errors.required">First Name is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="name">Last Name:</label>
+                      <input type="text" formControlName="LastName" class="form-control" placeholder="Enter last name"
+                        [ngClass]="{ 'is-invalid': submitted && f.LastName.errors }" />
+                      <div *ngIf="submitted && f.LastName.errors" class="invalid-feedback">
+                        <div *ngIf="f.LastName.errors.required">Last Name is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/.row-->
+                 <!--/.row-->
+                 <div class="row">
+                  <div class="form-group col-sm-6">
+                    <div class="col-md-9 col-form-label">
+                      <div class="form-check form-check-inline mr-1" id="Gender">
+                        <input class="form-check-input" formControlName="Gender" type="radio" name="Gender"
+                          id="inlineRadio1" value="Male">
+                        <label class="form-check-label" for="inlineRadio1">Male</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-1">
+                        <input class="form-check-input" formControlName="Gender" type="radio" name="Gender"
+                          id="inlineRadio2" value="Female">
+                        <label class="form-check-label" for="inlineRadio2">Female</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-6">
+                    <div class="form-group">
+                      <label for="ccmonth">Country</label>
+                      <select formControlName="CountryId" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.CountryId.errors }">
+                        <option value="">Select Country</option>
+                        <option *ngFor="let country of Countries" [ngValue]="country.Id">{{country.Name}}
+                        </option>
+                      </select>
+
+                      <div *ngIf="submitted && f.CountryId.errors" class="invalid-feedback">
+                        <div *ngIf="f.CountryId.errors.required">Select Country</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/.row-->
+                <!-- <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Bitcoin Address:</label>
+                      <input type="text" formControlName="BitcoinAddress" class="form-control"
+                        placeholder="Enter Bitcoin address"
+                        [ngClass]="{ 'is-invalid': submitted && f.BitcoinAddress.errors }" />
+                      <div *ngIf="submitted && f.BitcoinAddress.errors" class="invalid-feedback">
+                        <div *ngIf="f.BitcoinAddress.errors.required">Bitcoin address is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Account Number:</label>
+                      <input type="text" formControlName="AccountNumber" class="form-control"
+                        placeholder="Enter Account Number"
+                        [ngClass]="{ 'is-invalid': submitted && f.AccountNumber.errors }" />
+                      <div *ngIf="submitted && f.AccountNumber.errors" class="invalid-feedback">
+                        <div *ngIf="f.AccountNumber.errors.required">Account Number is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">NRIC:</label>
+                      <input type="text" formControlName="NICR" class="form-control"
+                        placeholder="Enter NRIC"
+                        [ngClass]="{ 'is-invalid': submitted && f.NICR.errors }" />
+                      <div *ngIf="submitted && f.NICR.errors" class="invalid-feedback">
+                        <div *ngIf="f.NICR.errors.required">NRIC is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Bank Name:</label>
+                      <input type="text" formControlName="BankName" class="form-control"
+                        placeholder="Enter Bank Name"
+                        [ngClass]="{ 'is-invalid': submitted && f.BankName.errors }" />
+                      <div *ngIf="submitted && f.BankName.errors" class="invalid-feedback">
+                        <div *ngIf="f.BankName.errors.required">Bank Name is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Account Holder Name:</label>
+                      <input type="text" formControlName="AccountHolderName" class="form-control"
+                        placeholder="Enter Account Holder Name"
+                        [ngClass]="{ 'is-invalid': submitted && f.AccountHolderName.errors }" />
+                      <div *ngIf="submitted && f.AccountHolderName.errors" class="invalid-feedback">
+                        <div *ngIf="f.AccountHolderName.errors.required">Account Holder Name is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" [hidden]="!Is2FAEnableAlready">
+                  <div class="col-sm-8">
+                    <div class="form-group">
+                      <label for="name">Enter 2FA Pin:</label>
+                      <input type="text" [(ngModel)]="Pin2FA" class="form-control" placeholder="Enter 2FA Pin"/>
+                    </div>
+                  </div>
+                </div>
+               
+                <div>
+                  <button type="save" (click)="onSubmit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
+                  <button type="cancel" (click)="onReset()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>
+                    Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>

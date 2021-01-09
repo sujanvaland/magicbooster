@@ -1,0 +1,78 @@
+﻿
+@*@using (Html.BeginForm(Model.PaymentURL, null, FormMethod.Post))
+{*@
+
+	<div class="content-box">
+		<div class="section-header">
+			<div class="title">
+				<i class="fa fa-sitemap"></i>
+				@T("Admin.Investment.DepositConfirm")
+				<div class="btn-group ml-2" style="vertical-align: text-top">
+					<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+						<i class="fa fa-bars"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.EnteredAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.Amount INR
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.Fees")
+			</div>
+			<div class="col-lg-3 form-group">
+				0 %
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				Transaction Id :
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.TransactionId
+				<br />Please put this Transaction Id in remark while sending payment to below numbers
+			</div>
+		</div>
+		<div class="row d-none">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedPlan")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.PlanName
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedProcessor")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.ProcessorName
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				Account No :
+			</div>
+			<div class="col-lg-3 form-group">
+				BHIM UPI : 7405593906 <br />
+				Phone Pe : 9537067909 <br />
+
+				@*<input type="hidden" name="key_id" value="rzp_live_Ji5gawZglbhMPN">
+				<input type="hidden" name="order_id" value="@ViewBag.TransactionId">
+				<input type="hidden" name="name" value="9xBitcoin">
+				<input type="hidden" name="description" value="Membership Purchase">
+				<input type="hidden" name="prefill[email]" value="@ViewBag.Email">
+				<input type="hidden" name="callback_url" value="https://9xbitcoin.com/RazorPay">
+				<input type="hidden" name="cancel_url" value="https://9xbitcoin.com/admin">*@
+
+			</div>
+		</div>
+	</div>
+@*}*@
+

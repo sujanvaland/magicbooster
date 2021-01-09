@@ -1,0 +1,21 @@
+<div class="animated fadeIn">
+  <div class="card" > 
+    <div class="card-header">
+      <i class="fa fa-align-justify"></i> Our Advertisers
+      <span class="float-right" [hidden]="HideAds">
+        <strong>
+          <div style="float:right;display:flex;color:#fff;font-weight:bold;margin-right:100px;">
+            <h1><div id="divTimer1"></div></h1>
+          </div>
+          <a href="{{AdCampaign.WebsiteUrl}}" target="_blank" class="btn btn-dark active">Visit this website</a>
+        </strong>
+      </span>
+    </div>
+    <div class="card-body" style="height:700px;">
+      <div class="alert alert-warning"  [hidden]="!HideAds" role="alert">No Ads to View for the day !</div>
+       <iframe [hidden]="HideAds" [src]="AdCampaign.WebsiteUrl | safe" 
+       style="border: 0; width: 100%; height: 100%; display: block; position: absolute; left: 0px; top: 90px;">
+      </iframe>
+    </div>
+  </div>
+</div>

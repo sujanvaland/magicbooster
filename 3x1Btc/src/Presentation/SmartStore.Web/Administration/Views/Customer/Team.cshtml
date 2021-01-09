@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Direct Referral";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $("#tblReferral").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+    });
+</script>
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <!-- BEGIN PAGE BAR -->
+        <div class="page-bar">
+            <ul class="page-breadcrumb">
+                <li>
+                    <span class="headerTitle">My Team Referral</span>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet light bordered">
+            <div class="portlet light">
+                <div class="portlet-body form">
+                    <div class="row">
+                        <div class="col-md-1">
+                            Level 
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-control dropdown" id="ddllevel">
+                                <option value="1">Level 1</option>
+                                <option value="2">Level 2</option>
+                                <option value="3">Level 3</option>
+                                <option value="4">Level 4</option>
+                                <option value="5">Level 5</option>
+                                <option value="6">Level 6</option>
+                                <option value="7">Level 7</option>
+                                <option value="8">Level 8</option>
+                                <option value="9">Level 9</option>
+                                <option value="10">Level 10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="divreport">
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "BindTeam?level=" + $('#ddllevel').val(),
+            success: function (result) {
+                $('#divreport').html(result);
+            }
+        });
+
+        $('#ddllevel').change(function()
+        {
+            $.ajax({
+                url: "BindTeam?level=" + $('#ddllevel').val(),
+                success: function (result) {
+                    $('#divreport').html(result);
+                }
+            });
+        })
+    });
+
+</script>

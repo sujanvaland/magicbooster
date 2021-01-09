@@ -1,0 +1,185 @@
+﻿@using SmartStore.Core.Domain.Stores;
+@using SmartStore.Services.Customers;
+@using SmartStore.Services.Stores;
+@using SmartStore.Core;
+@{
+	var currentCustomer = this.WorkContext.CurrentCustomer;
+	var currentLanguage = this.WorkContext.WorkingLanguage;
+	var userName = (string)ViewBag.UserName;
+	var stores = (IList<Store>)ViewBag.Stores;
+	string currentLanguageCode = currentLanguage.UniqueSeoCode.EmptyNull().ToLower();
+	string communityUrl = (currentLanguageCode == "de" ?
+		"http://community.smartstore.com" :
+		"http://community.smartstore.com/index.php?/&k=880ea6a14ea49e853634fbdc5015a024&setlanguage=1&cal_id=&langid=1");
+	string docsUrl = GenerateHelpUrl("");
+	var checkUpdateResult = ViewBag.CheckUpdateResult as CheckUpdateResult;
+}
+@*<nav id="navbar" class="navbar navbar-dark navbar-expand">
+
+	<a class="navbar-brand mx-0 mr-3" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+		@{
+			Html.RenderAction("Logo", "Common", new { area = "" });
+		}
+	</a>
+
+	<a  class="adminmenu"><i class="fa fa-bars" aria-hidden="true"></i></a>
+	<div id="navbar-menu" class="collapse navbar-collapse mr-auto">
+		@{
+			Html.RenderWidget("admin_menu_before");
+			Html.RenderAction("Menu", "Common", new { area = "Admin" });
+			Html.RenderWidget("admin_menu_before");
+		}
+	</div>
+
+	<div class="collapse navbar-collapse ml-auto">
+		<ul class="navbar-nav ml-auto">
+			@if (currentCustomer.IsInCustomerRole("Administrators"))
+			{
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle navbar-tool" href="javascript:void(0)" title='@T("Admin.Common.Actions")' data-toggle="dropdown">
+						<i class="icm icm-cog navbar-icon"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right dropdown-menu-light-icons">
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="@Url.Action("ClearCache", "Common", new { previousUrl = Request.RawUrl, area = "Admin" })">
+							<i class="fa fa-fw fa-trash-o"></i>
+							@T("Admin.Header.ClearCache")
+						</a>
+						<a class="dropdown-item" href="@Url.Action("ClearDatabaseCache", "Common", new { previousUrl = Request.RawUrl, area = "Admin" })">
+							<i class="fa fa-fw"></i>
+							@T("Admin.Header.ClearDbCache")
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" id="restart-application" href="#" data-url="@Url.Action("RestartApplication", "Common", new { previousUrl = Request.RawUrl, area = "Admin" })">
+							<i class="fa fa-fw fa-power-off"></i>
+							@T("Admin.Header.RestartApplication")
+						</a>
+					</div>
+				</li>
+			}
+			@{ Html.RenderAction("LanguageSelector", "Common", new { area = "Admin" }); }
+
+			<li id="navtool-help" class="nav-item dropdown d-none d-md-block">
+				<a href='~/faqs' class="nav-link dropdown-toggle navbar-tool" title='@T("Admin.Help")'>
+					<i class="icm icm-bubble-question navbar-icon"></i>
+					@if (checkUpdateResult != null && checkUpdateResult.UpdateAvailable)
+					{
+						<span class="reddot" style="top: 5px; right: 7px"></span>
+					}
+				</a>
+			</li>
+
+			@if (currentCustomer != null && currentCustomer.IsRegistered())
+			{
+				<li class="nav-item dropdown ml-md-3">
+					<a id="current-user" class="nav-link dropdown-toggle navbar-tool" data-toggle="dropdown" title="@userName" href='@Url.Action("Edit", "Customer", new { id = currentCustomer.Id, area = "Admin" })'>
+						<em class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x"></i>
+								<i class="icm icm-user navbar-icon" style="color: #3b50ce"></i>
+							</em>
+						<i class="icm icm-user navbar-icon"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right dropdown-menu-light-icons">
+						<a class="dropdown-item" href="@Url.Action("Edit", "Customer", new { id = currentCustomer.Id, area = "Admin" })">
+							<i class="fa fa-fw fa-user"></i>
+							@T("Admin.Header.Account")
+						</a>
+						<a class="dropdown-item" href="@Url.Action("Logout", "Customer", new { area = "" })">
+							<i class="fa fa-fw fa-sign-out"></i>
+							@T("Admin.Header.Logout")
+						</a>
+					</div>
+				</li>
+			}
+
+		</ul>
+	</div>
+</nav>*@
+
+<nav id="sidebar">
+	<div class="sidebar-header">
+		<a class="navbar-brand mx-0 mr-3" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+			@{
+				Html.RenderAction("Logo", "Common", new { area = "" });
+			}
+		</a>
+	</div>
+	<ul class="list-unstyled components">
+		
+		@{
+			Html.RenderWidget("admin_menu_before");
+			Html.RenderAction("Menu", "Common", new { area = "Admin" });
+			Html.RenderWidget("admin_menu_before");
+		}
+		@*<li class="active">
+			<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+
+			<ul class="collapse list-unstyled" id="homeSubmenu">
+				<li>
+					<a href="#">Home 1</a>
+				</li>
+				<li>
+					<a href="#">Home 2</a>
+				</li>
+				<li>
+					<a href="#">Home 3</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">About</a>
+		</li>
+		<li>
+			<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+			<ul class="collapse list-unstyled" id="pageSubmenu">
+				<li>
+					<a href="#">Page 1</a>
+				</li>
+				<li>
+					<a href="#">Page 2</a>
+				</li>
+				<li>
+					<a href="#">Page 3</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="#">Portfolio</a>
+		</li>
+		<li>
+			<a href="#">Contact</a>
+		</li>*@
+
+		<li>
+			<a href="@Url.Action("Logout", "Customer", new { area = "" })">
+				<i class="fa fa-fw fa-sign-out"></i>
+				@T("Admin.Header.Logout")
+			</a>
+		</li>
+	</ul>
+</nav>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#restart-application").on('click', function (e) {
+            e.preventDefault();
+            $.throbber.show({
+                message: @T("Admin.Header.RestartApplication.Progress").JsText,
+                callback: function () {
+                    setLocation($(e.target).data("url"));
+
+                }
+            });
+            return false;
+        });
+
+        // add mainmenu tooltips;
+        $('#tools [rel=tooltip]').tooltip({
+            placement: 'bottom'
+        });
+
+    });
+
+</script>

@@ -1,0 +1,209 @@
+﻿@model SupportRequestModel
+@using SmartStore.Admin.Models.Investment
+@using Telerik.Web.Mvc.UI
+@{
+	ViewBag.Title = T("Admin.AdCampaign.Manage").Text;
+}
+@{Html.SmartStore().Window()
+		.Name("sendemail-window")
+		.Title("Reply Ticket")
+		.Content(@<text>
+	<table class="adminContent p-0">
+		<tr class="wide">
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.Message)
+				<input type="hidden" id="TicketId" />
+			</td>
+			<td class="adminData">
+				@Html.TextAreaFor(model => model.LastReplied, new { style = "height: 250px;" })
+				<span id="remarkerror" style="color:red;font-weight:bold;"></span>
+			</td>
+		</tr>
+	</table>
+		</text>)
+.FooterContent(@<text>
+	<button class="btn btn-secondary btn-flat" data-dismiss="modal" aria-hidden="true">
+		<span>@T("Common.Close")</span>
+	</button>
+	<button id="sendemail" type="button" onclick="ReplyTicket();" class="btn btn-primary">
+		<span>@T("Admin.Customers.Customers.Save")</span>
+	</button>
+</text>)
+.Render();
+}
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-sitemap"></i>
+		Support Tickets
+	</div>
+	<div class="options">
+		@{ Html.RenderWidget("admin_button_toolbar_before"); }
+		<a href="@Url.Action("Create")" class="btn btn-primary">
+			<i class="fa fa-plus"></i>
+			<span>@T("Admin.Common.AddNew")</span>
+		</a>
+		@{ Html.RenderWidget("admin_button_toolbar_after"); }
+	</div>
+</div>
+<div class="row mt-3 grid-filter">
+
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		<label>&nbsp;</label>
+		<button type="submit" id="btnSearch" value="btnSearch" class="btn btn-secondary btn-block">
+			<span>@T("Admin.Common.ApplyFilter")</span>
+		</button>
+	</div>
+</div>
+<div class="mt-2">
+	@(Html.Telerik().Grid<SupportRequestModel>()
+				.Name("categories-grid")
+				.ClientEvents(events => events
+					.OnDataBinding("onDataBinding")
+					.OnDataBound("onDataBound"))
+				.Columns(columns =>
+				{
+					columns.Bound(x => x.Id)
+						.ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' class='checkboxGroups'/>")
+						.Title("<input id='mastercheckbox' type='checkbox'/>")
+						.Width(50)
+						.HtmlAttributes(new { style = "text-align:center" })
+						.HeaderHtmlAttributes(new { style = "text-align:center" });
+					columns.Bound(x => x.Subject);
+					columns.Bound(x => x.Message);
+					columns.Bound(x => x.CreatedDate);
+					columns.Bound(x => x.Name);
+					columns.Bound(x => x.Email);
+					columns.Bound(x => x.LastReplied);
+					columns.Bound(x => x.Status);
+					columns.Bound(x => x.Id)
+							.Width(250)
+										.Centered()
+										.ClientTemplate("" +
+										"<button id=\"completerequest\" onclick =\"CompleteRequest('<#= Id #>');\" name=\"completerequest\" type=\"button\" class=\"t-button t-grid-insert <#= (1== 1) ? '' : '' #>\" >Close Ticket</button>" +
+										"<a id=\"rejectrequest\" href='#sendemail-window' onclick=\"ShowReplyModel('<#= Id #>');\" data-toggle='modal' name=\"rejectrequest\" type=\"button\" class=\"t-button t-grid-delete <#= (Status == 'Closed') ? 'd-none' : '' #>\" >Reply Ticket</a>"
+										)
+										.Title(T("Admin.Common.Action").Text);
+				})
+				.Pageable(settings => settings.PageSize(Model.GridPageSize).Position(GridPagerPosition.Both))
+				.DataBinding(dataBinding => dataBinding.Ajax().Select("ListSupportTicket", "AdCampaign"))
+				.PreserveGridState()
+				.EnableCustomBinding(true))
+</div>
+<script type="text/javascript">
+	@*used by widget SmartStore.CommonExportProviders::ExportButtonsGeneral.cshtml*@
+	var selectedIds = [];
+
+	$(document).ready(function () {
+		//search button
+		$('#btnSearch').click(function () {
+			//search
+			var grid = $('#categories-grid').data('tGrid');
+			grid.currentPage = 1; //new search. Set page size to 1
+			grid.ajaxRequest();
+			$('.checkboxGroups').attr('checked', false).change();
+			selectedIds = [];
+			return false;
+		});
+
+		$('#mastercheckbox').click(function () {
+			$('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+		});
+
+		//wire up checkboxes.
+		$(document).on('change', '#categories-grid input[type=checkbox][id!=mastercheckbox]', function (e) {
+			var $check = $(this);
+			if ($check.is(":checked") == true) {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked == -1) {
+					selectedIds.push($check.val());
+				}
+			}
+			else {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked > -1) {
+					selectedIds = $.grep(selectedIds, function (item, index) {
+						return item != $check.val();
+					});
+				}
+			}
+			updateMasterCheckbox();
+		});
+	});
+
+	function onDataBinding(e) {
+		var searchModel = {
+		};
+		e.data = searchModel;
+	}
+
+	function onDataBound(e) {
+		$('#categories-grid input[type=checkbox][id!=mastercheckbox]').each(function () {
+			var currentId = $(this).val();
+			var checked = jQuery.inArray(currentId, selectedIds);
+			$(this).attr('checked', checked > -1);
+		});
+
+		updateMasterCheckbox();
+	}
+
+	function updateMasterCheckbox() {
+		var numChkBoxes = $('#categories-grid input[type=checkbox][id!=mastercheckbox]').length;
+		var numChkBoxesChecked = $('#categories-grid input[type=checkbox][checked][id!=mastercheckbox]').length;
+		$('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+	}
+	function ShowReplyModel(id) {
+		$('#TicketId').val(id);
+	}
+
+	function CompleteRequest(id)
+	{
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/AdCampaign/CloseTicket"))',
+			data: "{ id : " + id + "}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+			success: function (data) {
+				var grid = $('#categories-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+				grid.ajaxRequest();
+				return false;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+	function ReplyTicket(id)
+	{
+		var id = $('#TicketId').val();
+		var remarks = $('#LastReplied').val();
+        if (remarks == "" || remarks == undefined || remarks == null) {
+            $('#remarkerror').html("Enter Reply");
+            return;
+        }
+        
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/AdCampaign/ReplyTicket"))',
+            data: "{ Id : " + id + ", remarks: '" + remarks+"'}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+				$('#LastReplied').val("");
+				var grid = $('#categories-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+                grid.ajaxRequest();
+                $("#sendemail-window").modal('toggle');
+				return true;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+</script>

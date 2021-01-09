@@ -1,0 +1,40 @@
+﻿@model List<BoardModel>
+@using SmartStore.Admin.Models.Board
+@{
+	ViewBag.Title = "Withdrawals";
+	Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+
+
+
+<br /><br /><br /><br /><br /><br /><br /><br /><br />
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Standard Matrix Position</h2>
+			<table id="tblReferral1" class="table table-striped table-hover table-bordered">
+				<tr>
+					<th>Position Id</th>
+					<th>Name</th>
+					<th>Purchased Date</th>
+					<th>No Of Position Filled</th>
+					<th>No Of Position Required</th>
+					<th>Placed Under Position</th>
+					<th>Status</th>
+				</tr>
+				@foreach (var item in Model)
+				{
+				<tr>
+					<td>@item.Id</td>
+					<td>@item.CustomerName</td>
+					<td>@item.PurchaseDate</td>
+					<td>@item.NoOfPositionFilled</td>
+					<td>@item.NoOfPositionRemaining</td>
+					<td>@item.PlacedUnderPositionId</td>
+					<td>@item.IsCycledString</td>
+				</tr>
+				}
+			</table>
+		</div>
+	</div>
+</div>

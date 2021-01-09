@@ -1,0 +1,9 @@
+﻿@model CustomerPlanModel
+@using SmartStore.Admin.Models.Investment;
+@using SmartStore.Admin.Models.PaymentMethods;
+@{
+	Layout = null;
+	ViewBag.Title = "ConfirmPayment";
+}
+
+@{ Html.RenderAction("Checkout", "Investment", Model);}

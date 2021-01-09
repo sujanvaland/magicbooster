@@ -1,0 +1,84 @@
+﻿@model CoinPaymentModel
+@using SmartStore.Admin.Models.PaymentMethods;
+
+
+<form action="https://payeer.com/merchant/" method="get">
+	<div class="content-box">
+		<div class="section-header">
+			<div class="title">
+				<i class="fa fa-sitemap"></i>
+				@T("Admin.Investment.DepositConfirm")
+				<div class="btn-group ml-2" style="vertical-align: text-top">
+					<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+						<i class="fa fa-bars"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			
+			<input type='hidden' name='m_shop' value='@ViewBag.AccountNo'>
+			<input type='hidden' name='m_orderid' value='@ViewBag.TransactionId'>
+			<input type='hidden' name='m_amount' value='@ViewBag.Amount'>
+			<input type='hidden' name='m_curr' value='USD'>
+			<input type='hidden' name='m_desc' value='membership:@ViewBag.CustomerId'>
+			<input type='hidden' name='m_sign' value='@ViewBag.Hash'>
+			@*<input type='submit' name='m_process' value='Proceed To Pay' />*@
+
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.EnteredAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.Amount @ViewBag.CurrencyCode
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.Fees")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.DepositFees %
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.FinalAmount")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.FinalAmount @ViewBag.CurrencyCode
+			</div>
+		</div>
+		<div class="row d-none">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedPlan")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.PlanName
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.SelectedProcessor")
+			</div>
+			<div class="col-lg-3 form-group">
+				@ViewBag.ProcessorName
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				<div class="options">
+					<button type="submit" name="m_process" value="save" class="btn btn-primary">
+						<i class="fa fa-check"></i>
+						<span>@T("Admin.Common.ContinuePayment")</span>
+					</button>
+					<a href="@Url.Action("Deposit","Investment")" class="btn btn-secondary">
+						<span>@T("Admin.Common.Cancel")</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+

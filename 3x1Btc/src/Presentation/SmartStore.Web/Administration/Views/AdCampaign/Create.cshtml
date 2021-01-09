@@ -1,0 +1,57 @@
+﻿@model AdCampaignModel
+@using SmartStore.Admin.Models.AdCampaign
+@{
+	//page title
+	ViewBag.Title = T("Admin.AdCampaign.AddNew").Text;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "category-form" }))
+{
+	<div class="section-header">
+		<div class="title">
+			@T("Admin.AdCampaign.AddNew")
+			<a href='@Url.Action("List")'>(@T("Admin.AdCampaign.BackToList"))</a>
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-primary">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+			<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+				<span>@T("Admin.Common.SaveContinue")</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-bullseye"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@Model.AvailableImpression
+						<br />@T("AdCampaign.AvailableImpression")
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-mouse-pointer"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@Model.AvailableClicks
+						<input type="hidden" value="@Model.AvailableClicks" name="AvailableClicks" id="AvailableClicks" />
+						<br />@T("AdCampaign.AvailableClick")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	Html.RenderPartial("_CreateOrUpdate", Model);
+}

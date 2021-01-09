@@ -1,0 +1,102 @@
+﻿@model MenuModel
+@using SmartStore.Web.Models.Common;
+@{
+	string accountUrl = Model.IsAuthenticated ? Url.Action("Info", "Customer") : Url.RouteUrl("Login", new { ReturnUrl = Request.RawUrl });
+}
+@{ Html.RenderWidget("header_menu_top"); }
+<!-- Header  -->
+<div class="topbg">
+	<div class="pagewidth">
+		<div class="menuheader">
+		<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				@*@{ Html.RenderAction("Logo", "Common"); }*@
+				<img style="height:200px;" src="~/images/3xBtc.png" />
+			</div>
+			<div class="col-md-9">
+				<div class="headaerright">
+					@*<ul class="support-list">
+						<li class="support-item wow bounceInLeft">
+							<a href="#" target="__blank" class="support-item__link telegram--icon">
+								<span class="support-item__value">Telegram Channel</span>
+							</a>
+						</li>
+						<li class="support-item wow bounceInLeft">
+							<a href="https://chat.whatsapp.com/IkahSTjXPpOEgPtqNUwu6m" target="__blank" class="support-item__link telegram--icon">
+								<span class="support-item__value">Whats app</span>
+							</a>
+						</li>
+						<li class="support-item wow bounceInLeft" style="display:none;">
+							<a href="#" class="support-item__link phone--icon">
+								<span class="support-item__title">Phone</span>
+								<span class="support-item__value">+91 7405593906</span>
+							</a>
+						</li>
+						<li class="support-item wow bounceInLeft">
+							<a href="mailto:info@globalmatrixmillionaire.com" class="support-item__link email--icon">
+								<span class="support-item__title">Email</span>
+								<span class="support-item__value">support@3x1btc.com</span>
+							</a>
+						</li>
+					</ul>*@
+				<ul class="user-link-list">
+					@if (Model.IsAuthenticated)
+					{
+						if (Model.DisplayAdminLink)
+						{
+							<li class="user-link-item wow fadeInUp" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;"><a href="@Url.Content("~/admin")" class="user-link-item__link"><span>My Account</span></a></li>
+						}
+						<li class="user-link-item wow fadeInUp" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;"><a href="@Url.Action("Logout","Customer")" class="user-link-item__link"><span>@T("Account.Logout")</span></a></li>
+					}
+					else
+					{
+						<li class="user-link-item wow fadeInUp" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;"><a href="@accountUrl" class="user-link-item__link"><span>Sign in</span></a></li>
+						<li class="user-link-item wow fadeInUp" data-wow-delay="1s" style="visibility: visible; animation-delay: 1s; animation-name: fadeInUp;"><a href="~/register" class="user-link-item__link"><span>Sign up</span></a></li>
+					}
+				</ul>
+		</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="container">
+		<div class="row">
+		<div class="col-md-12">
+			<div id="menu">
+				<div class="navbar navbar-default" role="navigation">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						@*<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li class="active home"><a href="@Url.RouteUrl("HomePage")">Home</a></li>
+								<li class="plans"><a href="@Url.Action("Plan","Home")">Opportunity</a></li>
+								<li class="faq"><a href="~/faqs">FAQ</a></li>
+								<li class="plans"><a href="~/terms">Rules</a></li>
+								<li class=""><a href="@Url.RouteUrl("ContactUs")">Contact Us</a></li>
+							</ul>
+						</div>*@
+					</div>
+				</div>
+				<!-- Menu Code Over -->
+			</div>
+
+			@*@{ Html.RenderAction("LanguageSelector", "Common"); }*@
+
+			
+			<div class="clearboth"></div>
+		</div>
+		</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<!-- End Header  -->
+@{ Html.RenderWidget("header_menu_bottom"); }

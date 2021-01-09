@@ -1,0 +1,52 @@
+﻿@model RegisterResultModel
+
+@using SmartStore.Web.Models.Customer;
+
+@{
+	Layout = "_Layout";
+
+	Html.AddTitleParts(T("PageTitle.Register").Text);
+
+	//continue URL
+	var continueUrl = "";
+	if (!String.IsNullOrEmpty(this.Context.Request.QueryString["returnUrl"]))
+	{
+		continueUrl = this.Context.Request.QueryString["returnUrl"];
+	}
+	else
+	{
+		continueUrl = Url.RouteUrl("HomePage");
+	}
+}
+<section class="page-info-section">
+	<div class="container">
+		<h2>Signup Result</h2>
+		<div class="site-beradcamb">
+			<a href="">Home</a>
+			<span><i class="fa fa-angle-right"></i>Signup Result</span>
+		</div>
+	</div>
+</section>
+<div class="page registration-result-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+          
+				<div class="page-body">
+					<p class="section-body" style="font-size:50px;">
+						@Model.Result
+					</p>
+					<br />
+					<div class="buttons">
+						<br />
+						<a class="btn btn-primary btn-lg" href="@continueUrl">
+							@T("Account.Register.Result.Continue")
+						</a>
+					</div>
+				</div>
+
+            </div>
+        </div>
+   
+    </div>
+</div>

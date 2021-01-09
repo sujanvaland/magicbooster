@@ -1,0 +1,70 @@
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-align-justify"></i>My Team 
+  </div>
+  <div class="card-body">
+    <!-- <div class="row">
+      <div class="col-sm-4"  style="display: none;">
+        <div class="form-group">
+          <label for="ccmonth">Select Phase</label>
+          <select class="form-control" [(ngModel)]="plan" (change)="GetTeam()">
+            <option value="">Select</option>
+            <option *ngFor="let plan of matrixPlan" [ngValue]="plan">{{plan.Name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="ccmonth">Select Level</label>
+          <select class="form-control" [(ngModel)]="LevelId" (change)="GetTeam()">
+            <option value="">Select</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5">Level 5</option>
+            <option value="6">Level 6</option>
+            <option value="7">Level 7</option>
+            <option value="8">Level 8</option>
+            <option value="9">Level 9</option>
+            <option value="10">Level 10</option>
+          </select>
+        </div>
+      </div>
+    </div> -->
+    <!--/.row-->
+    <table class="table">
+      <thead>
+        <tr>
+          <!-- <th>Level</th> -->
+          <th>Member No</th>
+          <th>Email</th>
+          <th>PlanName</th>
+          <th>Registration Date</th>          
+          <!-- <th>Matrix Paid</th>
+          <th>Passive AdPacks</th> -->
+          <!-- <th>Referred By</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let member of teamMembers">
+          <!-- <td>{{member.LevelId}}</td> -->
+          <td>{{member.CustomerId}}</td>
+          <td>{{member.EmailId}}</td>
+          <td>{{member.PlanName}}</td>
+          <td>{{member.RegistrationDate | date:'mediumDate'}}</td>
+          <!-- <td>
+            <span [ngClass]="{'badge-success' : member.MatrixPaid == 'Paid',
+                              'badge-danger' : member.MatrixPaid == 'UnPaid'}" class="badge">{{member.MatrixPaid}}</span>
+          </td>
+          <td>
+            <span [ngClass]="{'badge-success' : member.IsPaid == 'Paid',
+                              'badge-danger' : member.IsPaid == 'UnPaid'}" class="badge">{{member.IsPaid}}</span>
+          </td> -->
+          <!-- <td>{{member.ReferredBy}}</td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

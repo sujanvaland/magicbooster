@@ -1,0 +1,165 @@
+<app-header
+  [navbarBrandRouterLink]="['/dashboard']"
+  [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logobo.png',  alt: 'Magic Booster'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/logobo.png',alt: 'Magic Booster'}"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="'lg'">
+  <div class="ml-auto">
+  </div>
+  <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <img src="assets/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <!-- <div class="dropdown-header text-center"><strong>Account</strong></div>
+        <a class="dropdown-item" [routerLink]="['/base/news']"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">1</span></a>
+        <a class="dropdown-item" [routerLink]="['/base/surfads']"><i class="fa fa-tasks"></i> Daily Task<span class="badge badge-danger">1</span></a>
+        <div class="dropdown-header text-center"><strong>Settings</strong></div>
+        <a class="dropdown-item" [routerLink]="['/base/account']"><i class="fa fa-user"></i> Profile</a>
+        <a class="dropdown-item" [routerLink]="['/base/changepassword']"><i class="fa fa-wrench"></i> Security Setting</a>
+        <div class="divider"></div> -->
+        <a class="dropdown-item" (click)="Logout();"><i class="fa fa-lock"></i> Logout</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <div class="loaderbo" style="display: none;">
+      <div class="sk-grid sk-center">
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+        <div class="sk-grid-cube"></div>
+      </div>
+    </div>
+    
+    <!-- Breadcrumb -->
+    <!-- breaking change 'cui-breadcrumb' -->
+    <cui-breadcrumb>
+      <!-- Breadcrumb Menu-->
+      <!-- <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
+          <a class="btn" [routerLink]="['/base/account']" ><i class="icon-settings"></i> &nbsp;Account Settings</a>
+        </div>
+      </li> -->
+    </cui-breadcrumb>
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div> 
+    <!-- /.container-fluid -->
+  </main>
+  <!-- <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">
+    <tabset>
+      <tab>
+        <ng-template tabHeading><i class="icon-list"></i></ng-template>
+        <div class="list-group list-group-accent">
+          <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</div>
+          <div class="list-group-item list-group-item-accent-info">
+            <div class="avatar float-right">
+              <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
+            </div>
+            <div>Purchase Start
+              <strong>Launch</strong>
+            </div>
+            <small class="text-muted mr-3">
+              <i class="icon-calendar"></i>8 pm</small>
+            <small class="text-muted">
+              <i class="icon-social-skype"></i>Go Live</small>
+          </div>
+          <div class="list-group-item list-group-item-accent-warning list-group-item-divider">
+            <div class="avatar float-right">
+              <img class="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com">
+            </div>
+            <div>Facebook Live with
+              <strong>Admin</strong>
+            </div>
+            <small class="text-muted mr-3">
+              <i class="icon-calendar"></i>8 - 9pm</small>
+            <small class="text-muted">
+              <i class="icon-location-pin"></i>  Facebook offical group</small>
+          </div>
+          <div class="list-group-item list-group-item-accent-info">
+            <div class="avatar float-right">
+              <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
+            </div>
+            <div>Skype with
+              <strong>Admin</strong>
+            </div>
+            <small class="text-muted mr-3">
+              <i class="icon-calendar"></i>4 - 5pm</small>
+            <small class="text-muted">
+              <i class="icon-social-skype"></i>On-line</small>
+          </div>
+        </div>
+      </tab>
+      <tab>
+        <ng-template tabHeading><i class="icon-settings"></i></ng-template>
+        <div class="p-3">
+          <h6>Settings</h6>
+          <div class="aside-options">
+            <div class="clearfix mt-4">
+              <small><b>Receive Newsletter</b></small>
+              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+              </label>
+            </div>
+            <div>
+              <small class="text-muted">Stay up to date with our Newsletter.</small>
+            </div>
+          </div>
+          <div class="aside-options">
+            <div class="clearfix mt-3">
+              <small><b>Purchase Notification</b></small>
+              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                <input type="checkbox" class="switch-input">
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+              </label>
+            </div>
+            <div>
+              <small class="text-muted">Notify me for all purchase made by me.</small>
+            </div>
+          </div>
+          <div class="aside-options">
+            <div class="clearfix mt-3">
+              <small><b>Direct Income Notification</b></small>
+              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                <input type="checkbox" class="switch-input">
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                <span class="switch-handle"></span>
+              </label>
+            </div>
+          </div>
+          <div class="aside-options">
+            <div class="clearfix mt-3">
+              <small><b>Level Income Notificiation</b></small>
+              <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                <input type="checkbox" class="switch-input" checked>
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+              </label>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </tab>
+    </tabset>
+  </app-aside> -->
+</div>
+<app-footer>
+  <span><a href="#">Magic Booster</a> &copy; 2020 .</span>
+  <!-- <span class="ml-auto">Powered by <a href="https://coreui.io/angular">Filtech Solutions</a></span> -->
+</app-footer>

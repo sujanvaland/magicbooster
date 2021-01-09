@@ -1,0 +1,193 @@
+﻿@model List<SmartStore.Admin.Models.Board.CustomerPaymentModel>
+@{
+    ViewBag.Title = "MemberPayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        //$("#tblReferral").prepend($("<thead></thead>").append($(this).find("tr:first"))).dataTable();
+    });
+</script>
+<div class="page-content-wrapper">
+    <!-- BEGIN CONTENT BODY -->
+	<div class="page-content">
+		<!-- BEGIN PAGE HEADER-->
+		<!-- BEGIN PAGE BAR -->
+		<div class="page-bar">
+			<ul class="page-breadcrumb">
+				<li>
+					<span class="headerTitle">Please make payment to all below member, Once you make payment please submit bitcoin transaction hash for approval. After all payment is verified by system your account will be activated and you will start receiving payments from the system</span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="alert alert-success" id="divSuccess" style="display:none;">
+			<button class="close" data-close="alert"></button>
+			<label id="successmessage"></label>
+		</div>
+		@if (ViewBag.ErrorMessage != null)
+		{
+			<div class="alert alert-danger" id="divError1">
+				<button class="close" data-close="alert"></button>
+				<label id="errormessage1">@ViewBag.ErrorMessage <a href="~/admin/Customer/MyProfile">Update Profile</a></label>
+			</div>
+		}
+
+		<div class="alert alert-danger" id="divError">
+			<button class="close" data-close="alert"></button>
+			<label id="errormessage"></label>
+		</div>
+
+		<div class="portlet light bordered">
+			<div class="portlet light">
+				<div class="portlet-body form">
+					<div class="row">
+
+						@{
+							int i = 0;
+							foreach (var mempayment in Model)
+							{
+								i = i + 1;
+								<div class="col-md-6">
+									<div class="row" style="padding:10px;">
+										<div class="col-md-4" style="font-weight:bold;">
+											Level No
+										</div>
+										<div class="col-md-8">
+											Level : @mempayment.BoardId
+										</div>
+									</div>
+									<div class="row" style="padding:10px;">
+										<div class="col-md-4" style="font-weight:bold;">
+											Pay to Member
+										</div>
+										<div class="col-md-8">
+											Email : @mempayment.PayToCustomerEmail , Full Name : @mempayment.PayToCustomerName
+										</div>
+									</div>
+									<div class="row" style="padding:10px;">
+										<div class="col-md-4" style="font-weight:bold;">
+											Payment Method
+										</div>
+										<div class="col-md-8">
+											Bitcoin : @mempayment.BitcoinAddress<br />
+										</div>
+									</div>
+									<div class="row" style="padding:10px;">
+										<div class="col-md-4" style="font-weight:bold;">
+											Amount (BTC)
+										</div>
+										<div class="col-md-8">
+											@mempayment.Amount
+										</div>
+									</div>
+									<div class="row" style="padding:10px;">
+										<div class="col-md-4" style="font-weight:bold;">
+											Status
+										</div>
+										<div class="col-md-8">
+											@mempayment.Status
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4" style="font-weight:bold;">
+											Transaction Hash
+										</div>
+										<div class="col-md-8">
+											<input type="text" class="form-control" placeholder="Transaction Hash" id="txtRemarks_@i" value="@mempayment.Remarks" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<input type="hidden" id="hidpaymentid_@i" value="@mempayment.Id" />
+											<input type="hidden" id="hidPayTomember_@i" value="@mempayment.PayToCustomerId" />
+											<input type="hidden" id="hidUsername_@i" value="@mempayment.PayByCustomerId" />
+											<input type="hidden" id="hidLevelNo_@i" value="@mempayment.BoardId" />
+											@if (mempayment.Status == "pending")
+											{
+												<input type="submit" class="btn btn-primary" id="btnSubmit_@i" name="Submit" value="Submit" />
+											}
+										</div>
+									</div>
+									<hr />
+								</div>
+							}
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+		$('#divError').hide();
+        function blockUI() {
+            $.blockUI({
+                message: '<img src="../Theme/images/ajax-loader.gif" />',
+                css: {
+                    border: 'none',
+                    backgroundColor: 'transparent'
+                }
+            });
+        }
+
+		function UnblockUI() {
+			$.unblockUI();
+		}
+
+        $(".btn").click(function () {
+            var id = $(this).attr("id").split("_")[1];
+            var remarks = $("#txtRemarks_"+id).val();
+            var hidpaymentid = $("#hidpaymentid_" + id).val();
+            var hidPayTomember = $("#hidPayTomember_" + id).val();
+            var hidUsername = $("#hidUsername_" + id).val();
+            var hidLevelNo = $("#hidLevelNo_" + id).val();
+            // Checking whether FormData is available in browser
+            if (window.FormData !== undefined) {
+                // Create FormData object
+                var fileData = new FormData();
+                // Adding one more key to FormData object
+                fileData.append('paymentid', hidpaymentid);
+                fileData.append('remarks', remarks);
+                fileData.append('paytomember', hidPayTomember);
+                fileData.append('username', hidUsername);
+                fileData.append('levelno', hidLevelNo);
+                blockUI();
+                $.ajax({
+					url: 'UpdatePaymentStatus',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+					success: function (result) {
+						UnblockUI();
+						if (result.status == "success") {
+							$('#divSuccess').show();
+							$('#divError').hide();
+							$('#successmessage').text(result.message);
+						}
+						else {
+							$('#divError').show();
+							$('#divSuccess').hide();
+							$('#errormessage').text(result.message);
+						}
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+            else {
+                alert("Invalid data.");
+                alert(hidpaymentid);
+                alert(remarks);
+            }
+        });
+    });
+
+</script>
+
+
+

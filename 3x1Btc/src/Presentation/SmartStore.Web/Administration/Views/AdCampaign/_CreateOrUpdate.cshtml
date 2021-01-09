@@ -1,0 +1,193 @@
+﻿@model AdCampaignModel
+@using SmartStore.Admin.Models.AdCampaign
+@using Telerik.Web.Mvc.UI;
+
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+
+
+	@if (Model.Id != 0)
+	{
+		<table class="adminContent">
+			<tr>
+				<td class="adminTitle">
+					@Html.SmartLabelFor(model => model.Id)
+				</td>
+				<td class="adminData">
+					@Html.TextBoxFor(model => model.Id, new { @readonly = "readonly", @class = "form-control-plaintext" })
+					@Html.ValidationMessageFor(model => model.Id)
+				</td>
+			</tr>
+			
+		</table>
+	}
+
+    
+	<table class="adminContent">
+	<tr>
+		<td class="adminTitle">
+			@Html.HiddenFor(model => model.CustomerId)
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.Name)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.Name)
+			@Html.ValidationMessageFor(model => model.Name)
+			<input type="hidden" value="@Model.AvailableClicks" name="AvailableClicks" id="AvailableClicks" />
+			<input type="hidden" value="@Model.AvailableImpression" name="AvailableImpression" id="AvailableImpression" />
+
+		</td>
+	</tr>
+	<tr>
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.WebsiteUrl)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(model => model.WebsiteUrl)
+			@Html.ValidationMessageFor(model => model.WebsiteUrl)
+		</td>
+	</tr>
+	<tr class="description-container">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.Banner125)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.Banner125)
+			@Html.ValidationMessageFor(model => model.Banner125)
+			<img id="img125" src="@Model.Banner125" />
+		</td>
+	</tr>
+	<tr class="description-container">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.Banner486)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.Banner486)
+			@Html.ValidationMessageFor(model => model.Banner486)
+			<img id="img468" src="@Model.Banner486"/>
+		</td>
+	</tr>
+	<tr class="description-container">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.Banner728)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.Banner728)
+			@Html.ValidationMessageFor(model => model.Banner728)
+			<img id="img728" src="@Model.Banner728"/>
+		</td>
+	</tr>
+	<tr class="description-container">
+		<td class="adminTitle">
+			@Html.SmartLabelFor(model => model.AssignedCredit)
+		</td>
+		<td class="adminData">
+			@Html.EditorFor(x => x.AssignedCredit)
+			@Html.ValidationMessageFor(model => model.AssignedCredit)
+		</td>
+	</tr>
+	
+</table>
+	
+
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.AdType)
+			</td>
+			<td class="adminData">
+				@Html.DropDownListFor(model => model.AdType, Model.ListAdType)
+				@Html.ValidationMessageFor(model => model.AdType)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.CreditType)
+			</td>
+			<td class="adminData">
+				@Html.DropDownListFor(model => model.CreditType, Model.ListCreditType)
+				@Html.ValidationMessageFor(model => model.CreditType)
+			</td>
+		</tr>
+
+		@if (Model.CreatedOn.HasValue)
+		{
+			<tr>
+				<td class="adminTitle">
+					@Html.SmartLabelFor(model => model.CreatedOn)
+				</td>
+				<td class="adminData">
+					<div class="form-control-plaintext">
+						@Html.DisplayFor(model => model.CreatedOn)
+					</div>
+				</td>
+			</tr>
+		}
+		@if (Model.UpdatedOn.HasValue)
+		{
+			<tr>
+				<td class="adminTitle">
+					@Html.SmartLabelFor(model => model.UpdatedOn)
+				</td>
+				<td class="adminData">
+					<div class="form-control-plaintext">
+						@Html.DisplayFor(model => model.UpdatedOn)
+					</div>
+				</td>
+			</tr>
+		}
+	</table>
+
+<script>
+	$(document).ready(function () {
+		$('#AdType').change(function () {
+			if ($('#AdType').val() == "Login") {
+				$('#CreditType').val("Click");
+			}
+		});
+
+		$('#Banner125').blur(function () {
+			var img = new Image();
+			img.src = $('#Banner125').val();
+			img.onerror = img.onabort = function () {
+				$('#Banner125').val('');
+				$('#img125').removeAttr('src');
+				return;
+			};
+			img.onload = function () {
+				$('#img125').attr("src", $('#Banner125').val());
+			};
+			
+		})
+
+		$('#Banner486').blur(function () {
+			var img = new Image();
+			img.src = $('#Banner486').val();
+			img.onerror = img.onabort = function () {
+				$('#Banner486').val('');
+				$('#img468').removeAttr('src');
+				return;
+			};
+			img.onload = function () {
+				$('#img468').attr("src", $('#Banner486').val());
+			};
+		})
+
+		$('#Banner728').blur(function () {
+			var img = new Image();
+			img.src = $('#Banner728').val();
+			img.onerror = img.onabort = function () {
+				$('#Banner728').val('');
+				$('#img728').removeAttr('src');
+				return;
+			};
+			img.onload = function () {
+				$('#img728').attr("src", $('#Banner728').val());
+			};
+		})
+	});
+</script>
+

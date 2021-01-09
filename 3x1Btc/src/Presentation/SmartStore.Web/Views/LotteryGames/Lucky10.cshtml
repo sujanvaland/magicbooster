@@ -1,0 +1,188 @@
+﻿@model  List<BetRound>
+@using SmartStore.Services.Games
+
+@{
+	ViewBag.Title = "Play and win 9x";
+	Layout = "_PublicLayout";
+}
+<script src="../js/jquery.js"></script>
+<style>
+	.timer {
+		webkit-box-flex: 0;
+		-ms-flex: 0 0 100px;
+		flex: 0 0 100px;
+		max-width: 100px;
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		border: 1px solid #c2d6f6;
+		background-color: #f9fbfd;
+		text-align: center;
+		font-size: 42px;
+		line-height: 1.1;
+		color: #1c66de;
+		font-weight: 600;
+		padding: 17px 0;
+	}
+
+	.betnumbers {
+		font-size: 42px;
+		padding: 20px;
+		border-radius: 50%;
+		border: 1px solid #c2d6f6;
+		background-color: #f9fbfd;
+	}
+
+
+</style>
+<div class="pagewidth">
+	<div class="container" style="margin-top:20px;">
+		<div class="page contact-page">
+			<div class="page-title mt-50">
+				<h1>@T("LotteryTitle")</h1>
+			</div>
+			<div class="options">
+				@*<a href="@Url.Action("ProgramListing","Common")" class="btn btn-primary">
+					<i class="fa fa-angle-right"></i>
+					<span>@T("ProgramListing.Next")</span>
+				</a>*@
+			</div>
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="roundone">
+						Current Round : @ViewBag.NextRound
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="text-center">Time Left </div><div id="divtimer" class="timer"></div>
+				</div>
+				<div class="col-lg-6">
+					<div class="roundone">
+						Available Balance : <span class="availablebalnce">@ViewBag.AvailableBalance $</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="numbercircle">
+						<ul>
+							@for (int i = 0; i <= 9; i++)
+							{
+								<li>
+									 <label><input type="checkbox" class="betnumbers" name="betnumbers" id="chk_@i" value="@i" /> @i</label>
+								</li>
+							}
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<input type="text" class="form-control" name="BetAmount" id="BetAmount" placeholder="Enter bet amount (min 0.1$ to max 1000$)" />
+					<span id="totalbetamount">
+						Total Bet amount : 0$
+					</span>
+					<input type="hidden" id="hidTotalBetAmount" />
+					<div>
+						<input type="button" id="btnPlaceBet" class="btn btn-primary btn-lg btn-block" title="Place Bet" value="Place Bet"/>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+
+		var timeLeft = @ViewBag.SecondsLeft;
+		timeLeft = timeLeft.toFixed();
+		var elem = document.getElementById('divtimer');
+		var timerId = setInterval(countdown, 1000);
+		function countdown() {
+			if (timeLeft == -1) {
+				clearTimeout(timerId);
+				doSomething();
+			} else {
+				elem.innerHTML = timeLeft;
+				timeLeft--;
+			}
+		}
+
+		function doSomething() {
+			window.location.href = '@Url.Action("Index","Home")';
+		}
+
+		var selectednumbers = 0;
+		$('.betnumbers').change(function () {
+			CalculateTotal();
+		});
+
+		$('#BetAmount').blur(function () {
+			if (!$.isNumeric($('#BetAmount').val())) {
+				$('#BetAmount').val('');
+				return;
+			}
+			else {
+				var betamount = $('#BetAmount').val();
+				if (parseFloat(betamount) > 0.1 && parseFloat(betamount) < 1000) {
+					CalculateTotal();
+				}
+				else {
+					alert("Incorrect Bet Amount (min 0.1$ and max 1000$)");
+					$('#BetAmount').val('');
+					return;
+				}
+			}
+		})
+
+		function CalculateTotal() {
+			if (!$.isNumeric($('#BetAmount').val())) {
+				alert("Enter bet amount");
+				return;
+			}
+			var betamount = $('#BetAmount').val();
+			var totalbetAmount = betamount * $('.betnumbers:checkbox:checked').length;
+			if (@ViewBag.AvailableBalance >= parseFloat(totalbetAmount)) {
+				$('#hidTotalBetAmount').val(parseFloat(totalbetAmount));
+				$('#totalbetamount').html("Total Bet amount : " + parseFloat(totalbetAmount).toFixed(2) + "$");
+			}
+			else {
+				$('#BetAmount').val('');
+				$('#totalbetamount').html("Total Bet amount : 0$");
+				alert("You do not have enough balance");
+			}
+		}
+
+		$('#btnPlaceBet').click(function () {
+			var selectednumbers = "";
+			$('.betnumbers').each(function () {
+				if (this.checked) {
+					if (selectednumbers == "") {
+						selectednumbers = $(this).val();
+					}
+					else {
+						selectednumbers = selectednumbers + "," + $(this).val();
+					}
+				}
+			});
+
+			if (selectednumbers == "") {
+				alert('Select Bet Number');
+				return
+			}
+			$.ajax({
+				url: "PlaceBets",
+				method:"POST",
+				data: { selectedNos: selectednumbers, betAmount: $('#BetAmount').val() },
+				success: function (result) {
+					if (result.success) {
+						alert('Bet Placed Successfully');
+						window.location.href ="http://9xbitcoin.com/LotteryGames/Lucky10"
+						
+					}
+				}
+			});
+		});
+	})
+
+</script>

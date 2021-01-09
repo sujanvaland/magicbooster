@@ -1,0 +1,54 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-header">
+          <strong>Add Fund</strong>
+          
+        </div>
+        <div class="card-body" [hidden]="!showform">
+          <form [formGroup]="addfund" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="name">Enter Amount ($):</label>
+                <input type="number" formControlName="amount" class="form-control" placeholder="Enter amount"  [ngClass]="{ 'is-invalid': submitted && f.amount.errors }" />
+                <div *ngIf="submitted && f.amount.errors" class="invalid-feedback">
+                  <div *ngIf="f.amount.errors.required">Amount is required</div>
+              </div>
+                <!-- <input type="number" class="form-control" id="amount" placeholder="Enter amount"> -->
+              </div>
+            </div>
+          </div><!--/.row-->
+          <div >
+            <button type="save" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
+            <button (click)="onReset()"  type="button"  class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+          </div>
+          </form>
+        </div>
+        <div class="card-body" [hidden]="showform">
+          <div>
+            <form action="https://www.coinpayments.net/index.php" target="_blank" method="POST" #form>
+              <input type='hidden' name='cmd' value='_pay_simple'>
+              <input type='hidden' name='reset' value='1'>
+              <input type='hidden' name='merchant' [(ngModel)]="MerchantAcc">
+              <input type='hidden' name='currency' [(ngModel)]="CurrencyCode">
+              <input type='hidden' name='amountf'[(ngModel)]="FinalAmount">
+              <input type='hidden' name='item_name' [(ngModel)]="PaymentMemo">
+              <input type='hidden' name='custom' [(ngModel)]="TransactionId">
+              <!-- <input type='hidden' name='ipn_url' [(ngModel)]="ipn_url"> -->
+            </form>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label>Amount :</label>
+                <label>{{CurrencyCode}} {{FinalAmount}}</label>
+              </div>
+            </div>
+            <button type="submit" (click)="form.submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Proceed to Pay</button>
+            <button type="cancel" (click)="onReset()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div><!--/.col-->
+   </div>
+</div>

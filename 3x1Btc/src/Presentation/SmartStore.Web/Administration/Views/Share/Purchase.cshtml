@@ -1,0 +1,69 @@
+﻿@model CustomerPlanModel
+@using SmartStore.Admin.Models.Investment;
+@Html.ValidationSummary(false)
+
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+	@Html.HiddenFor(model => model.Id)
+
+<div class="content-box">
+	<div class="section-header">
+		<div class="title">
+			<i class="fa fa-bank"></i>
+			@T("Admin.Investment.DepositTitle")
+			<div class="btn-group ml-2" style="vertical-align: text-top">
+				<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+					<i class="fa fa-bars"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			@T("Investment.Deposit.NoOfPositions")
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.TextBoxFor(model => model.NoOfPosition, new { @placeholder = "Enter no of positions" })
+		</div>
+	</div>
+	<div class="row t-top">
+		<div class="col-lg-3 form-group">
+			@T("Investment.Deposit.SelectPlan")
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.DropDownListFor(model => model.PlanId, Model.AvailablePlans)
+			@Html.ValidationMessageFor(model => model.PlanId)
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			@T("Investment.Deposit.Processor")
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.DropDownListFor(model => model.ProcessorId, Model.AvailableProcessor)
+			@Html.ValidationMessageFor(model => model.ProcessorId)
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="options">
+				<button type="submit" name="save" value="save" class="btn btn-primary">
+					<i class="fa fa-check"></i>
+					<span>@T("Admin.Common.Save")</span>
+				</button>
+				<button type="reset" name="save" value="save-continue" class="btn btn-secondary">
+					<span>@T("Admin.Common.Cancel")</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+}
+
+<script>
+	$('#NoOfPosition').change(function () {
+		if (isNaN($('#NoOfPosition').val())) {
+			$('#NoOfPosition').val('');
+		}
+	});
+</script>

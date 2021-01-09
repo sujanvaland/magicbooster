@@ -1,0 +1,248 @@
+﻿@model TransactionModel
+@using Telerik.Web.Mvc.UI
+@using SmartStore.Admin.Models.Investment
+@{
+	ViewBag.Title = T("Admin.Catalog.Plans.Manage").Text;
+}
+
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-sitemap"></i>
+		@T("Admin.Hyip.WithdrawalReport")
+		<div class="btn-group ml-2" style="vertical-align: text-top">
+			<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+				<i class="fa fa-bars"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row mt-3 grid-filter">
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.StartDate)
+		@Html.EditorFor(model => Model.StartDate)
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.EndDate)
+		@Html.EditorFor(model => Model.EndDate)
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.StatusIds)
+		@Html.DropDownList("StatusIds", Model.AvailableStatus, null, new { multiple = "multiple", @class = "form-control" })
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		<label>&nbsp;</label>
+		<button type="submit" id="btnSearch" value="btnSearch" class="btn btn-secondary btn-block">
+			<span>@T("Admin.Common.ApplyFilter")</span>
+		</button>
+	</div>
+</div>
+<div class="mt-2">
+	@(Html.Telerik().Grid<TransactionModel>()
+						.Name("plans-grid")
+						.DataKeys(keys => { keys.Add(x => x.Id); })
+
+						.ClientEvents(events =>
+						{
+							events.OnDataBinding("onDataBinding");
+							events.OnDataBound("onDataBound");
+						})
+						.Columns(columns =>
+						{
+							columns.Bound(x => x.Id)
+								.ClientTemplate("<input type='checkbox' name='checkedRecords' value='<#= Id #>' class='checkboxGroups'/>")
+								.Title("<input id='mastercheckbox' type='checkbox'/>")
+								.Width(50)
+								.HtmlAttributes(new { style = "text-align:center" })
+								.HeaderHtmlAttributes(new { style = "text-align:center" });
+							columns.Bound(x => x.Id)
+								.Width(50)
+								.Centered();
+							columns.Bound(x => x.CustomerEmail)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.TranscationType)
+											.ClientTemplate("Withdrawal")
+											.Title("Transcation Type")
+											.Width(160)
+											.Centered();
+							columns.Bound(x => x.FinalAmountRaw)
+								.Title("Amount")
+								.Width(160)
+								.Centered();
+							columns.Bound(x => x.ProcessorName)
+							.Width(160)
+							.Centered();
+							columns.Bound(x => x.BitcoinAddress)
+								.Title("Withdrawal Acc")
+								.Width(160)
+								.Centered()
+								.ClientTemplate("Bitcoin Add: <#= BitcoinAddress #> <br/>" +
+								"AccountNumber: <#= AccountNumber #> <br/>" +
+								"NICR: <#= NICR #> <br/>" +
+								"BankName: <#= BankName #> <br/>" +
+								"AccountHolderName: <#= AccountHolderName #> <br/>" +
+								"STP Add: <#= SolidTrustPayAcc #> <br/>" +
+								"Payeer Add: <#= PayeerAcc #> <br/>" +
+								"PM Add: <#= PMAcc #> <br/>");
+							columns.Bound(x => x.UPIPaymentNumber)
+								.Title("UPI Account")
+								.Width(160)
+								.Centered();
+							columns.Bound(x => x.TransactionDate)
+								.Width(160)
+								.Centered();
+							columns.Bound(x => x.TransStatusString)
+								.Width(160)
+								.Centered();
+							columns.Bound(x => x.Id)
+								.Centered()
+								.Visible(Model.IsVisible)
+								.ClientTemplate("" +
+								"<button id =\"paynow\" onclick =\"PayNow('<#= Id #>');\" name=\"paynow\" type=\"button\" class=\"btn-primary <#= (StatusId == 2) ? 'd-none' : '' #>\" >" + T("Admin.Common.PayNow").Text + "</button>" +
+								"<button id=\"completerequest\" onclick =\"CompleteRequest('<#= Id #>');\" name=\"completerequest\" type=\"button\" class=\"btn-primary <#= (StatusId == 2) ? 'd-none' : '' #>\" >" + T("Admin.Common.CompleteRequest").Text + "</button>" +
+								"<button id=\"rejectrequest\" onclick =\"RejectRequest('<#= Id #>');\" name=\"rejectrequest\" type=\"button\" class=\"btn-primary <#= (StatusId == 2) ? 'd-none' : '' #>\" >" + T("Admin.Common.RejectRequest").Text + "</button>"
+								)
+								.Title(T("Admin.Common.Action").Text);
+						})
+						.Pageable(settings => settings.PageSize(Model.GridPageSize).Position(GridPagerPosition.Both))
+						.DataBinding(dataBinding =>
+						{
+							dataBinding.Ajax()
+								.Select("ListWithdrawal", "Report");
+						})
+						.PreserveGridState()
+						.EnableCustomBinding(true))
+</div>
+<script type="text/javascript">
+	@*used by widget SmartStore.CommonExportProviders::ExportButtonsGeneral.cshtml*@
+	var selectedIds = [];
+	
+	// Filter toggler
+	$('.btn-toggle-filter').on('click', function (e) {
+		$('.grid-filter').slideToggle({ duration: 200, easing: 'ease-in-out' });
+	});
+
+	//search button
+	$('#btnSearch').click(function () {
+		//search
+		var grid = $('#plans-grid').data('tGrid');
+		grid.currentPage = 1; //new search. Set page size to 1
+		grid.ajaxRequest();
+		//clear selected checkboxes
+		$('.checkboxGroups').attr('checked', false).change();
+		selectedIds = [];
+		return false;
+	});
+
+	$('#mastercheckbox').click(function () {
+		$('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+	});
+
+	//wire up checkboxes.
+	$(document).on('change', '#orders-grid input[type=checkbox][id!=mastercheckbox]', function (e) {
+		var $check = $(this);
+		if ($check.is(":checked") == true) {
+			var checked = jQuery.inArray($check.val(), selectedIds);
+			if (checked == -1) {
+				//add id to selectedIds.
+				selectedIds.push($check.val());
+			}
+		}
+		else {
+			var checked = jQuery.inArray($check.val(), selectedIds);
+			if (checked > -1) {
+				//remove id from selectedIds.
+				selectedIds = $.grep(selectedIds, function (item, index) {
+					return item != $check.val();
+				});
+			}
+		}
+		updateMasterCheckbox();
+	});
+
+	function updateMasterCheckbox() {
+			var numChkBoxes = $('#orders-grid input[type=checkbox][id!=mastercheckbox]').length;
+			var numChkBoxesChecked = $('#orders-grid input[type=checkbox][checked][id!=mastercheckbox]').length;
+			$('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+		}
+
+	function PayNow(id)
+	{
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/Report/PayNow"))',
+			data: "{ id : " + id + "}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+			success: function (data) {
+				console.log(data.msg);
+				var grid = $('#plans-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+				grid.ajaxRequest();
+				return false;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+	function CompleteRequest(id)
+	{
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/Report/CompleteRequest"))',
+			data: "{ id : " + id + "}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+			success: function (data) {
+				console.log(data.msg);
+				var grid = $('#plans-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+				grid.ajaxRequest();
+				return false;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+	function RejectRequest(id)
+	{
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/Report/RejectRequest"))',
+			data: "{ id : " + id + "}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+			success: function (data) {
+				console.log(data.msg);
+				var grid = $('#plans-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+				grid.ajaxRequest();
+				return false;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+	function onDataBinding(e) {
+		var searchModel = {
+			StartDate: $('#@Html.FieldIdFor(model => model.StartDate)').val(),
+			EndDate: $('#@Html.FieldIdFor(model => model.EndDate)').val(),
+			StatusIds: jQuery.makeArray($('#@Html.FieldIdFor(model => model.StatusIds)').val()).join(),
+		};
+		e.data = searchModel;
+	}
+
+	function onDataBound(e) {
+
+	}
+</script>
+

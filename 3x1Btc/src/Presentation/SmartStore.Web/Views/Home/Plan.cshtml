@@ -1,0 +1,358 @@
+﻿@model List<Plan>
+@using SmartStore.Core.Domain.Hyip
+@{
+	ViewBag.Title = "Plan";
+}
+
+<div class="planbg">
+	<div class="pagewidth">
+		<div class="givetexts">Opportunities</div>
+	</div>
+</div>
+<div class="whitebg">
+	<div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="plantitles mt-20">Multiple income source, you can start from any phase</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="ourtitles">Phase 1<b style="color: #ffda44;"> $35 to Start</b></div>
+					<div style="text-align: center;"><img src="~/Content/theme/images/phase1.png" height="300px;" /></div>
+					<div class="col-md-12">
+						<div class="listrights">
+							<ul>
+								<li>Phase 1 Starts with $35 its a 3x1 team build</li>
+								<li>3 member required to complete</li>
+								<li>You get paid $35</li>
+								<li>Free entry to Phase 2</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="ourtitles">Phase 2<b style="color: #ffda44;"> $70 to Start</b></div>
+					<div style="text-align: center;"><img src="~/Content/theme/images/phase2.png" height="300px;" /></div>
+					<div class="col-md-12">
+						<div class="listrights">
+							<ul>
+								<li>Phase 2 Starts with $70 its a 3x2 team build</li>
+								<li>12 member required to complete</li>
+								<li>You get paid $500</li>
+								<li>Free reentry to Phase 2</li>
+								<li>Free entry to Phase 3</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="ourtitles">Phase<b style="color: #ffda44;"> $50 to Start</b></div>
+					<div style="text-align: center;"><img src="~/Content/theme/images/phase3.png" height="300px;" /></div>
+					<div class="col-md-12">
+						<div class="listrights">
+							<ul>
+								<li>Phase 3 Starts with $50</li>
+								<li>Its a Unilevel plan</li>
+								<li>Pays $10 upto 5 level deep</li>
+								<li>No Limit, more leg you open more you earn</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			@*<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="packgebox">
+							<div class="columns">
+								<ul class="price">
+									<li class="header">Profit Share</li>
+									<li class="grey">
+										20$ Profit Share pays daily upto 7% for 22 Days, of which 30% goes to repurchase wallet
+										using which you can buy position in matrix.
+										<div class="row">
+											<div class="planleftmainpage">
+												<div class="pltitles col-md-4">
+													<div><img src="~/Content/theme/images/newimg/dollar_daily.svg" style="width:100px;"></div>
+													<div class="aftertexts">Profit Share</div>
+												</div>
+												<div class="planboxblack col-md-8">
+													<div class="depoboxmains">
+														<div class="pull-left">Daily :</div>
+														<div class="pull-right">7%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Hourly :</div>
+														<div class="pull-right">0.05833333 $</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Repurchase Wallet :</div>
+														<div class="pull-right">0.0175$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="insvestbnts"><a href="register">Participate Now</a></div>
+												</div>
+											</div>
+											<div class="col-lg-9 col-md-3"></div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="packgebox">
+							<div class="columns">
+								<ul class="price">
+									<li class="header">Profit Share Commission</li>
+									<li class="grey">
+										Each profit share purchase pays 5 Level commission as below
+										<div class="row">
+											<div class="planleftmainpage">
+												<div class="pltitles col-md-4">
+													<div><img src="~/Content/theme/images/newimg/dollar_daily.svg" style="width:100px;"></div>
+													<div class="aftertexts"><span style="font-size: 40px;">20</span> Level Commission</div>
+												</div>
+												<div class="planboxblack col-md-8">
+													<div class="depoboxmains">
+														<div class="pull-left">Level 1 :</div>
+														<div class="pull-right">7%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 2 :</div>
+														<div class="pull-right">3%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 3 :</div>
+														<div class="pull-right">2%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 4 :</div>
+														<div class="pull-right">1%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 5 :</div>
+														<div class="pull-right">1%</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="insvestbnts"><a href="register">Participate Now</a></div>
+												</div>
+											</div>
+											<div class="col-lg-9 col-md-3"></div>
+										</div>
+
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="packgebox">
+							<div class="columns">
+								<ul class="price">
+									<li class="header">Matrix Income</li>
+									<li class="grey">
+										We have 2x2 Team forced matrix
+										Pays $40 on completing board, Total Payout : 40$
+
+										<div class="row">
+											<div class="planleftmainpage">
+												<div class="pltitles col-md-4">
+													<div><img src="~/Content/theme/images/newimg/dollar_daily.svg" style="width:100px;"></div>
+													<div class="aftertexts"><span style="font-size: 40px;">40$</span>  Matrix Income</div>
+												</div>
+												<div class="planboxblack col-md-8">
+													<div class="insvestbnts"><a href="register">Participate Now</a></div>
+												</div>
+											</div>
+											<div class="col-lg-9 col-md-3"></div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="packgebox">
+							<div class="columns">
+								<ul class="price">
+									<li class="header">Direct Sponsor Bonus for Matrix </li>
+									<li class="grey">
+										Referring is completely optional in our program, but we do take care of people who help
+										others to join our program, for that we compensate our members with 2.5$ for every direct
+										referral
+										<div class="row">
+											<div class="planleftmainpage">
+												<div class="pltitles col-md-4">
+													<div><img src="~/Content/theme/images/newimg/dollar_daily.svg" style="width:100px;"></div>
+													<div class="aftertexts"><span style="font-size: 40px;">2.5$</span> Direct Sponsor Bonus</div>
+												</div>
+												<div class="planboxblack col-md-8">
+													<div class="insvestbnts"><a href="register">Participate Now</a></div>
+												</div>
+											</div>
+											<div class="col-lg-9 col-md-3"></div>
+										</div>
+									</li>
+								</ul>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="packgebox">
+							<div class="columns">
+								<ul class="price">
+									<li class="header">Unilevel Income for Matrix</li>
+									<li class="grey">
+										As we keep growing we keep sharing profit as well, Apart from Pool and Direct sponsor bonus
+										we also have Unilevel bonus upto 20 Levels to make sure you keep earning regularly.
+
+										<div class="row">
+											<div class="planleftmainpage">
+												<div class="pltitles col-md-4">
+													<div><img src="~/Content/theme/images/newimg/dollar_daily.svg" style="width:100px;"></div>
+													<div class="aftertexts"><span style="font-size: 40px;">20</span> Level Commission</div>
+												</div>
+												<div class="planboxblack col-md-8">
+													<div class="depoboxmains">
+														<div class="pull-left">Level 1 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 2 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 3 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 4 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 5 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 6 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 7 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 8 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 9 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 10 :</div>
+														<div class="pull-right">0.5$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 11 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 12 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 13 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 14 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 15 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 16 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 17 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 18 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 19 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="depoboxmains">
+														<div class="pull-left">Level 20 :</div>
+														<div class="pull-right">0.25$</div>
+														<div class="clearfix"></div>
+													</div>
+													<div class="insvestbnts"><a href="register">Participate Now</a></div>
+												</div>
+											</div>
+											<div class="col-lg-9 col-md-3"></div>
+										</div>
+
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>*@
+
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<div class="clearfix"></div>

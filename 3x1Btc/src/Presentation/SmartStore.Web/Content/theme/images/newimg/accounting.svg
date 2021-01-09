@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 496 496" style="enable-background:new 0 0 496 496;" xml:space="preserve" width="512px" height="512px"><g><g>
+	<g>
+		<path d="M232,112c-4.408,0-8-3.592-8-8s3.592-8,8-8s8,3.592,8,8h16c0-10.416-6.712-19.216-16-22.528V64h-16v17.472    c-9.288,3.312-16,12.112-16,22.528c0,13.232,10.768,24,24,24c4.408,0,8,3.592,8,8s-3.592,8-8,8s-8-3.592-8-8h-16    c0,10.416,6.712,19.216,16,22.528V176h16v-17.472c9.288-3.312,16-12.112,16-22.528C256,122.768,245.232,112,232,112z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<polygon points="32,32 32,80 48,80 48,48 80,48 80,32   " data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<polygon points="48,192 48,160 32,160 32,208 80,208 80,192   " data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<polygon points="384,32 384,48 416,48 416,80 432,80 432,32   " data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M464,160.808V0H0v240h256v216c0,22.056,17.944,40,40,40h160c22.056,0,40-17.944,40-40V200    C496,180.688,482.232,164.528,464,160.808z M256,224H16V16h432v144H310.304c6.36-12.336,9.696-25.92,9.696-40    c0-48.52-39.48-88-88-88c-48.52,0-88,39.48-88,88c0,48.52,39.48,88,88,88c8.184,0,16.2-1.24,24-3.48V224z M258.408,186.832    C249.936,190.2,241.08,192,232,192c-39.696,0-72-32.304-72-72s32.304-72,72-72s72,32.304,72,72    c0,14.544-4.384,28.448-12.616,40.464C276.024,162.264,263.384,172.672,258.408,186.832z M480,456c0,13.232-10.768,24-24,24H296    c-13.232,0-24-10.768-24-24V200c0-13.232,10.768-24,24-24h160c13.232,0,24,10.768,24,24V456z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M416,352v112h48V352H416z M448,448h-16v-80h16V448z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M352,416v48h48v-48H352z M384,448h-16v-16h16V448z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M288,416v48h48v-48H288z M320,448h-16v-16h16V448z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M352,352v48h48v-48H352z M384,384h-16v-16h16V384z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M288,352v48h48v-48H288z M320,384h-16v-16h16V384z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M352,288v48h48v-48H352z M384,320h-16v-16h16V320z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M416,288v48h48v-48H416z M448,320h-16v-16h16V320z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M288,288v48h48v-48H288z M320,320h-16v-16h16V320z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M288,192v80h176v-80H288z M448,256H304v-48h144V256z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M200,272c-13.232,0-24,10.768-24,24c0,0.32,0.08,0.624,0.096,0.944l-38.16,15.264C133.536,307.216,127.168,304,120,304    c-5.784,0-11.032,2.144-15.176,5.56L63.52,284.784C63.832,283.232,64,281.64,64,280c0-13.232-10.768-24-24-24s-24,10.768-24,24    s10.768,24,24,24c5.784,0,11.032-2.144,15.176-5.56l41.304,24.784C96.168,324.768,96,326.36,96,328c0,13.232,10.768,24,24,24    s24-10.768,24-24c0-0.32-0.08-0.624-0.096-0.944l38.16-15.264c4.4,4.992,10.768,8.208,17.936,8.208c13.232,0,24-10.768,24-24    S213.232,272,200,272z M40,288c-4.408,0-8-3.592-8-8c0-4.408,3.592-8,8-8s8,3.592,8,8C48,284.408,44.408,288,40,288z M120,336    c-4.408,0-8-3.592-8-8c0-4.408,3.592-8,8-8s8,3.592,8,8C128,332.408,124.408,336,120,336z M200,304c-4.408,0-8-3.592-8-8    c0-4.408,3.592-8,8-8s8,3.592,8,8C208,300.408,204.408,304,200,304z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<path d="M224,480V336h-48v144h-32V368H96v112H64V320H16v160H0v16h240v-16H224z M48,480H32V336h16V480z M128,480h-16v-96h16V480z     M208,480h-16V352h16V480z" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<rect x="272" y="112" width="16" height="16" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g><g>
+	<g>
+		<rect x="176" y="112" width="16" height="16" data-original="#000000" class="active-path" data-old_color="#ffda44" fill="#ffda44"/>
+	</g>
+</g></g> </svg>

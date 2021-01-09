@@ -1,0 +1,113 @@
+﻿@{
+	Layout = "_Document";
+
+	Html.RenderWidget("body_start_html_tag_after");
+
+	var hasLeftCol = IsSectionDefined("left");
+	var hasRightCol = IsSectionDefined("right");
+	var hideLeftCol = ViewBag.HideLeftCol == true;
+	var hideRightCol = ViewBag.HideRightCol == true;
+
+	int mainColspan = 12;
+	int cols = 1;
+	if (hasLeftCol)
+	{
+		mainColspan -= 3;
+		cols += 1;
+	}
+	if (hasRightCol)
+	{
+		mainColspan -= 3;
+		cols += 1;
+	}
+
+	Html.AddBodyCssClass("lyt-cols-" + cols);
+
+	if (GetThemeVariable<bool>("boxed"))
+	{
+		Html.AddBodyCssClass("boxed");
+	}
+}
+
+<!-- particles.js container -->
+<div id="particles-js" class="particles"></div>
+
+
+<div id="page">
+	<div class="canvas-blocker canvas-slidable"></div>
+	<div class="page-main canvas-slidable">
+		@{
+			Html.RenderAction("JavaScriptDisabledWarning", "Common", new { area = "" });
+			Html.RenderWidget("content_before");
+		}
+		<div id="content-wrapper">
+			<section id="content" class="container mt-3">
+				@{
+					@RenderSection("teaser", required: false);
+					Html.RenderAction("Breadcrumb", "Common", new { area = "" });
+					Html.RenderZone("teaser");
+					Html.RenderWidget("after_teaser");
+				}
+				<div id="content-body" class="row mt-4">
+					@if (hasLeftCol)
+					{
+						<aside id="content-left" class="col-lg-3 mb-4 mb-lg-0@(hideLeftCol ? " d-none d-lg-block" : "")">
+							@{
+								Html.RenderWidget("aside_left_before");
+								@RenderSection("left");
+								Html.RenderWidget("aside_left_after");
+							}
+						</aside>
+					}
+					<div id="content-center" class="col-lg-@mainColspan">
+						@{
+							Html.RenderWidget("main_column_before");
+
+							@RenderBody();
+
+							Html.RenderWidget("main_column_after");
+						}
+					</div>
+
+					@if (hasRightCol)
+					{
+						<aside id="content-right" class="col-lg-3 mt-4 mt-lg-0@(hideRightCol ? " d-none d-lg-block" : "")">
+							@{
+								Html.RenderWidget("aside_right_before");
+								@RenderSection("right");
+								Html.RenderWidget("aside_right_after");
+							}
+						</aside>
+					}
+
+					@{ Html.RenderWidget("content_after"); }
+				</div>
+			</section>
+		</div>
+		@{ Html.RenderZone("page-end"); }
+	</div>
+	<a href="#" id="scroll-top" class="d-flex align-items-center justify-content-center">
+		<i class="fa fa-2x fa-angle-up"></i>
+	</a>
+</div>
+@{ Html.RenderPartial("_Notifications"); }
+@{ Html.RenderWidget("body_end_html_tag_before"); }
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+	var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+	(function () {
+		var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+		s1.async = true;
+		s1.src = 'https://embed.tawk.to/5c51a66bab5284048d0f944e/default';
+		s1.charset = 'UTF-8';
+		s1.setAttribute('crossorigin', '*');
+		s0.parentNode.insertBefore(s1, s0);
+	})();
+</script>
+<!--End of Tawk.to Script-->
+<!--End of Tawk.to Script-->
+<script src="~/Content/particles.js"></script>
+<script src="~/Content/app.js"></script>
+
+

@@ -1,0 +1,32 @@
+<div class="animated fadeIn">
+  <div class="card" > 
+    <div class="card-header">
+      <i class="fa fa-align-justify"></i> Deposit Report
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Amount</th>
+            <th>Processor Name</th>
+            <th>Transaction Date</th>
+            <th>Transaction Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let purchase of PurchaseData">
+            <td>{{purchase.Id}}</td>
+            <td>{{purchase.FinalAmountRaw}}</td>
+            <td>{{purchase.ProcessorName}}</td>
+            <td>{{purchase.TransactionDate |  date:'mediumDate'}}</td>
+            <td>
+              <span [ngClass]="{'badge-success': purchase.StatusId == 2,
+                                'badge-danger': purchase.StatusId == 1}" class="badge">{{purchase.TransStatusString}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

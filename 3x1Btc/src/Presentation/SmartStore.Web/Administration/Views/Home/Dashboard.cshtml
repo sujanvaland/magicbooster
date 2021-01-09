@@ -1,0 +1,90 @@
+﻿@model SmartStore.Admin.Models.Hyip.AdminDashboardModel
+@{
+	ViewBag.Title = T("Admin.Dashboard").Text;
+}
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-bar-chart-o"></i>
+		@T("Admin.Dashboard.StoreStatistics")
+	</div>
+	<div>
+		@*<a href="@Url.Action("Create")" class="btn btn-primary">
+			<i class="fa fa-plus"></i>
+			<span>ResetDB</span>
+		</a>*@
+	</div>
+</div>
+<div class="dashboard">
+	@{ Html.RenderWidget("admin_dashboard_top"); }
+	<div class="row">
+		@*<div class="col-md-8">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Plan</th>
+						<th>Total Investment</th>
+						<th>Total Investors</th>
+						<th>ROI To Pay</th>
+						<th>ROI Paid</th>
+						<th>Pending ROI</th>
+					</tr>
+				</thead>
+				@foreach (var plan in Model.Plans)
+				{
+					<tr>
+						<td style="font-weight:bold;">@plan.Name</td>
+						<td>@plan.TotalInvestment</td>
+						<td>@plan.TotalInvestors</td>
+						<td>@plan.ROIToPay</td>
+						<td>@plan.ROIPaid</td>
+						<td>@plan.PendingROI</td>
+					</tr>
+				}
+			</table>
+		</div>*@
+		<div class="col-lg-4">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th colspan="2">Stats</th>
+					</tr>
+				</thead>
+				<tr>
+					<td style="font-weight:bold;">Registered Members</td>
+					<td>@Model.RegisteredMembers</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Active Members</td>
+					<td>@Model.ActiveMembers</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Total Deposit</td>
+					<td>@Model.TotalDeposit</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Withdrawals Paid</td>
+					<td>@Model.CompletedWithdrawals</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Pending Withdrawals</td>
+					<td>@Model.PendingWithdrawals</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Commission Paid</td>
+					<td>@Model.CommissionPaid</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Todays Deposit</td>
+					<td>@Model.TodaysDeposit</td>
+				</tr>
+				<tr>
+					<td style="font-weight:bold;">Todays Withdrawal</td>
+					<td>@Model.TodaysWithdrawal</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+
+	@{ Html.RenderWidget("admin_dashboard_bottom"); }
+</div>

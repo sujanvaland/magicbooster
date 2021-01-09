@@ -1,0 +1,73 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="section-title">
+        <h2 style="color: white !important;">Select Package</h2>
+    </div>
+    <section class="">
+      <form [formGroup]="stName" > <!-- (ngSubmit)="onSubmit()" -->
+        <div class="container loginarea" > <!-- *ngIf="confirm" -->
+          <div class="input-group mb-3">
+            <select name="StokistId" class="form-control" id="StokistId" formControlName="StokistId">
+              <option value="0">Select Stokist Name</option>
+								<option *ngFor="let user of  UserList" [ngValue]="user.Id" >
+									{{user.Username}}
+								</option>
+            </select>
+          </div>
+          <!-- <button type="submit" class="btn btn-block btn-success">Buy Pack</button> -->
+        </div>    
+      <div class="container">        
+          <!-- Icon Boxes -->
+          <div class="icon-boxes">
+              <div class="row">
+                  <div class="col-lg-4 col-md-6 icon">
+                      <div class="speak-text">
+                          <img src="assets/img/trafficicon.svg" width="180" />
+                          <!-- <ul class="adpackul">
+                            <li>Dairect Income RM 48</li>  
+                            <li>Daily Network Income RM 80 (8 Pair)</li>
+                            <li>Monthly Network Income Limit RM2400</li>
+                          </ul> -->
+                          <div class="speaker-name">
+                              <h4>$40 Magic 1(MB1) Pack</h4>
+                              <button *ngIf="AmountInvested < 1" (click)="onConfirm(1,'MB1')" class="submit-btn send-btn">Buy Now</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 icon">
+                      <div class="speak-text">
+                          <img src="assets/img/adpack.svg" width="180" />
+                          <!-- <ul class="adpackul">
+                            <li>Dairect Income RM 144</li>  
+                            <li>Daily Network Income RM 200 (20 Pair)</li>
+                            <li>Monthly Network Income Limit RM6000</li>
+                          </ul> -->
+                          <div class="speaker-name">
+                            <h4>$120 Magic 3(MB3) Pack</h4>
+                              <button *ngIf="AmountInvested < 3" (click)="onConfirm(2,'MB3')" class="submit-btn send-btn">Buy Now</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 icon">
+                      <div class="speak-text">
+                          <img src="assets/img/income.svg" width="180" />
+                          <!-- <ul class="adpackul">
+                            <li>Dairect Income RM 336</li>  
+                            <li>Daily Network Income RM 350 (35 Pair)</li>
+                            <li>Monthly Network Income Limit RM10,500</li>
+                          </ul> -->
+                          <div class="speaker-name">
+                            <h4>$280 Magic 7(MB7) Pack</h4>
+                              <button *ngIf="AmountInvested < 7" (click)="onConfirm(3,'MB7')" class="submit-btn send-btn">Buy Now</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </form>
+    </section>
+    </div>
+   </div>
+</div>

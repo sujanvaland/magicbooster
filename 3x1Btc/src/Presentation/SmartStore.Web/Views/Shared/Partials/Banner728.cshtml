@@ -1,0 +1,8 @@
+﻿@model  AdCampaign
+@using SmartStore.Core.Domain.Advertisments
+@if (Model != null)
+{
+	<a href="@Model.WebsiteUrl" target="_blank" height="90" width="728">
+		<img src="@Model.Banner728" title="@Model.Name" height="90" width="728"/>
+	</a>
+}

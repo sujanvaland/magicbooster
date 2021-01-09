@@ -1,0 +1,131 @@
+<div class="animated fadeIn">
+  <div class="card-header">
+    Company Videos
+  </div>
+  <div class="row">
+    <div class="col-sm-6" *ngFor="let video of CompanyVideos">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-sm-12">
+            <iframe width="560" height="315" [src]="video.VideoLink | newsafe" frameborder="0" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Banner 125x125
+        </div>
+        <div class="card-body">
+            <img src="{{Banner125}}" alt="First slide"><br><br>
+            <input type="text" value="https://www.MagicBooster.com/{{Banner125}}" #banner125 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;width: 400px;"/>
+            <button class="btn btn-light" type="button" (click)="copyInputMessage(banner125)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Banner 728x90
+        </div>
+        <div class="card-body">
+          <img src="{{Banner728}}" alt="First slide"><br><br>
+          <input type="text" value="https://www.MagicBooster.com/{{Banner728}}" #banner728 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;width: 400px;"/>
+          <button class="btn btn-light" type="button" (click)="copyInputMessage(banner728)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Banner 468x60
+        </div>
+        <div class="card-body">
+          <img src="{{Banner468}}" alt="First slide"><br><br>
+          <input type="text" value="https://www.MagicBooster.com/{{Banner468}}" #banner468 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;width: 400px;"/>
+          <button class="btn btn-light" type="button" (click)="copyInputMessage(banner468)">Copy</button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Facebook Post
+        </div>
+        <div class="card-body">
+          <div>
+            <input type="text" value="{{Banner468}}" #banner468 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;"/>
+            <button class="btn btn-light" type="button" (click)="copyInputMessage(banner468)">Copy</button>
+            <span>
+              Join with me : https://bit.ly/2HoNW7L 
+              <br>Just now submitted my third withdrawal of $2.40 in eProfitHub program and within seconds received it in my Trust Wallet. That is really AWESOME !!!
+              <br>I can show you a program which pays you 0.25% hourly for 1440 hours (60 days) in btc or ethereum. 100% passive !! No matrix, no referring, no recruiting !! Instant Bitcoin or Ethereum income paid every 60 minutes.
+
+              <br>Hi Sayed Salim.
+
+              <br>$2.40 has been successfully paid to your Ethereum wallet 0x455b9834BBb9e2CFa45ABf08B4Cb6C21A8f9
+
+              <br>Here's your Transaction ID for reference: 0x9d92b66ac410563f5b95d6546eac12a9b51910162520390463cdcc8ef29d
+
+              <br>Thanks,
+
+              <br>eProfitHub . io  
+            </span>
+           
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Banner 250x250
+        </div>
+        <div class="card-body">
+          <img src="{{Banner250}}" alt="First slide"><br><br>
+          <input type="text" value="https://www.MagicBooster.com/{{Banner250}}" #banner250 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;width: 400px;"/>
+          <button class="btn btn-light" type="button" (click)="copyInputMessage(banner250)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Banner Facebook
+        </div>
+        <div class="card-body">
+          <img src="{{Banner820}}" alt="First slide"><br><br>
+          <input type="text" value="https://www.MagicBooster.com/{{Banner820}}" #banner250 style="background-color: rgb(180, 178, 178);padding: 5px;border-radius: 5px;width: 400px;"/>
+          <button class="btn btn-light" type="button" (click)="copyInputMessage(Banner820)">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          Company Presentation
+        </div>
+        <div class="card-body">
+          <div class="col-sm-4">
+            <a class="btn btn-primary btn-lg btn-block" href="{{CompanyPresentation}}" target="_blank">Download Presentation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

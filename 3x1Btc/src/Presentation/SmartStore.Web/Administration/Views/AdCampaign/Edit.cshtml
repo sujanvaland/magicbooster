@@ -1,0 +1,81 @@
+﻿@model AdCampaignModel
+@using SmartStore.Admin.Models.AdCampaign
+@{
+	ViewBag.Title = T("Admin.AdCampaign.EditCampaignDetails").Text;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "category-form" }))
+{
+	<div class="section-header">
+		<div class="title">
+			@T("Admin.AdCampaign.EditCampaignDetails") - @Model.Name
+			<a href='@Url.Action("List")'>(back to list)</a>
+		</div>
+		<div class="options">
+			@{ Html.RenderWidget("admin_button_toolbar_before"); }
+			<button type="submit" name="save" value="save" class="btn btn-warning">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+			<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+				<span>@T("Admin.Common.SaveContinue")</span>
+			</button>
+			<button type="button" id="category-delete" value="category-delete" class="btn btn-danger" data-toggle="modal" data-target="#DeleteAdCampaignModal">
+				<i class="fa fa-trash-o"></i>
+				<span>@T("Admin.Common.Delete")</span>
+			</button>
+			@{ Html.RenderWidget("admin_button_toolbar_after"); }
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-bullseye"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@Model.AvailableImpression
+						<br />@T("AdCampaign.AvailableImpression")
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-mouse-pointer"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@Model.AvailableClicks
+						<input type="hidden" value="@Model.AvailableClicks" name="AvailableClicks" id="AvailableClicks" />
+						<br />@T("AdCampaign.AvailableClick")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	Html.RenderPartial("_CreateOrUpdate", Model);
+				}
+@{Html.SmartStore().Window()
+	  .Name("DeleteAdCampaignModal")
+	  .Title(T("Admin.AdCampaign.Delete.Caption"))
+	  .Size(WindowSize.Medium)
+	  .Content(@<text>
+	<form id="DeleteCategoryForm" method="POST" action="@Url.Action("Delete", "AdCampaign")">
+		<input type="hidden" name="id" value="@Model.Id" />
+		<p>@T("Admin.AdCampaign.Delete.Hint")</p>
+	</form>
+	</text>)
+.FooterContent(@<text>
+	<button class="btn btn-secondary" data-dismiss="modal">
+		<span>@T("Common.Cancel")</span>
+	</button>
+	<button class="btn btn-danger" data-dismiss="modal" onclick="$('#DeleteCategoryForm').submit();">
+		<span>@T("Common.OK")</span>
+	</button>
+</text>)
+.Render();
+}

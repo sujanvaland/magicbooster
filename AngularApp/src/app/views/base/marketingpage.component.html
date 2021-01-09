@@ -1,0 +1,99 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Marketing Page
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <a (click)="openModel('youtube')"><img src="assets/img/img_youtubeadd.jpg"></a>
+              URL Format should be : https://www.youtube.com/embed/js6aixoN5n8
+            </div>
+            <div class="col-md-4">
+              <div class="card text-white bg-info cardbalance">
+                <div class="card-body pb-0">
+                  <button type="button" class="btn btn-transparent p-0 float-right" style="font-size: 83px;">
+                    <i class="fa fa-bullseye"></i>
+                  </button>
+                  <div class="text-value" style="font-size:50px;">{{AvailableCredits}}</div>
+                  <div style="font-size:20px">Advertisment Credits</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <a (click)="openModel('youtubead')"><img src="assets/img/img_buttonyoutube.jpg" style="height:45px; margin-bottom:5px;"></a>
+              <a (click)="openModel('facebookad')" ><img src="assets/img/img_buttonfacebook.jpg" style="height:45px; margin-bottom:5px;"></a>
+              <a (click)="openModel('website')" ><img src="assets/img/img_buttonaddwebsite.jpg"style="height:45px;"></a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>AdCampaign No</th>
+                    <th>Website Url</th>
+                    <th>Ad Type</th>
+                    <th>Assigned Credits</th>
+                    <th>Used Credits</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let ads of AdCampaing">
+                    <td>{{ads.Id}}</td>
+                    <td>{{ads.WebsiteUrl}}</td>
+                    <td style="text-transform:uppercase;">{{ads.AdType}}</td>
+                    <td style="text-align:center;">{{ads.AssignedCredit}}</td>
+                    <td>{{ads.UsedCredit}}</td>
+                    <td>
+                      <span [hidden]="ads.Enabled == false" [ngClass]="badge-success" class="badge">Active</span>
+                      <span [hidden]="ads.Enabled == true" [ngClass]="badge-danger" class="badge">Inactive</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #youtubeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{Title}}</h4>
+        
+        <button type="button" class="close" (click)="youtubeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-sm-12">
+            <label for="ccmonth">Link</label>
+            <input type="text" [(ngModel)]="LinkUrl" class="form-control" placeholder="Enter link">
+          </div>
+        </div><!--/.row-->
+        <div class="row" [hidden]="Type == 'youtube'">
+          <div class="form-group col-sm-12">
+            <label for="ccmonth">No of Credits</label>
+            <input type="number" [(ngModel)]="AssignedCredit" class="form-control" placeholder="Assign Credit"> 
+          </div>
+        </div><!--/.row-->
+        <button type="submit" (click)="saveLink()" class="btn btn-block btn-dark btn-lg btn-block active">Publish</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="youtubeModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

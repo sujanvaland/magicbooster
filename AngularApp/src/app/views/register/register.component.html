@@ -1,0 +1,151 @@
+<div class="app-body loginbody">
+  <div class="loaderbo">
+    <div class="sk-grid sk-center">
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+      <div class="sk-grid-cube"></div>
+    </div>
+  </div>
+  <main class="main">
+    <div class="container loginarea">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form [formGroup]="register" (ngSubmit)="onSubmit()">
+                <h1>Register</h1>
+                <p class="text-muted">Create your account, Inviter : {{inviterName}}</p>
+
+                <div class="input-group mb-3">
+                  <span>
+                    <input type="radio" formControlName="Position" value="L" />
+                    Left
+                  </span>
+                  &nbsp;&nbsp;&nbsp;
+                  <span>
+                    <input type="radio" formControlName="Position" value="R" />
+                    Right
+                  </span>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">+</span>
+                  </div>
+                  <input type="text" formControlName="SponsorsName" class="form-control" placeholder="Inviter User Name" 
+                  [ngClass]="{ 'is-invalid': submitted && f.SponsorsName.errors }" />
+                  <div *ngIf="submitted && f.SponsorsName.errors" class="invalid-feedback">
+                  <div *ngIf="f.SponsorsName.errors.required">Inviter Name is required</div></div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">+</span>
+                  </div>
+                  <input type="text" formControlName="PlacementUserName" class="form-control" placeholder="Placement User Name" 
+                  [ngClass]="{ 'is-invalid': submitted && f.PlacementUserName.errors }" />
+                  <div *ngIf="submitted && f.PlacementUserName.errors" class="invalid-feedback">
+                  <div *ngIf="f.PlacementUserName.errors.required">Placement User Name is required</div></div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" formControlName="FirstName" class="form-control" placeholder="Name" 
+                  [ngClass]="{ 'is-invalid': submitted && f.FirstName.errors }" />
+                  <div *ngIf="submitted && f.FirstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.FirstName.errors.required">Name is required</div>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" formControlName="Email" class="form-control" placeholder="Email" 
+                  [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                  <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                  <div *ngIf="f.Email.errors.required">Email is required</div>
+                  <div *ngIf="f.Email.errors?.pattern">Enter valid Email</div></div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" formControlName="Phone" class="form-control" placeholder="Contact Number" 
+                  [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }" />
+                  <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                  <div *ngIf="f.Phone.errors.required">Contact Number is required</div>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" formControlName="UserName" class="form-control" placeholder="User Name" 
+                  [ngClass]="{ 'is-invalid': submitted && f.UserName.errors }" />
+                  <div *ngIf="submitted && f.UserName.errors" class="invalid-feedback">
+                  <div *ngIf="f.UserName.errors.required">UserName is required</div>
+                  <div *ngIf="f.UserName.errors?.pattern">Special Characters Not Allowed in UserName</div>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" formControlName="Password" class="form-control" placeholder="Password" 
+                  [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                  <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                  <div *ngIf="f.Password.errors.required">Password is required</div>
+                  <div *ngIf="f.Password.errors?.minlength"> Password must be at least 5 characters long.</div> 
+                </div>
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" formControlName="ConfirmPassword" class="form-control" placeholder="Repeat password" 
+                  [ngClass]="{ 'is-invalid': submitted && f.ConfirmPassword.errors }">
+                  <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.ConfirmPassword.errors.required">Confirm your Password</div>
+                  <div *ngIf="f.Password.errors?.minlength"> Password must be at least 5 characters long.</div> 
+                </div>
+                </div>
+                <button type="submit" class="btn btn-block btn-success">Create Account</button>
+                <div class="row">
+                  <div class="col-6">
+                    &nbsp;
+                  </div>
+                  <div class="col-6 text-right">
+                    <button type="button" [routerLink]="['/login']" class="btn btn-link px-0">Login</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            
+            <!-- <div class="card-footer p-4">
+              <div class="row">
+                <div class="col-6">
+                  <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
+                </div>
+                <div class="col-6">
+                  <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

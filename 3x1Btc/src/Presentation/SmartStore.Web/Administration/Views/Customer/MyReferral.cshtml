@@ -1,0 +1,121 @@
+﻿@model TempReferralList
+@using SmartStore.Services.Customers;
+@{
+	ViewBag.Title = T("Admin.Hyip.Plans.MyReferral").Text;
+}
+
+<div class="section-header">
+	<div class="title">
+		@T("Admin.Hyip.Plans.MyReferral")
+	</div>
+</div>
+<div class="row" style="display:none;">
+	<div class="col-xl-3 col-sm-6 mb-3">
+		<div class="card text-white bg-primary o-hidden h-100">
+			<div class="card-body">
+				<div class="card-body-icon">
+					<i class="fa fa-fw fa-money"></i>
+				</div>
+				<div class="mr-5" style="font-size:1.5em;">
+					@ViewBag.CurrencyCode @Model.TotalCommission
+					<br />@T("MyInvestment.TotalReferralCommission")
+				</div>
+			</div>
+			<a class="card-footer text-white clearfix small z-1" href="#">
+				<span class="float-left">View Details</span>
+				<span class="float-right">
+					<i class="fa fa-angle-right"></i>
+				</span>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row mt-3 grid-filter">
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		@Html.SmartLabelFor(model => model.LevelId)
+		@Html.DropDownList("LevelId", Model.AvailableLevels, null, new { @class = "form-control" })
+	</div>
+	<div class="col-sm-6 col-lg-4 col-xl-3 form-group">
+		<label>&nbsp;</label>
+		<button type="submit" id="btnSearch" value="btnSearch" class="btn btn-secondary btn-block">
+			<span>@T("Admin.Common.ApplyFilter")</span>
+		</button>
+	</div>
+</div>
+<div class="mt-2">
+	@(Html.Telerik().Grid<TempReferralList>()
+.Name("plans-grid")
+.ClientEvents(events => events
+	.OnDataBinding("onDataBinding")
+	.OnDataBound("onDataBound"))
+.Columns(columns =>
+{
+	columns.Bound(x => x.LevelId)
+		.Width(160)
+		.Centered();
+	columns.Bound(x => x.CustomerId)
+		.Width(160)
+		.Centered()
+		.Title("Customer Id"); 
+	columns.Bound(x => x.EmailId)
+		.Width(160)
+		.Centered();
+	columns.Bound(x => x.RegistrationDate)
+		.Width(160)
+		.Centered();
+	columns.Bound(x => x.IsPaid)
+		.Width(160)
+		.Centered();
+	columns.Bound(x => x.CustomerId)
+		.Width(160)
+		.Centered()
+		.Title("Customer Id"); 
+	columns.Bound(x => x.ReferredBy);
+})
+	.DataBinding(dataBinding => dataBinding.Ajax().Select("ListMyReferral", "Customer"))
+	.PreserveGridState()
+	.EnableCustomBinding(true))
+</div>
+
+<script type="text/javascript">
+	//search button
+	$('#btnSearch').click(function () {
+		//search
+		var grid = $('#plans-grid').data('tGrid');
+		grid.currentPage = 1; //new search. Set page size to 1
+		grid.ajaxRequest();
+	});
+
+	function onDataBinding(e) {
+		var searchModel = {
+			LevelId: jQuery.makeArray($('#@Html.FieldIdFor(model => model.LevelId)').val()).join(),
+		};
+		e.data = searchModel;
+	}
+
+	function onDataBound(e) {
+
+	}
+
+	function Pif(email,pifamount,levelid)
+	{
+		//call reject ajax method to controller of action
+		$.ajax({
+			type: "POST",
+			url: '@(Url.Content("~/Admin/Customer/PifMember"))',
+			data: "{ email : '" + email + "', amount :" + pifamount + ", levelid : " + levelid +"}",
+			dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+			success: function (data) {
+				var grid = $('#plans-grid').data('tGrid');
+				grid.currentPage = 1; //new search. Set page size to 1
+				grid.ajaxRequest();
+				return false;
+			},
+			error: function () {
+                alert("Error occured!!");
+			}
+		});
+	}
+
+</script>

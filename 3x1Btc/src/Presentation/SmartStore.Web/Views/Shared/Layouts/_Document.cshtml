@@ -1,0 +1,70 @@
+﻿@using SmartStore.Core;
+@{
+	var jsRoot = "~/Scripts/";
+	var vendorsRoot = "~/Content/vendors/";
+	var contentRoot = "~/Content/";
+
+	// add css assets
+	Html.AddCssFileParts(
+		contentRoot + "theme/css/global.css",
+		contentRoot + "theme/css/new/bootstrap.min.css",
+		contentRoot + "theme/css/new/font-awesome.min.css",
+		contentRoot + "assets/styles/mainea78.css",
+		contentRoot + "assets/vendor/vendorea.css",
+		vendorsRoot + "font-awesome/font-awesome.css",
+		vendorsRoot + "pnotify/css/pnotify.css",
+		vendorsRoot + "pnotify/css/pnotify.mobile.css",
+		vendorsRoot + "pnotify/css/pnotify.buttons.css");
+	Html.AddScriptParts(
+		contentRoot + "theme/js/new/jquery1.11.0.js",
+		contentRoot + "theme/js/wow.min.js",
+		contentRoot + "theme/js/new/bootstrap.min.js"
+		);
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport">
+	<title>@T("Site.Title")</title>
+	<link href="~/Content/theme/css/global.css" rel="stylesheet" type="text/css">
+	<link rel='shortcut icon' type='image/x-icon' href='~/Content/theme/images/newimg/favicon.ico' />
+	<link rel="shortcut icon" type="image/png" href="~/Content/theme/images/newimg/favicon.ico'" />
+	<!-- Bootstrap -->
+	<link href="~/Content/theme/css/new/bootstrap.min.css" rel="stylesheet">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script src="~/Content/theme/js/new/jquery1.11.0.js"></script>
+	<script src="~/Content/theme/js/new/bootstrap.min.js"></script>
+	<link href="~/Content/stylenew.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="~/Content/assets/vendor/vendorea78.css">
+	<link rel="stylesheet" href="~/Content/assets/styles/mainea78.css">
+
+</head>
+<body @(Html.BodyId())>
+	@{
+		Html.RenderAction("Menu", "Common", new { area = "" });
+	}
+
+	@RenderBody()
+	
+	@{ Html.RenderAction("Footer", "Common", new { area = "" }); }
+	
+
+	<script src="~/Content/assets/vendor/vendorea78.js?v=0x13"></script>
+	<script src="~/Content/assets/js/script.minea78.js?v=0x13"></script>
+
+</body>
+</html>
+<script src="~/Content/theme/js/wow.min.js"></script>
+<script>
+	new WOW().init();
+</script>
+
+

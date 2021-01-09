@@ -1,0 +1,116 @@
+﻿@model WithdrawalSettingsModel
+@{
+	ViewBag.Title = T("Admin.Hyip.WithdrawalSetting").Text;
+}
+@using (Html.BeginForm())
+{
+	<div class="section-header">
+		<div class="title">
+			<i class="fa fa-exchange"></i>
+			@T("Admin.Hyip.WithdrawalSetting")
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-warning">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+		</div>
+	</div>
+
+	Html.RenderAction("StoreScopeConfiguration", "Setting");
+
+	@Html.ValidationSummary(false)
+
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.AllowWithdrawal)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.AllowWithdrawal)
+				@Html.ValidationMessageFor(model => model.AllowWithdrawal)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.MinWithdrawal)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.MinWithdrawal)
+				@Html.ValidationMessageFor(model => model.MinWithdrawal)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.MaxWithdrawal)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.MaxWithdrawal)
+				@Html.ValidationMessageFor(model => model.MaxWithdrawal)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.AllowAutoWithdrawal)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.AllowAutoWithdrawal)
+				@Html.ValidationMessageFor(model => model.AllowAutoWithdrawal)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.AutoWithdrawalHour)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.AutoWithdrawalHour)
+				@Html.ValidationMessageFor(model => model.AutoWithdrawalHour)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.MaxRequestPerDay)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.MaxRequestPerDay)
+				@Html.ValidationMessageFor(model => model.MaxRequestPerDay)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.WithdrawalFees)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.WithdrawalFees)
+				@Html.ValidationMessageFor(model => model.WithdrawalFees)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PaymentNote)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.PaymentNote)
+				@Html.ValidationMessageFor(model => model.PaymentNote)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.NotifyWithdrawalRequestToUser)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.NotifyWithdrawalRequestToUser)
+				@Html.ValidationMessageFor(model => model.NotifyWithdrawalRequestToUser)
+			</td>
+		</tr>
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.NotifyWithdrawalRequestToAdmin)
+			</td>
+			<td class="adminData">
+				@Html.SettingEditorFor(model => model.NotifyWithdrawalRequestToAdmin)
+				@Html.ValidationMessageFor(model => model.NotifyWithdrawalRequestToAdmin)
+			</td>
+		</tr>
+	</table>
+}

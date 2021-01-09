@@ -1,0 +1,37 @@
+﻿﻿@model List<PositionData>
+@using SmartStore.Admin.Models.Board
+@{
+	ViewBag.Title = "MemberPayment";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content-wrapper">
+	<!-- BEGIN CONTENT BODY -->
+	<div class="page-content">
+		<div class="portlet light bordered">
+			<div class="portlet light">
+				<div class="portlet-body form">
+					<div class="row">
+						<h1>Current active position stats</h1>
+						<table class="table table-striped table-hover table-responsive table-bordered">
+							<tr>
+								<th>Position Filled</th>
+								<th>Payment Received</th>
+								<th>Payment Pending</th>
+							</tr>
+							@foreach (var positiondata in Model)
+							{
+								<tr>
+									<td>@positiondata.PositionFilled</td>
+									<td>@positiondata.PaymentReceived</td>
+									<td>@positiondata.PaymentPending</td>
+								</tr>
+							}
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

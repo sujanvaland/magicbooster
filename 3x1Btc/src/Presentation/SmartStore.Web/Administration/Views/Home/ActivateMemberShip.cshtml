@@ -1,0 +1,75 @@
+﻿﻿@model CustomerPlanModel
+@using SmartStore.Admin.Models.Investment;
+@{
+	ViewBag.Title = "ActivateMemberShip";
+}
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+	<div class="section-header">
+		<div class="title">
+			<i class="fa fa-bar-chart-o"></i>
+			@T("ActivateMembership")
+		</div>
+	</div>
+	<div class="dashboard">
+		@{ Html.RenderWidget("admin_dashboard_top"); }
+		<div class="row">
+			<!-- Single Price Plan -->
+			<div class="col-12 col-md-6 col-lg-4">
+				<div class="single-price-plan mb-100">
+					<!-- Title -->					<div class="price-plan-title">
+						<h4>Pro Membership</h4>
+
+					</div>
+
+					<!-- Value -->					<div class="price-plan-value">
+						<h2><span>$</span>1</h2>
+
+						<p>/3 month</p>
+
+					</div>
+
+					<!-- Description -->					<div class="price-plan-desc">
+						<p><i class="icon_check"></i> 1000 Ad credits</p>
+
+						<p>Banner, Text and Login ad campaigns<br></p>
+
+						<p><i class="icon_check"></i> Ability to by Ad Packs</p>
+
+						<p><i class="icon_check"></i> No Matrix Position</p>
+
+						<p><i class="icon_check"></i> No Profit Share</p>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<!-- Single Price Plan -->
+		</div>
+		<div class="row">
+			<div class="col-lg-3 form-group">
+				@T("Investment.Deposit.Processor")
+			</div>
+			<div class="col-lg-3 form-group">
+				@Html.DropDownListFor(model => model.ProcessorId, Model.AvailableProcessor)
+				@Html.ValidationMessageFor(model => model.ProcessorId)
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="options">
+					<button type="submit" name="save" value="save" class="btn btn-primary">
+						<i class="fa fa-check"></i>
+						<span>@T("Admin.Common.Save")</span>
+					</button>
+					<button type="reset" name="save" value="save-continue" class="btn btn-secondary">
+						<span>@T("Admin.Common.Cancel")</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+

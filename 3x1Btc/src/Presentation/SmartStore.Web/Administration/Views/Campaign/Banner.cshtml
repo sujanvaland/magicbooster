@@ -1,0 +1,33 @@
+﻿@model BannerModel
+@{
+	//page title
+	ViewBag.Title = T("Admin.Promotions.Campaigns.AddNew").Text;
+}
+@using (Html.BeginForm())
+{
+	<div class="section-header">
+		<div class="title">
+			@T("Admin.Promotions.Campaigns.AddNew") @Html.ActionLink("(" + T("Admin.Promotions.Campaigns.BackToList") + ")", "List")
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-primary">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+			<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+				<span>@T("Admin.Common.SaveContinue")</span>
+			</button>
+		</div>
+	</div>
+	<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.PictureId)
+			</td>
+			<td class="adminData">
+				@Html.EditorFor(model => model.PictureId, new { transientUpload = true })
+				@Html.ValidationMessageFor(model => model.PictureId)
+			</td>
+		</tr>
+	</table>
+}

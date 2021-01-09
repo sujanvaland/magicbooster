@@ -1,0 +1,147 @@
+﻿@model PlanModel
+@using SmartStore.Admin.Models.Hyip;
+@{
+	ViewBag.Title = T("Admin.Hyip.Plans.AddPlanCommission").Text;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "plan-form" }))
+{
+	if (Model.Id != 0)
+	{
+		<table class="adminContent">
+			<tr>
+				<td class="adminTitle">
+					@Html.SmartLabelFor(model => model.Id)
+				</td>
+				<td class="adminData">
+					@Html.TextBoxFor(model => model.Id, new { @readonly = "readonly", @class = "form-control-plaintext" })
+					@Html.ValidationMessageFor(model => model.Id)
+				</td>
+			</tr>
+		</table>
+	}
+	<div class="section-header">
+		<div class="title">
+			@T("Admin.Hyip.Plans.AddPlanCommission")
+			<a href='@Url.Action("List")'>(@T("Admin.Hyip.Plans.BackToList"))</a>
+		</div>
+		<div class="options">
+			<button type="submit" name="save" value="save" class="btn btn-primary">
+				<i class="fa fa-check"></i>
+				<span>@T("Admin.Common.Save")</span>
+			</button>
+			<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+				<span>@T("Admin.Common.SaveContinue")</span>
+			</button>
+		</div>
+	</div>
+	<div class="row form-field">
+		<div class="col-md-3">
+			@Html.SmartLabelFor(model => model.Name)
+		</div>
+		<div class="col-md-3">
+			@Html.DisplayFor(model => model.Name)
+			@Html.HiddenFor(model => model.PlanId)
+		</div>
+	</div>
+	<div class="row form-field">
+		<div class="col-md-3">
+			<span style="margin-right: 40px;font-weight: 600;margin-top:20px;">Id</span>@*@Html.SmartLabelFor(model => model.LevelId)*@
+		</div>
+		<div class="col-md-3">
+			@Html.DropDownListFor(model => model.LevelId, Model.AvailableLevels, T("Admin.Common.All"), new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="row form-field">
+		<div class="col-md-3">
+			@Html.SmartLabelFor(model => model.Commission)
+		</div>
+		<div class="col-md-3">
+			@Html.EditorFor(model => model.Commission)
+			@Html.ValidationMessageFor(model => model.Commission)
+		</div>
+	</div>
+}
+
+	<div class="mt-2">
+		@(Html.Telerik().Grid<PlanModel>()
+			.Name("plans-grid")
+			.ClientEvents(events => events
+				.OnDataBinding("onDataBinding")
+				.OnDataBound("onDataBound"))
+			.Columns(columns =>
+			{
+				columns.Bound(x => x.Name)
+					.ClientTemplate("<a href='Edit/<#= Id #>'><#= Name #></a>")
+					.Title("Plan")
+					.Width(50)
+					.HtmlAttributes(new { style = "text-align:center" })
+					.HeaderHtmlAttributes(new { style = "text-align:center" }); ;
+				columns.Bound(x => x.Commission)
+					.Width(160)
+					.Centered();
+				columns.Bound(x => x.LevelId)
+					.Width(160)
+					.Centered();
+				columns.Bound(x => x.Id)
+				.Centered()
+				.Width(160)
+				.Template(x => Html.ActionLink(T("Admin.Common.Edit").Text, "Edit", new { id = x.Id }, new { @class = "t-button" }))
+				.ClientTemplate("<a href=\"EditCommission/<#= Id #>\" class=\"t-button\">" + T("Admin.Common.Edit").Text + "</a>")
+				.Title(String.Empty)
+				.HtmlAttributes(new { align = "right", @class = "omega" });
+			})
+			.DataBinding(dataBinding => dataBinding.Ajax().Select("ListCommission", "Plan"))
+			.PreserveGridState()
+			.EnableCustomBinding(true))
+	</div>
+
+	<script type="text/javascript">
+	var selectedIds = [];
+
+	$(document).ready(function () {
+		$('#mastercheckbox').click(function () {
+			$('.checkboxGroups').attr('checked', $(this).is(':checked')).change();
+		});
+
+		//wire up checkboxes.
+		$(document).on('change', '#plans-grid input[type=checkbox][id!=mastercheckbox]', function (e) {
+			var $check = $(this);
+			if ($check.is(":checked") == true) {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked == -1) {
+					selectedIds.push($check.val());
+				}
+			}
+			else {
+				var checked = jQuery.inArray($check.val(), selectedIds);
+				if (checked > -1) {
+					selectedIds = $.grep(selectedIds, function (item, index) {
+						return item != $check.val();
+					});
+				}
+			}
+			updateMasterCheckbox();
+		});
+	});
+
+	function onDataBinding(e) {
+		
+	}
+
+	function onDataBound(e) {
+		$('#plans-grid input[type=checkbox][id!=mastercheckbox]').each(function () {
+			var currentId = $(this).val();
+			var checked = jQuery.inArray(currentId, selectedIds);
+			$(this).attr('checked', checked > -1);
+		});
+
+		updateMasterCheckbox();
+	}
+
+	function updateMasterCheckbox() {
+		var numChkBoxes = $('#plans-grid input[type=checkbox][id!=mastercheckbox]').length;
+		var numChkBoxesChecked = $('#plans-grid input[type=checkbox][checked][id!=mastercheckbox]').length;
+		$('#mastercheckbox').attr('checked', numChkBoxes == numChkBoxesChecked && numChkBoxes > 0);
+	}
+
+	</script>

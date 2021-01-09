@@ -1,0 +1,20 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.page-sidebar .page-sidebar-menu>li.heading>h2, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.heading>h2 {
+    color: #708096;margin-top: -30px; margin-bottom: 0px;
+}
+@media (min-width:992px){
+
+.page-sidebar-closed .page-sidebar .page-sidebar-menu.page-sidebar-menu-closed>li.heading>h2{display:none}
+}
+.bluecolor{text-shadow: none; color: #3698dc !important;}
+.btn .btn-primary{ border-radius: 4px !important; background-color:#3698dc; border-color:#3698dc !important}
+.table-scrollable{ box-shadow: 1px 1px 3px 0px #d8d8d8db;}
+.table td, .table th {font-size: 13px !important;}
+.table.table-light>thead>tr>th{color: #93a2a9 !important;}
+.form-control {border-radius: 4px !important;}
+.emailinput{border-radius: 0px 4px 4px 0px !important;}
+.input-group-addon{border-radius: 4px 0px 0px 4px !important;}
+.emailinputright{border-radius: 4px 0px 0px 4px !important;}
+.input-group-addonright{border-radius: 0px 4px 4px 0px !important;}
+

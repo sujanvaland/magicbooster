@@ -1,0 +1,152 @@
+﻿@model BannerModel
+@using SmartStore.Admin.Models.Hyip
+@using SmartStore.Services.Customers;
+@using SmartStore.Core;
+@{
+	/**/
+
+	ViewBag.Title = T("Admin.Hyip.Banner.AddNew").Text;
+	var currentCustomer = this.WorkContext.CurrentCustomer;
+}
+@*@if (currentCustomer.IsInCustomerRole("Administrators"))
+	{
+		using (Html.BeginForm(null, null, FormMethod.Post, new { id = "banner-form" }))
+		{
+			<div class="section-header">
+				<div class="title">
+					@T("Admin.Hyip.Banner.AddNew")
+				</div>
+				<div class="options">
+					<button type="submit" name="save" value="save" class="btn btn-primary">
+						<i class="fa fa-check"></i>
+						<span>@T("Admin.Common.Save")</span>
+					</button>
+					<button type="submit" name="save" value="save-continue" class="btn btn-secondary">
+						<span>@T("Admin.Common.SaveContinue")</span>
+					</button>
+				</div>
+			</div>
+
+
+
+			<table class="adminContent">
+				<tr>
+					<td class="adminTitle">
+						@Html.SmartLabelFor(model => model.Size)
+					</td>
+					<td class="adminData">
+						@Html.EditorFor(model => model.Size)
+						@Html.ValidationMessageFor(model => model.Size)
+					</td>
+				</tr>
+				<tr>
+					<td class="adminTitle">
+						@Html.SmartLabelFor(model => model.PictureId)
+					</td>
+					<td class="adminData">
+						@Html.EditorFor(model => model.PictureId, new { transientUpload = true })
+						@Html.ValidationMessageFor(model => model.PictureId)
+					</td>
+				</tr>
+				<tr>
+					<td class="adminTitle">
+						@Html.SmartLabelFor(model => model.Published)
+					</td>
+					<td class="adminData">
+						@Html.EditorFor(x => x.Published)
+						@Html.ValidationMessageFor(model => model.Published)
+					</td>
+				</tr>
+				<tr>
+					<td class="adminTitle">
+						@Html.SmartLabelFor(model => model.DisplayOrder)
+					</td>
+					<td class="adminData">
+						@Html.EditorFor(model => model.DisplayOrder)
+						@Html.ValidationMessageFor(model => model.DisplayOrder)
+					</td>
+				</tr>
+			</table>
+		}
+	}*@
+<h4>Referral Link : <a href="@Model.ReferralLink" target="_blank">@Model.ReferralLink</a></h4>
+<div style="background: #E5E3E3;margin: 20px;padding: 20px;border-radius: 20px;">
+	<div class="row">
+		<div class="col-md-3">
+			728 x 90
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a href="https://www.3x1btc.com/Content/Images/728.png">https://www.3x1btc.com/Content/Images/728.png</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="https://www.3x1btc.com/Content/Images/728.png" />
+		</div>
+	</div>
+</div>
+<div style="background: #E5E3E3;margin: 20px;padding: 20px;border-radius: 20px;">
+	<div class="row">
+		<div class="col-md-3">
+			468 x 60
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a href="https://www.3x1btc.com/Content/images/468.png">https://www.3x1btc.com/Content/images/468.png</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="https://www.3x1btc.com/Content/Images/468.png" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a href="https://www.3x1btc.com/Content/images/468x60.png">https://www.3x1btc.com/Content/images/468x60.png</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="https://www.3x1btc.com/Content/Images/468x60.png" />
+		</div>
+	</div>
+</div>
+<div style="background: #E5E3E3;margin: 20px;padding: 20px;border-radius: 20px;">
+	<div class="row">
+		<div class="col-md-3">
+			125 x125
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a href="https://www.3x1btc.com/Content/images/125.png">https://www.3x1btc.com/Content/images/125.png</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="https://www.3x1btc.com/Content/Images/125.png" />
+		</div>
+	</div>
+</div>
+<div style="background: #E5E3E3;margin: 20px;padding: 20px;border-radius: 20px;">
+	<div class="row">
+		<div class="col-md-3">
+			Facebook
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a href="https://www.3x1btc.com/Content/images/facebook.png">https://www.3x1btc.com/Content/images/facebook.png</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="https://www.3x1btc.com/Content/Images/facebook.png" />
+		</div>
+	</div>
+</div>
+
+

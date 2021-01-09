@@ -1,0 +1,83 @@
+﻿@model TransactionModel
+@using SmartStore.Admin.Models.Investment;
+@Html.ValidationSummary(false)
+<style>
+	.bg-primary {
+		background-color: #1955a4 !important;
+	}
+</style>
+@using (Html.BeginForm(null, null, FormMethod.Post))
+{
+<div class="content-box">
+	<div class="section-header">
+		<div class="title">
+			<i class="fa fa-google-wallet"></i>
+			Transfer Fund
+			<div class="btn-group ml-2" style="vertical-align: text-top">
+				<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+					<i class="fa fa-bars"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-3 col-sm-6 mb-3">
+			<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+						<i class="fa fa-fw fa-money"></i>
+					</div>
+					<div class="mr-5" style="font-size:1.5em;">
+						@ViewBag.CurrencyCode @ViewBag.AvailableBalance
+						<br />@T("Withdrawals.AvailableBalance")
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			Member Email :
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.EditorFor(model => model.CustomerEmail) Transfer to this email	
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3 form-group">
+			@T("Investment.Withdrawal.Amount")
+		</div>
+		<div class="col-lg-3 form-group">
+			@Html.EditorFor(model => model.Amount) Enter amount in @ViewBag.CurrencyCode
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="options">
+				<button type="submit" name="save" value="save" class="btn btn-primary">
+					<i class="fa fa-check"></i>
+					<span>Transfer Now</span>
+				</button>
+				<button type="reset" name="reset" class="btn btn-secondary">
+					<span>@T("Admin.Common.Cancel")</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+}
+
+<script>
+	$('#Amount').change(function () {
+		if (isNaN($('#Amount').val())) {
+			$('#Amount').val('');
+		}
+		else {
+			var baseAmount = $('#Amount').val();
+			var totalReceivables = parseFloat(baseAmount);
+			$('#TotalReceivable').text(totalReceivables);
+		}
+	});
+</script>
