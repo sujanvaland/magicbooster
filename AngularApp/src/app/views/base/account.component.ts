@@ -24,7 +24,7 @@ constructor(private formBuilder: FormBuilder,
   private router: Router) { }
 
 CustomerId:string = localStorage.getItem("CustomerId");
-CustomerInfoModel = { FirstName:'',LastName:'',BitcoinAddress:'',AccountNumber:'',NICR:'',BankName:'',AccountHolderName:'',CountryId:53,Gender:'',Enable2FA:false,CustomerId:0,Email:"",ReferredBy:"",Username:""};
+CustomerInfoModel = { FirstName:'',LastName:'',BitcoinAddress:'',AccountNumber:'',NICR:'',BankName:'',AccountHolderName:'',CountryId:53,Gender:'',Enable2FA:false,CustomerId:0,Email:"",ReferredBy:"",Username:"",Phone:"",AccountSettingOTP:""};
 CurrencyCode:string;
 Countries=[];
 Pin2FA = "";
@@ -33,10 +33,12 @@ MemberId = 0;
 Email = "";
 Inviter = "";
 User = "";
+otpSuccess = false;
 ngOnInit(): void {
   this.accountdetail =this.formBuilder.group({
     FirstName: ['', Validators.required],
     LastName:['', Validators.required],
+    Phone:['', Validators.required],
     // BitcoinAddress:['', Validators.required],
 
     AccountNumber:['', Validators.required],
@@ -45,7 +47,8 @@ ngOnInit(): void {
       AccountHolderName:['', Validators.required],
 
     CountryId:['', Validators.required],
-    Gender:['']
+    Gender:[''],
+    AccountSettingOTP:['']
   });
 
   this.changepassword = this.formBuilder.group({
@@ -65,6 +68,7 @@ ngOnInit(): void {
       this.User= this.CustomerInfoModel.Username;
       this.Is2FAEnableAlready = this.CustomerInfoModel.Enable2FA;
       this.accountdetail.get('FirstName').setValue(this.CustomerInfoModel.FirstName);
+      this.accountdetail.get('Phone').setValue(this.CustomerInfoModel.Phone);
       this.accountdetail.get('LastName').setValue(this.CustomerInfoModel.LastName);
       //this.accountdetail.get('BitcoinAddress').setValue(this.CustomerInfoModel.BitcoinAddress);
       this.accountdetail.get('AccountNumber').setValue(this.CustomerInfoModel.AccountNumber);
@@ -119,27 +123,50 @@ get f() { return this.accountdetail.controls; }
             //   $('.loaderbo').hide();
             //   return;
             // }
-            
+
             this.accountdetail.value.CustomerId = this.CustomerId;
             this.accountdetail.value.Pin2FA = this.Pin2FA;
+
             this.customerservice.UpdateCustomerInfo(this.accountdetail.value)
             .subscribe(
               res =>{
-                if(res.Message === "success"){
+                if(res.Message === "OTP Sent to Your Registered Mobile Number"){
+                  this.toastr.success("OTP Sent to Your Registered Mobile Number","Success");
+                  this.otpSuccess = true;
+                  this.accountdetail.value.AccountSettingOTP = "";
+                  $('.loaderbo').hide();
+                }
+                else if(res.Message === "Incorrect OTP"){
+                  this.toastr.success("Incorrect OTP, Please Try With Valid OTP ","Success");
+                  this.otpSuccess = true;
+                  this.accountdetail.value.AccountSettingOTP = "";
+                  $('.loaderbo').hide();
+                }
+                else if(res.Message === "success"){
+                  this.otpSuccess = false;
+                  this.accountdetail.value.AccountSettingOTP = "";
                   this.toastr.success("Your account details has been updated","Success");
+                  $('.loaderbo').hide();
                 }
                 else{
-                  this.toastr.error("Invalid 2FA Pin","Error")
+                  this.otpSuccess = false;
+                  this.accountdetail.value.AccountSettingOTP = "";
+                  this.toastr.error("Invalid 2FA Pin","Error");
+                  $('.loaderbo').hide();
                 }
                 $('.loaderbo').hide();
               },
               err => {
                 if(err.status == 401){
+                  this.otpSuccess = false;
+                  this.accountdetail.value.AccountSettingOTP = "";
                   localStorage.clear();
                   $('.loaderbo').hide();
                   this.router.navigate(['/login']);
                 }
                 else{
+                  this.otpSuccess = false;
+                  this.accountdetail.value.AccountSettingOTP = "";
                   this.toastr.error("Something went wrong, contact support","Error")
                   $('.loaderbo').hide();
                 }

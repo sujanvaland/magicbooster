@@ -3,10 +3,30 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          <i class="fa fa-align-justify"></i> My Traffic Pack
+          <i class="fa fa-align-justify"></i> Investment 
         </div>
-        <div class="card-body">
-          <tabset>
+        <div class="card-body" *ngIf="AmountInvested == 7">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="card text-white bg-primary cardpinkbalance">
+                <div class="card-body">
+                  <div class="text-value">{{CustomerInfoModel.AvailableBalance}}$</div>
+                  <div class="text-label">Available Balance</div>
+                </div>
+              </div>
+            </div><!--/.col-->
+          </div><!--/.row-->
+            <h3 style="color: black;">1 Lot = {{amount}} $ </h3>            
+            <br/><hr>
+            Enter Number of Share : 
+            <input type="number" name="TotalShare" id="TotalShare" [(ngModel)]="PlanId" (change)="calculate()">
+            <br/>
+            <b>Charges : {{charges}} %</b>
+            <br/>
+            <b>Total Amount = {{FinalAmount}} $</b>
+            <br/><hr><br/>
+            <button type="save" (click)="save();" class="btn btn-sm btn-primary"><i class="fa fa-share-alt"></i> Invest Now</button>
+          <!-- <tabset>
             <tab heading="Beginner Packs ({{CustomerBeginnerPlan.length}})">
               <table class="table">
                 <tr *ngFor="let pack of CustomerBeginnerPlan">
@@ -133,7 +153,10 @@
                 </tr>
               </table>
             </tab>
-          </tabset>
+          </tabset> -->
+        </div>
+        <div class="card-body" *ngIf="AmountInvested != 7">
+          <h3 style="color: black;">Only MB 7 Package Persons Allowed to Invest</h3>            
         </div>
       </div>
     </div>

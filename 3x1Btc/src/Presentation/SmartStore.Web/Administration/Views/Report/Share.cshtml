@@ -1,0 +1,87 @@
+﻿@model TransactionModel
+@using Telerik.Web.Mvc.UI
+@using SmartStore.Admin.Models.Investment
+@{
+	ViewBag.Title = T("Admin.Catalog.Plans.Manage").Text;
+}
+
+<div class="section-header">
+	<div class="title">
+		<i class="fa fa-sitemap"></i>
+		<span>Share</span>
+		<div class="btn-group ml-2" style="vertical-align: text-top">
+			<a class="btn btn-outline-secondary btn-sm tooltip-toggle active" style="cursor:default" href="javascript:void(0)">
+				<i class="fa fa-bars"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row mt-3 grid-filter">
+	<table>
+		<tr>
+			<td style="width:130px">
+				Share P/L :
+			</td>
+			<td style="width:130px">
+				<input type="radio" name="PL" id="PL" value="P" />Profit
+				<input type="radio" name="PL" id="PL" value="L" />Loss
+			</td>
+		</tr>
+		<tr style="height:10px">
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td style="width:130px">
+				Amount :
+			</td>
+			<td style="width:130px">
+				<input type="number" id="Amount" name="Amount" placeholder="Enter Amount" />
+			</td>
+		</tr>
+		<tr style="height:10px">
+			<td></td>
+			<td></td>
+		</tr>
+		<tr style="margin-top: 5px;">
+			<td style="width:130px">
+			</td>
+			<td style="width:130px;">
+				<input type="button" id="addRewardPoints" value="Submit" name="addRewardPoints" />
+			</td>
+		</tr>
+	</table>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+			$('#addRewardPoints').click(function () {
+
+				var Type = document.querySelector('input[name="PL"]:checked').value;; //$("#PL").val();
+				var Amount = $("#Amount").val();
+
+				$('#addRewardPoints').attr('disabled', true);
+				if (Amount != null) {
+					$.ajax({
+						cache:false,
+						type: "POST",
+						url: "@(Url.Action("MyShare", "Report"))",
+						data: { "Type": Type, "Amount": Amount},
+						success: function (data) {
+							alert('Transaction Successful');
+							$("#Amount").val('');
+							//var rewardPointsGrid = $("#customer-rewardpoints-grid");
+							//rewardPointsGrid.data('tGrid').ajaxRequest();
+							 $('#addRewardPoints').attr('disabled', false);
+							//$("#add-reward-points-window").modal("hide");
+						},
+						error:function (xhr, ajaxOptions, thrownError){
+							alert('Failed to Share Amount.');
+							$('#addRewardPoints').attr('disabled', false);
+							//$("#add-reward-points-window").modal("hide");
+						}
+					});
+				}
+            });
+        });
+</script>

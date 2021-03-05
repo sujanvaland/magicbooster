@@ -45,144 +45,146 @@ using SmartStore.Services.Seo;
 using System.Security.Claims;
 using SmartStore.Core.Domain.Messages;
 using SmartStore.Services.Advertisments;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace SmartStore.WebApi.Controllers.Api
 {
-    public class LoginController : ApiController
-    {
-        #region Fields
-        public Localizer T { get; set; }//Added by Yagnesh 
-        public ICommonServices Services { get; set; }//Added by Yagnesh 
+	public class LoginController : ApiController
+	{
+		#region Fields
+		public Localizer T { get; set; }//Added by Yagnesh 
+		public ICommonServices Services { get; set; }//Added by Yagnesh 
 		private static string Secret = "ERMN05OPLoDvbTTa/QkqLNMI7cPLguaRyHzyg7n5qNBVjQmtBhz4SzYh4NBVCXi3KJHlSXKP+oi2+bXr6CUYTR==";
 		private readonly ICommonServices _services;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IDateTimeHelper _dateTimeHelper;
-        private readonly DateTimeSettings _dateTimeSettings;
-        private readonly TaxSettings _taxSettings;
-        private readonly ILocalizationService _localizationService;
-        private readonly IWorkContext _workContext;
-        private readonly IStoreContext _storeContext;
-        private readonly ICustomerService _customerService;
-        private readonly IGenericAttributeService _genericAttributeService;
-        private readonly ICustomerRegistrationService _customerRegistrationService;
-        private readonly ITaxService _taxService;
-        private readonly RewardPointsSettings _rewardPointsSettings;
-        private readonly CustomerSettings _customerSettings;
-        private readonly AddressSettings _addressSettings;
-        private readonly ForumSettings _forumSettings;
-        private readonly OrderSettings _orderSettings;
-        private readonly IAddressService _addressService;
-        private readonly ICountryService _countryService;
-        private readonly IStateProvinceService _stateProvinceService;
-        private readonly IOrderTotalCalculationService _orderTotalCalculationService;
-        private readonly IOrderProcessingService _orderProcessingService;
-        private readonly IOrderService _orderService;
-        private readonly ICurrencyService _currencyService;
-        private readonly IPaymentService _paymentService;
-        private readonly IPriceFormatter _priceFormatter;
-        private readonly IPictureService _pictureService;
-        private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
-        private readonly IForumService _forumService;
-        private readonly IShoppingCartService _shoppingCartService;
-        private readonly IOpenAuthenticationService _openAuthenticationService;
-        private readonly IBackInStockSubscriptionService _backInStockSubscriptionService;
-        private readonly IDownloadService _downloadService;
-        private readonly IWebHelper _webHelper;
-        private readonly ICustomerActivityService _customerActivityService;
-        private readonly ProductUrlHelper _productUrlHelper;
+		private readonly IAuthenticationService _authenticationService;
+		private readonly IDateTimeHelper _dateTimeHelper;
+		private readonly DateTimeSettings _dateTimeSettings;
+		private readonly TaxSettings _taxSettings;
+		private readonly ILocalizationService _localizationService;
+		private readonly IWorkContext _workContext;
+		private readonly IStoreContext _storeContext;
+		private readonly ICustomerService _customerService;
+		private readonly IGenericAttributeService _genericAttributeService;
+		private readonly ICustomerRegistrationService _customerRegistrationService;
+		private readonly ITaxService _taxService;
+		private readonly RewardPointsSettings _rewardPointsSettings;
+		private readonly CustomerSettings _customerSettings;
+		private readonly AddressSettings _addressSettings;
+		private readonly ForumSettings _forumSettings;
+		private readonly OrderSettings _orderSettings;
+		private readonly IAddressService _addressService;
+		private readonly ICountryService _countryService;
+		private readonly IStateProvinceService _stateProvinceService;
+		private readonly IOrderTotalCalculationService _orderTotalCalculationService;
+		private readonly IOrderProcessingService _orderProcessingService;
+		private readonly IOrderService _orderService;
+		private readonly ICurrencyService _currencyService;
+		private readonly IPaymentService _paymentService;
+		private readonly IPriceFormatter _priceFormatter;
+		private readonly IPictureService _pictureService;
+		private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
+		private readonly IForumService _forumService;
+		private readonly IShoppingCartService _shoppingCartService;
+		private readonly IOpenAuthenticationService _openAuthenticationService;
+		private readonly IBackInStockSubscriptionService _backInStockSubscriptionService;
+		private readonly IDownloadService _downloadService;
+		private readonly IWebHelper _webHelper;
+		private readonly ICustomerActivityService _customerActivityService;
+		private readonly ProductUrlHelper _productUrlHelper;
 		private readonly IAdCampaignService _adCampaignService;
 		private readonly MediaSettings _mediaSettings;
-        private readonly LocalizationSettings _localizationSettings;
-        //private readonly CaptchaSettings _captchaSettings;
-        private readonly ExternalAuthenticationSettings _externalAuthenticationSettings;
-        private readonly PluginMediator _pluginMediator;
-        private readonly IPermissionService _permissionService;
+		private readonly LocalizationSettings _localizationSettings;
+		//private readonly CaptchaSettings _captchaSettings;
+		private readonly ExternalAuthenticationSettings _externalAuthenticationSettings;
+		private readonly PluginMediator _pluginMediator;
+		private readonly IPermissionService _permissionService;
 
-        private readonly IProductService _productService;
-        #endregion
+		private readonly IProductService _productService;
+		#endregion
 
-        #region Ctor
+		#region Ctor
 
-        public LoginController(
-            ICommonServices services,
+		public LoginController(
+			ICommonServices services,
 			IAdCampaignService adCampaignService,
 			IAuthenticationService authenticationService,
-            IDateTimeHelper dateTimeHelper,
-            DateTimeSettings dateTimeSettings, TaxSettings taxSettings,
-            ILocalizationService localizationService,
-            IWorkContext workContext, IStoreContext storeContext,
-            ICustomerService customerService,
-            IGenericAttributeService genericAttributeService,
-            ICustomerRegistrationService customerRegistrationService,
-            ITaxService taxService, RewardPointsSettings rewardPointsSettings,
-            CustomerSettings customerSettings, AddressSettings addressSettings, ForumSettings forumSettings,
-            OrderSettings orderSettings, IAddressService addressService,
-            ICountryService countryService, IStateProvinceService stateProvinceService,
-            IOrderTotalCalculationService orderTotalCalculationService,
-            IOrderProcessingService orderProcessingService, IOrderService orderService,
-            ICurrencyService currencyService,
-            IPaymentService paymentService,
-            IPriceFormatter priceFormatter,
-            IPictureService pictureService, INewsLetterSubscriptionService newsLetterSubscriptionService,
-            IForumService forumService, IShoppingCartService shoppingCartService,
-            IOpenAuthenticationService openAuthenticationService,
-            IBackInStockSubscriptionService backInStockSubscriptionService,
-            IDownloadService downloadService, IWebHelper webHelper,
-            ICustomerActivityService customerActivityService,
-            ProductUrlHelper productUrlHelper,
-            MediaSettings mediaSettings,
-            LocalizationSettings localizationSettings,
-            //CaptchaSettings captchaSettings, 
-            ExternalAuthenticationSettings externalAuthenticationSettings,
-            PluginMediator pluginMediator,
-            IPermissionService permissionService,
-            IProductService productService)
-        {
-            _services = services;
-            _authenticationService = authenticationService;
-            _dateTimeHelper = dateTimeHelper;
-            _dateTimeSettings = dateTimeSettings;
-            _taxSettings = taxSettings;
-            _localizationService = localizationService;
-            _workContext = workContext;
-            _storeContext = storeContext;
-            _customerService = customerService;
-            _genericAttributeService = genericAttributeService;
-            _customerRegistrationService = customerRegistrationService;
-            _taxService = taxService;
-            _rewardPointsSettings = rewardPointsSettings;
-            _customerSettings = customerSettings;
-            _addressSettings = addressSettings;
-            _forumSettings = forumSettings;
-            _orderSettings = orderSettings;
-            _addressService = addressService;
-            _countryService = countryService;
-            _stateProvinceService = stateProvinceService;
-            _orderProcessingService = orderProcessingService;
-            _orderTotalCalculationService = orderTotalCalculationService;
-            _orderService = orderService;
-            _currencyService = currencyService;
-            _paymentService = paymentService;
-            _priceFormatter = priceFormatter;
-            _pictureService = pictureService;
-            _newsLetterSubscriptionService = newsLetterSubscriptionService;
-            _forumService = forumService;
-            _shoppingCartService = shoppingCartService;
-            _openAuthenticationService = openAuthenticationService;
-            _backInStockSubscriptionService = backInStockSubscriptionService;
-            _downloadService = downloadService;
-            _webHelper = webHelper;
-            _customerActivityService = customerActivityService;
-            _productUrlHelper = productUrlHelper;
+			IDateTimeHelper dateTimeHelper,
+			DateTimeSettings dateTimeSettings, TaxSettings taxSettings,
+			ILocalizationService localizationService,
+			IWorkContext workContext, IStoreContext storeContext,
+			ICustomerService customerService,
+			IGenericAttributeService genericAttributeService,
+			ICustomerRegistrationService customerRegistrationService,
+			ITaxService taxService, RewardPointsSettings rewardPointsSettings,
+			CustomerSettings customerSettings, AddressSettings addressSettings, ForumSettings forumSettings,
+			OrderSettings orderSettings, IAddressService addressService,
+			ICountryService countryService, IStateProvinceService stateProvinceService,
+			IOrderTotalCalculationService orderTotalCalculationService,
+			IOrderProcessingService orderProcessingService, IOrderService orderService,
+			ICurrencyService currencyService,
+			IPaymentService paymentService,
+			IPriceFormatter priceFormatter,
+			IPictureService pictureService, INewsLetterSubscriptionService newsLetterSubscriptionService,
+			IForumService forumService, IShoppingCartService shoppingCartService,
+			IOpenAuthenticationService openAuthenticationService,
+			IBackInStockSubscriptionService backInStockSubscriptionService,
+			IDownloadService downloadService, IWebHelper webHelper,
+			ICustomerActivityService customerActivityService,
+			ProductUrlHelper productUrlHelper,
+			MediaSettings mediaSettings,
+			LocalizationSettings localizationSettings,
+			//CaptchaSettings captchaSettings, 
+			ExternalAuthenticationSettings externalAuthenticationSettings,
+			PluginMediator pluginMediator,
+			IPermissionService permissionService,
+			IProductService productService)
+		{
+			_services = services;
+			_authenticationService = authenticationService;
+			_dateTimeHelper = dateTimeHelper;
+			_dateTimeSettings = dateTimeSettings;
+			_taxSettings = taxSettings;
+			_localizationService = localizationService;
+			_workContext = workContext;
+			_storeContext = storeContext;
+			_customerService = customerService;
+			_genericAttributeService = genericAttributeService;
+			_customerRegistrationService = customerRegistrationService;
+			_taxService = taxService;
+			_rewardPointsSettings = rewardPointsSettings;
+			_customerSettings = customerSettings;
+			_addressSettings = addressSettings;
+			_forumSettings = forumSettings;
+			_orderSettings = orderSettings;
+			_addressService = addressService;
+			_countryService = countryService;
+			_stateProvinceService = stateProvinceService;
+			_orderProcessingService = orderProcessingService;
+			_orderTotalCalculationService = orderTotalCalculationService;
+			_orderService = orderService;
+			_currencyService = currencyService;
+			_paymentService = paymentService;
+			_priceFormatter = priceFormatter;
+			_pictureService = pictureService;
+			_newsLetterSubscriptionService = newsLetterSubscriptionService;
+			_forumService = forumService;
+			_shoppingCartService = shoppingCartService;
+			_openAuthenticationService = openAuthenticationService;
+			_backInStockSubscriptionService = backInStockSubscriptionService;
+			_downloadService = downloadService;
+			_webHelper = webHelper;
+			_customerActivityService = customerActivityService;
+			_productUrlHelper = productUrlHelper;
 			_adCampaignService = adCampaignService;
 			_mediaSettings = mediaSettings;
-            _localizationSettings = localizationSettings;
-            //_captchaSettings = captchaSettings;
-            _externalAuthenticationSettings = externalAuthenticationSettings;
-            _pluginMediator = pluginMediator;
-            _permissionService = permissionService;
-            _productService = productService;
-        }
+			_localizationSettings = localizationSettings;
+			//_captchaSettings = captchaSettings;
+			_externalAuthenticationSettings = externalAuthenticationSettings;
+			_pluginMediator = pluginMediator;
+			_permissionService = permissionService;
+			_productService = productService;
+		}
 
 		#endregion
 
@@ -224,9 +226,9 @@ namespace SmartStore.WebApi.Controllers.Api
 		}
 
 		[System.Web.Http.HttpPost]
-        [System.Web.Http.ActionName("Login")]
-        public HttpResponseMessage Login(LoginModel model)//string returnUrl, bool captchaValid, bool RememberMe, string Username = null, string Email = null, string Password = null)
-        {
+		[System.Web.Http.ActionName("Login")]
+		public HttpResponseMessage Login(LoginModel model)//string returnUrl, bool captchaValid, bool RememberMe, string Username = null, string Email = null, string Password = null)
+		{
 			var response = this.Request.CreateResponse(HttpStatusCode.OK);
 			string jsonString = "";
 			try
@@ -253,7 +255,7 @@ namespace SmartStore.WebApi.Controllers.Api
 						var customer = _customerSettings.UsernamesEnabled
 							? _customerService.GetCustomerByUsername(model.Username)
 							: _customerService.GetCustomerByEmail(model.Email);
-												
+
 						if (customer.Id != 0)
 						{
 							_workContext.CurrentCustomer = customer;
@@ -262,7 +264,7 @@ namespace SmartStore.WebApi.Controllers.Api
 						var Enable2FA = customer.GetAttribute<bool>(SystemCustomerAttributeNames.Enable2FA);
 						if (Enable2FA)
 						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = new { Enable2FA = true }});
+							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = new { Enable2FA = true } });
 						}
 						_shoppingCartService.MigrateShoppingCart(customer, customer);
 						if (customer != null)
@@ -318,7 +320,7 @@ namespace SmartStore.WebApi.Controllers.Api
 							_workContext.CurrentCustomer = customer;
 						}
 
-						bool isvalid = _authenticationService.Validated2FA(customer,model.Pin2FA);
+						bool isvalid = _authenticationService.Validated2FA(customer, model.Pin2FA);
 						if (isvalid)
 						{
 							if (customer != null)
@@ -384,9 +386,9 @@ namespace SmartStore.WebApi.Controllers.Api
 				bool isadmin = false;
 				if (customer.IsAdmin(true) == true)
 				{
-					isadmin = true;					
+					isadmin = true;
 				}
-				
+
 				//standard logout 
 				//activity log
 				_customerActivityService.InsertActivity("PublicStore.Logout", _localizationService.GetResource("ActivityLog.PublicStore.Logout"));
@@ -394,7 +396,7 @@ namespace SmartStore.WebApi.Controllers.Api
 				_authenticationService.SignOut();
 
 				response.StatusCode = HttpStatusCode.OK;
-				jsonString = JsonConvert.SerializeObject(new { id = customer.Id, isAdmin = isadmin }, Formatting.None);				
+				jsonString = JsonConvert.SerializeObject(new { id = customer.Id, isAdmin = isadmin }, Formatting.None);
 
 				jsonString = "{\"code\":1,\"message\": \"success\",\"data\":" + jsonString + "}";
 				response.Content = new StringContent(jsonString, Encoding.UTF8, "application/json");
@@ -410,9 +412,9 @@ namespace SmartStore.WebApi.Controllers.Api
 		}
 
 		[System.Web.Http.HttpPost]
-        [System.Web.Http.ActionName("Register")]
-        public HttpResponseMessage Register(RegisterModel model)
-        {
+		[System.Web.Http.ActionName("Register")]
+		public HttpResponseMessage Register(RegisterModel model)
+		{
 			var ValidateTree = _customerService.ValidateTree(model.PlacementUserName);
 			var Sponsors = _customerService.GetCustomerByUsername(model.SponsorsName);
 			var PlaceamentUser = _customerService.GetCustomerByUsername(model.PlacementUserName);
@@ -428,8 +430,8 @@ namespace SmartStore.WebApi.Controllers.Api
 			{
 				return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = "Placement Id Incorrect" });
 			}
-			
-			if(ValidateTree.Contains(model.Position))
+
+			if (ValidateTree.Contains(model.Position))
 			{
 				return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = "This Position Is Already Filled" });
 			}
@@ -441,7 +443,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			{
 				return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = "Username is already registered, Please use different username" });
 			}
-			
+
 			model.AffliateId = Sponsors.Id;
 			model.PlacementId = PlaceamentUser.Id;
 			var response = this.Request.CreateResponse(HttpStatusCode.OK);
@@ -456,7 +458,7 @@ namespace SmartStore.WebApi.Controllers.Api
 					//(int)UserRegistrationType.Disabled
 				}
 
-				var customer = _customerService.InsertGuestCustomerNew(model.PlacementId,model.Position);
+				var customer = _customerService.InsertGuestCustomerNew(model.PlacementId, model.Position);
 				if (customer.Id != 0)
 				{
 					_workContext.CurrentCustomer = customer;
@@ -548,40 +550,121 @@ namespace SmartStore.WebApi.Controllers.Api
 			{
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, new { code = 1, Message = "Something went wrong, Ex:" + ex.ToString() });
 			}
-			
-        }
 
-		
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.ActionName("PasswordRecovery")]
-        public HttpResponseMessage PasswordRecoverySend(PasswordRecoveryModel model)
-        {
-            var response = this.Request.CreateResponse();
+		}
+
+
+		[System.Web.Http.HttpPost]
+		[System.Web.Http.ActionName("PasswordRecovery")]
+		public HttpResponseMessage PasswordRecoverySend(PasswordRecoveryModel model)
+		{
+			var response = this.Request.CreateResponse();
 			string jsonString = "";
 
-			var customer = _customerService.GetCustomerByEmail(model.Email);
+
+			string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+			string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+			TwilioClient.Init(accountSid, authToken);
+
+			var customer = _customerService.GetCustomerByUsername(model.Email);
 			if (customer.Id > 0)
 			{
 				_workContext.CurrentCustomer = customer;
 			}
+			else
+			{
+				model.ResultMessage = "Invalid Phone number";
+				model.ResultState = PasswordRecoveryResultState.Success;
+				response.StatusCode = HttpStatusCode.OK;
+				return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "invalidusername", data = model.ResultMessage });
+
+			}
+
+			var Phone = customer.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+			if(model.Phone != Phone)
+			{
+				model.ResultMessage = "Invalid Phone number";
+				model.ResultState = PasswordRecoveryResultState.Success;
+				response.StatusCode = HttpStatusCode.OK;
+				return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "invalidphone", data = model.ResultMessage });
+			}
+
+			//string accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+			//string authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+			//TwilioClient.Init(accountSid, authToken);
+
+			//if (string.IsNullOrEmpty(model.OTP))
+			//{
+			//	var message1 = MessageResource.Create(
+			//		body: "This is the ship that made the Kessel Run in fourteen parsecs?",
+			//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+			//		to: new Twilio.Types.PhoneNumber("+919974242686")
+			//	);
+			//}
 
 			try
-            {
-                //var customer = _customerService.GetCustomerByEmail(model.Email);
-				
-                if (customer != null && customer.Active && !customer.Deleted)
-                {
-                    var passwordRecoveryToken = Guid.NewGuid();
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.PasswordRecoveryToken, passwordRecoveryToken.ToString());
-                    Services.MessageFactory.SendCustomerPasswordRecoveryMessage(customer, _workContext.WorkingLanguage.Id);
+			{
+				if (customer != null && customer.Active && !customer.Deleted)
+				{
+					var passwordRecoveryToken = Guid.NewGuid();
 
-                    model.ResultMessage = _localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent");
-                    model.ResultState = PasswordRecoveryResultState.Success;
-                    response.StatusCode = HttpStatusCode.OK;
-					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = model.ResultMessage });
+					if (!string.IsNullOrEmpty(model.OTP))
+					{
+						var OTP = customer.GetAttribute<string>(SystemCustomerAttributeNames.PasswordResetOTP);
+
+						if (OTP == model.OTP)
+						{
+							Random generator = new Random();
+							String newpassword = generator.Next(0, 1000000).ToString("D6");
+							var changePassRequest = new ChangePasswordRequest(customer.Email, false, _customerSettings.DefaultPasswordFormat, newpassword);
+							var changePassResult = _customerRegistrationService.ChangePassword(changePassRequest);
+
+							if (changePassResult.Success)
+							{
+								var message1 = MessageResource.Create(
+									body: "Your new Magic Booster Password : " + newpassword,
+									from: new Twilio.Types.PhoneNumber("+17192498304"),
+									to: new Twilio.Types.PhoneNumber(Phone)
+								);
+							}
+
+							//_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.PasswordRecoveryToken, passwordRecoveryToken.ToString());
+							//Services.MessageFactory.SendCustomerPasswordRecoveryMessage(customer, _workContext.WorkingLanguage.Id);
+
+							model.ResultMessage = "New Password sent to your phone";
+							model.ResultState = PasswordRecoveryResultState.Success;
+							response.StatusCode = HttpStatusCode.OK;
+							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = model.ResultMessage });
+						}
+						else
+						{
+							model.ResultMessage = _localizationService.GetResource("Enter Valid OTP");
+							return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = model.ResultMessage });
+						}
+					}
+					else
+					{
+						Random generator = new Random();
+						String r = generator.Next(0, 1000000).ToString("D6");
+
+						_genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.PasswordResetOTP, r);
+
+						var message1 = MessageResource.Create(
+							body: "Reset Password OTP : " + r,
+							from: new Twilio.Types.PhoneNumber("+17192498304"),
+							to: new Twilio.Types.PhoneNumber(Phone)
+						);
+
+						model.ResultMessage = _localizationService.GetResource("OTP Sent on your registered Phone Number");
+						model.ResultState = PasswordRecoveryResultState.Success;
+						response.StatusCode = HttpStatusCode.OK;
+						return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "otpsent", data = model.ResultMessage });
+					}					
 				}
-                else
-                {
+				else
+				{
 					model.ResultMessage = _localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent");
 					model.ResultState = PasswordRecoveryResultState.Success;
 					//model.ResultMessage = _localizationService.GetResource("Account.PasswordRecovery.EmailNotFound");
@@ -589,12 +672,12 @@ namespace SmartStore.WebApi.Controllers.Api
 					return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = model.ResultMessage });
 
 				}
-            }
-            catch (Exception ex)
-            {
+			}
+			catch (Exception ex)
+			{
 				return Request.CreateResponse(HttpStatusCode.OK, new { code = 1, Message = "something went wrong" });
-            }
-        }
+			}
+		}
 
 		[System.Web.Http.HttpPost]
 		[System.Web.Http.ActionName("ChangePassword")]
@@ -773,7 +856,7 @@ namespace SmartStore.WebApi.Controllers.Api
 		{
 			var response = this.Request.CreateResponse(HttpStatusCode.OK);
 			var customer = _customerService.GetCustomerByUsername(inviter);
-			if(customer != null)
+			if (customer != null)
 			{
 				var CustomerName = customer.GetFullName();
 				if (CustomerName.IsEmpty())

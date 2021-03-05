@@ -14,6 +14,8 @@ namespace SmartStore.Admin.Models.Hyip
 		public int RegisteredMembers { get; set; }
 		public int ActiveMembers { get; set; }
 		public double CompletedWithdrawals { get; set; }
+		public double BetEarning { get; set; }
+		public string SharePurchase { get; set; }
 		public double PendingWithdrawals { get; set; }
 		public double CommissionPaid { get; set; }
 		public double TotalDeposit { get; set; }

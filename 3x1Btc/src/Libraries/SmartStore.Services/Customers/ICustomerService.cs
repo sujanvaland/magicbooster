@@ -332,5 +332,6 @@ namespace SmartStore.Services.Customers
 		bool ValidateEmail(string EmailId);
 		string GetTotalPair(int CustomerId);
 		float GetNetworkIncome(int CustomerId);
+		float GetBetEarning(int CustomerId);
 	}
 }

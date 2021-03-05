@@ -213,6 +213,7 @@ namespace SmartStore.WebApi.Controllers.Api
 				}
 			}
 
+			levelcustomer = _customerService.GetCustomerById(customerid);
 			for (int i = 0; i < 5; i++)
 			{
 				if (levelcustomer != null)

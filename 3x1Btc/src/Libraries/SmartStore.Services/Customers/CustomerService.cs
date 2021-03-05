@@ -994,8 +994,9 @@ namespace SmartStore.Services.Customers
 			var totalWithdrawal = GetCustomerWithdrawal(customerid);
 			var totalPurchase = GetCustomerPurchase(customerid);
 			var totalTransfer = GetCustomerTransfer(customerid);
+			var totalShare = GetCustomerShare(customerid);
 
-			var availablebalance = totalFunding + totalTotalEarning - (totalPurchase + totalWithdrawal + totalTransfer);
+			var availablebalance = totalFunding + totalTotalEarning - (totalPurchase + totalWithdrawal + totalTransfer + totalShare);
 			return availablebalance;
 		}
 
@@ -1102,6 +1103,17 @@ namespace SmartStore.Services.Customers
 				return 0;
 			var totalFunding = customer.Transaction.Where(x => x.Status == Core.Domain.Hyip.Status.Completed
 										&& x.TranscationType == Core.Domain.Hyip.TransactionType.Funding
+										&& x.Deleted == false)
+								.Select(x => x.FinalAmount).Sum();
+			return totalFunding;
+		}
+		public virtual float GetCustomerShare(int customerid)
+		{
+			var customer = GetCustomerById(customerid);
+			if (customer == null)
+				return 0;
+			var totalFunding = customer.Transaction.Where(x => x.Status == Core.Domain.Hyip.Status.Completed
+										&& x.TranscationType == Core.Domain.Hyip.TransactionType.SharePurchase
 										&& x.Deleted == false)
 								.Select(x => x.FinalAmount).Sum();
 			return totalFunding;
@@ -1361,6 +1373,24 @@ namespace SmartStore.Services.Customers
 			if (NetWorkIncomeList != null)
 			{
 				return NetWorkIncomeList.Sum();
+			}
+			return 0;
+		}
+		public float GetBetEarning(int CustomerId)
+		{
+			var BetEarningList = _transactionRepository.Table.Where(e => e.CustomerId == CustomerId && e.TranscationTypeId == 13).Select(e => e.Amount).ToList();
+			var WithdrawalList = _transactionRepository.Table.Where(e => e.CustomerId == CustomerId && e.TranscationTypeId == 19).Select(e => e.Amount).ToList();
+
+			if (BetEarningList != null)
+			{
+				if (WithdrawalList != null)
+				{
+					return BetEarningList.Sum() - WithdrawalList.Sum();
+				}
+				else
+				{
+					return BetEarningList.Sum();
+				}				
 			}
 			return 0;
 		}

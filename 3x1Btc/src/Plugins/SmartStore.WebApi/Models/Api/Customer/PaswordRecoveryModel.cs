@@ -14,7 +14,11 @@ namespace SmartStore.WebApi.Models.Api.Customer
 
         public string ResultMessage { get; set; }
 
-        public PasswordRecoveryResultState ResultState { get; set; }
+		public string OTP { get; set; }
+
+		public string Phone { get; set; }
+
+		public PasswordRecoveryResultState ResultState { get; set; }
     }
 
 	public partial class PasswordRecoveryConfirmModel : ModelBase

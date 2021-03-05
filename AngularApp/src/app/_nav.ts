@@ -26,11 +26,11 @@ export const navItems: INavData[] = [
     url: '/base/buyadpack',
     icon: 'icon-basket-loaded'
   },
-  // {
-  //   name: 'My Traffic Pack',
-  //   url: '/base/myshares',
-  //   icon: 'fa fa-line-chart'
-  // },
+  {
+    name: 'Investment',
+    url: '/base/myshares',
+    icon: 'fa fa-share-alt'
+  },
   // {
   //   name: 'Earn GCT',
   //   url: '/base/myshares',

@@ -11,6 +11,9 @@
           <option value="3">Binary Income</option>
           <option value="7">Royalty Bonus</option>
           <option value="8">Matching Bonus</option>
+          <option value="10">My Investment</option>
+          <option value="13">Received Share</option>
+          <option value="19">Withdrawal Investment Share</option>
           <option value="1">Received Fund</option>
           <option value="14">Transfered Fund</option>
           <option value="15">Transfered Coin</option>
@@ -36,7 +39,6 @@
           <tr *ngFor="let transfer of TransferData">
             <td *ngIf="TranscationTypeId == 6">{{transfer.RefUserName}}</td>
             <td *ngIf="TranscationTypeId != 6">{{transfer.CustomerUserName}}</td>
-            <!-- <td><span *ngIf="transfer.RefUserName">{{transfer.RefUserName}}{{transfer.CustomerUserName}}</span></td> -->
             <td>{{transfer.FinalAmountRaw}} </td>
             <td *ngIf="TranscationTypeId == 17">{{transfer.StokistName}}</td>
             <td>{{transfer.TransactionDate |  date:'mediumDate'}}</td>

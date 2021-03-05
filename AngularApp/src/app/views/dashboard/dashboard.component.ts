@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   CustomerId :string = localStorage.getItem("CustomerId");
   SiteUrl : string = environment.siteUrl;
   CustomerInfoModel = { Status : '', FullName :'',AvailableBalance :0,NetworkIncome:0,RoyaltyIncome:0,TodaysPair:'',AvailableCoin:0,TotalEarning:0,DirectBonus:0,
-  AvailableCoins:0,UnilevelEarning : 0,CyclerIncome:0,CustomerId:0,RegistrationDate:'',ServerTime :'',ReferredBy:'',AffilateId:0,
+  AvailableCoins:0,UnilevelEarning : 0,CyclerIncome:0,CustomerId:0,RegistrationDate:'',ServerTime :'',ReferredBy:'',AffilateId:0,BetEarning:0,
   NoOfSecondsToSurf:0,NoOfAdsToSurf:0,PlacementId:0,Position:'',Username:'',PlacementUserName:'',AccumulatedPairing:'',PackageName:''}
   CustomerBoard = [];
   Managers = [] = environment.Managers;

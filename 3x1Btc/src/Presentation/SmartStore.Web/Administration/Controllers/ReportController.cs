@@ -215,6 +215,49 @@ namespace SmartStore.Admin.Controllers
 			return View(model);
 		}
 
+		public ActionResult Share()
+		{
+
+			return View();
+		}
+
+		public ActionResult MyShare(string Type,string Amount)
+		{
+			if(Amount != null)
+			{
+				var transcationList = _transactionService.GetTotalShareList();
+				var Total = transcationList.Count;
+				var PerShareAmount = 0;
+				if (Type == "P")
+				{
+					PerShareAmount = Convert.ToInt32(Amount) / Total;
+				}
+				else
+				{
+					PerShareAmount = Convert.ToInt32(Amount) / Total * -1;
+				}
+
+				foreach (var item in transcationList)
+				{
+					TransactionModel transactionModel = new TransactionModel();
+					transactionModel.Amount = (PerShareAmount) * 4;
+					transactionModel.CustomerId = item.CustomerId;
+					transactionModel.FinalAmount = transactionModel.Amount;
+					transactionModel.NoOfPosition = 0;
+					transactionModel.TransactionDate = DateTime.Now;
+					transactionModel.ProcessorId = 5;
+					transactionModel.TranscationTypeId = (int)TransactionType.BetEarning;
+					var transcation = transactionModel.ToEntity();
+					transcation.StatusId = (int)Status.Completed;
+					transcation.TranscationTypeId = (int)TransactionType.BetEarning;
+					transcation.TranscationNote = "Admin Share";
+					_transactionService.InsertTransaction(transcation);
+				}
+				return View("Share");
+			}
+			return View("Share");
+		}
+
 		[GridAction(EnableCustomBinding = true)]
 		public ActionResult ListFunding(GridCommand command, TransactionModel model)
 		{
@@ -295,8 +338,8 @@ namespace SmartStore.Admin.Controllers
 				var transModel = new TransactionModel
 				{
 					Id = x.Id,
-					FinalAmountRaw = x.Amount + " " + currency,
-					FinalAmount = x.Amount,
+					FinalAmountRaw = x.Amount / 4 + " " + currency,
+					FinalAmount = x.Amount / 4,
 					TransactionDate = x.TransactionDate,
 					StatusId = x.StatusId,
 					IsVisible = Is_Visible,

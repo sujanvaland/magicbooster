@@ -771,6 +771,7 @@
     <Content Include="Views\AdCampaign\ListTicket.cshtml" />
     <Content Include="Views\Report\TransactionReport.cshtml" />
     <Content Include="Views\Report\TransferFundReport.cshtml" />
+    <Content Include="Views\Report\Share.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Category\Create.cshtml" />

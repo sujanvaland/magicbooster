@@ -52,6 +52,8 @@ using SmartStore.Admin.Models.Board;
 using SmartStore.Web.Models.Common;
 using SmartStore.Core.Email;
 using SmartStore.Services.Advertisments;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio;
 
 namespace SmartStore.WebApi.Controllers.Api
 {
@@ -214,6 +216,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			model.AccountHolderName = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountHolderName);
 			model.AccountNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountNumber);
 			model.NICR = customer.GetAttribute<string>(SystemCustomerAttributeNames.NICR);
+			model.Phone = customer.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
 			model.PayzaAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayzaAcc);
 			model.SolidTrustPayAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.SolidTrustPayAcc);
 			model.PayeerAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayeerAcc);
@@ -221,7 +224,8 @@ namespace SmartStore.WebApi.Controllers.Api
 			model.AdvanceCashAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.AdvanceCashAcc);
 			model.Enable2FA = customer.GetAttribute<bool>(SystemCustomerAttributeNames.Enable2FA);
 			model.AvailableBalance = (float)Math.Round(_customerService.GetAvailableBalance(customer.Id) / 4, 2);
-			model.NetworkIncome = _customerService.GetNetworkIncome(customer.Id) / 4 ;
+			model.BetEarning = _customerService.GetBetEarning(customer.Id) / 4;
+			model.NetworkIncome = _customerService.GetNetworkIncome(customer.Id) / 4;
 			model.TodaysPair = _customerService.GetTotalPair(customer.Id);
 			model.AvailableCoins = _customerService.GetAvailableCoin(CustomerId);
 			model.PendingWithdrawal = _customerService.GetCustomerPendingWithdrawal(customer.Id);
@@ -232,7 +236,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			model.PendingWithdrawal = _customerService.GetCustomerPendingWithdrawal(id);
 			model.TotalEarning = _customerService.GetCustomerTotalEarnings(id);
 			model.TotalIncome = model.TotalEarning;
-			model.CyclerIncome = (float)Math.Round(_customerService.GetCustomerCyclerBonus(id) / 4,2);
+			model.CyclerIncome = (float)Math.Round(_customerService.GetCustomerCyclerBonus(id) / 4, 2);
 			model.DirectBonus = _customerService.GetCustomerDirectBonus(id) / 4;
 			model.UnilevelEarning = _customerService.GetCustomerUnilevelBonus(id) / 4;
 			model.PoolShare = _customerService.GetCustomerROI(id);// + _customerService.GetRepurchaseROI(id);
@@ -255,7 +259,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			model.RegistrationDate = customer.CreatedOnUtc.ToLongDateString();
 			model.ServerTime = DateTime.Now.ToLongTimeString();
 			model.Status = (customer.CustomerPosition.Count() > 0 || customer.CustomerPlan.Count() > 0) ? "Active" : "Inactive";
-			model.AffilateId = customer.AffiliateId;			
+			model.AffilateId = customer.AffiliateId;
 			model.VacationModelExpiryDate = customer.GetAttribute<DateTime>(SystemCustomerAttributeNames.VacationModeExpiryDate).ToShortDateString();
 			model.NextSurfTime = customer.GetAttribute<DateTime>(SystemCustomerAttributeNames.NextSurfDate);
 			if (model.NextSurfTime != DateTime.MinValue)
@@ -338,7 +342,7 @@ namespace SmartStore.WebApi.Controllers.Api
 				return transModel;
 			}).ToList();
 			gridModel.Total = cust.Count;
-			return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message  = "success", data = gridModel });
+			return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = gridModel });
 		}
 
 		[System.Web.Http.HttpPost]
@@ -407,24 +411,87 @@ namespace SmartStore.WebApi.Controllers.Api
 					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect 2FA Pin" });
 				}
 			}
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.StokistCommision);
 
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.CountryId, model.CountryId);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.Gender, model.Gender);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.FirstName);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.LastName, model.LastName);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BitcoinAddressAcc, model.BitcoinAddress);
+			if (string.IsNullOrEmpty(model.AccountSettingOTP))
+			{
+				string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+				string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
 
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountNumber, model.AccountNumber);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountHolderName, model.AccountHolderName);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.NICR, model.NICR);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BankName, model.BankName);
+				TwilioClient.Init(accountSid, authToken);
 
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayzaAcc, model.PayzaAcc);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PMAcc, model.PMAcc);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.SolidTrustPayAcc, model.SolidTrustPayAcc);
-			_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayeerAcc, model.PayeerAcc);
-			return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = model });
+				Random generator = new Random();
+				string newpassword = generator.Next(0, 1000000).ToString("D6");
+				var OldPhone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountSettingOTP, newpassword);
+
+				var message1 = MessageResource.Create(
+					body: "OTP To Update Magic Booster Account Info Is :" + newpassword,
+					from: new Twilio.Types.PhoneNumber("+17192498304"),
+					to: new Twilio.Types.PhoneNumber(OldPhone)
+				);
+				if (!string.IsNullOrEmpty(message1.ErrorMessage))
+				{
+					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+				}
+				else
+				{
+					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+				}
+			}
+			else
+			{
+				var AccountSettingOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.AccountSettingOTP);
+
+				if (AccountSettingOTP == model.AccountSettingOTP)
+				{
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.StokistCommision);
+
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.CountryId, model.CountryId);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.Gender, model.Gender);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.FirstName);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.LastName, model.LastName);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BitcoinAddressAcc, model.BitcoinAddress);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.Phone, model.Phone);
+
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountNumber, model.AccountNumber);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountHolderName, model.AccountHolderName);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.NICR, model.NICR);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BankName, model.BankName);
+
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayzaAcc, model.PayzaAcc);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PMAcc, model.PMAcc);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.SolidTrustPayAcc, model.SolidTrustPayAcc);
+					_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayeerAcc, model.PayeerAcc);
+					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = model });
+				}
+				else
+				{
+					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
+				}
+			}
+
+
+			//try
+			//{
+			//	string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+			//	string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+			//	TwilioClient.Init(accountSid, authToken);
+
+			//	var message1 = MessageResource.Create(
+			//		body: "Your magic booster account info updated",
+			//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+			//		to: new Twilio.Types.PhoneNumber(model.Phone)
+			//	);
+			//	if (!string.IsNullOrEmpty(message1.ErrorMessage))
+			//	{
+			//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+			//	}
+			//}
+			//catch (Exception ex)
+			//{
+			//	return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+			//}
 		}
 
 		[System.Web.Http.HttpPost]
@@ -483,7 +550,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			var cust = _customerService.GetCustomerByGuid(Guid.Parse(customerguid));
 			if (customerguid != null)
 			{
-				
+
 				if (model.CustomerId != cust.Id)
 				{
 					return Request.CreateResponse(HttpStatusCode.Unauthorized, new { code = 0, Message = "something went wrong" });

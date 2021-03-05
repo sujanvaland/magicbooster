@@ -14,6 +14,12 @@ export class CommonService {
     return this.http.get<any>(url)
   }
 
+  InvestmentWithdrawal(TransactionModel)
+  {
+    let url = environment.baseApiUrl + "Common/InvestmentWithdrawal";
+    return this.http.post<any>(url,TransactionModel)
+  }
+
   Withdrawfund(TransactionModel)
   {
     let url = environment.baseApiUrl + "Common/Withdrawfund";
@@ -80,6 +86,11 @@ export class CommonService {
   
   TransferFund(transferfund){
     let url = environment.baseApiUrl + "Common/TransferFund";
+    return this.http.post<any>(url,transferfund)
+  }
+
+  MyInvestment(transferfund){
+    let url = environment.baseApiUrl + "Common/MyInvestment";
     return this.http.post<any>(url,transferfund)
   }
 

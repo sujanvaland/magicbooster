@@ -64,7 +64,22 @@
 			}
 
 			var itemUrl = GetNodeLink(node);
-			if (currentCustomer.IsInCustomerRole("Administrators"))
+			if (currentCustomer.IsInCustomerRole("Finance"))
+			{
+				if (itemText == "Dashboard" || itemText == "Reports" || itemText == "Share")
+				{
+					<li data-id="nav-@item.Id" class="nav-item@(node.HasChildren ? " dropdown" : "")@(item.Id == "dashboard" ? " dropdown d-md-block" : "")">
+						<a class="nav-link@(node.HasChildren ? " dropdown-toggle" : "")" @(node.HasChildren ? "data-toggle=collapse" : "") href="@(node.HasChildren ? "#"+item.Id : itemUrl)" @Html.Attr("data-toggle", "dropdown", node.HasChildren)>
+							<span class="navbar-label d-none d-lg-block">@itemText</span>
+						</a>
+						@if (node.HasChildren)
+						{
+							@CreateDropdown(node.Children, true, item.Id)
+						}
+					</li>
+				}
+			}
+			else if (currentCustomer.IsInCustomerRole("Administrators"))
 			{
 				if (itemText == "Dashboard" || itemText == "Customers" || itemText == "Package" || itemText == "Promotions"
 				|| itemText == "CMS" || itemText == "Ad Campaign" || itemText == "Support Ticket" || itemText == "Campaigns" || itemText == "Configuration" || itemText == "System" || itemText == "Reports")

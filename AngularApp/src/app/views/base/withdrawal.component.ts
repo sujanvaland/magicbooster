@@ -13,6 +13,7 @@ export class WithdrawalComponent implements OnInit{
 
 withdrawal: FormGroup;
 submitted = false;
+otpSuccess = false;
 
 constructor(private formBuilder: FormBuilder,
   private customerservice:CustomerService,
@@ -30,7 +31,9 @@ ngOnInit(): void {
   this.CurrencyCode = (localStorage.getItem("CurrencyCode") == null) ? "USD" : localStorage.getItem("CurrencyCode");
   this.withdrawal =this.formBuilder.group({
     Amount: ['', Validators.required],
-    ProcessorId:['', Validators.required]
+    ProcessorId:['', Validators.required],
+    WithdrawalTypeId:['', Validators.required],
+    WithdrawalOTP:['']
   });
   
   this.customerservice.GetCustomerInfo(this.CustomerId)
@@ -47,6 +50,16 @@ ngOnInit(): void {
       this.PaymentProcessor = res.data;
     }
   )
+
+  $('.loaderbo').show();
+      this.customerservice.GetCustomerInfo(this.CustomerId)
+      .subscribe(
+        res => {
+          this.CustomerInfoModel = res.data;
+          $('.loaderbo').hide();
+        },
+        err => console.log(err)
+      )
 }
 
 get f() { return this.withdrawal.controls; }
@@ -59,25 +72,87 @@ get f() { return this.withdrawal.controls; }
             return;
         }
 
+        if(this.withdrawal.value.Amount < 10){
+          this.toastr.error("Withdrawal Amount Must be Grater Then 10$.");
+          return false;
+        }
+        if(this.withdrawal.value.Amount > 500){
+          this.toastr.error("Maximum Withdrawal Amount 500$.");
+          return false;
+        }
+
         this.withdrawal.value.CustomerId = this.CustomerId;
+        
         $('.loaderbo').show();
-        this.commonservice.Withdrawfund(this.withdrawal.value)
-        .subscribe(
-          res =>{
-            if(res.Message === "success"){
-              this.toastr.success("Yieepiee your withdrawal request is accepted","Congratulations !!")
-              this.router.navigate(['/dashboard']);
+        if(this.withdrawal.value.WithdrawalTypeId == 1){
+          this.commonservice.Withdrawfund(this.withdrawal.value)
+          .subscribe(
+            res =>{
+              if(res.Message === "OTP Sent to Your Registered Mobile Number"){
+                this.toastr.success("OTP Sent to Your Registered Mobile Number","Success");
+                this.otpSuccess = true;
+                this.withdrawal.value.WithdrawalOTP = "";
+                $('.loaderbo').hide();
+              }
+              else if(res.Message === "Incorrect OTP"){
+                this.toastr.success("Incorrect OTP, Please Try With Valid OTP ","Success");
+                this.otpSuccess = true;
+                this.withdrawal.value.WithdrawalOTP = "";
+                $('.loaderbo').hide();
+              }
+              else if(res.Message === "success"){
+                this.withdrawal.value.WithdrawalOTP = "";
+                this.toastr.success("Yieepiee your withdrawal request is accepted","Congratulations !!")
+                this.router.navigate(['/dashboard']);
+              }
+              else{
+                this.withdrawal.value.WithdrawalOTP = "";
+                this.toastr.error(res.Message)
+              }
+              $('.loaderbo').hide();
+            },
+            err =>{
+              this.withdrawal.value.WithdrawalOTP = "";
+              this.toastr.error("Something went wrong");
+              $('.loaderbo').hide();
             }
-            else{
-              this.toastr.error(res.Message)
+          )
+        }
+        else{
+          this.commonservice.InvestmentWithdrawal(this.withdrawal.value)
+          .subscribe(
+            res =>{
+              if(res.Message === "OTP Sent to Your Registered Mobile Number"){
+                this.toastr.success("OTP Sent to Your Registered Mobile Number","Success");
+                this.otpSuccess = true;
+                this.withdrawal.value.WithdrawalOTP = "";
+                $('.loaderbo').hide();
+              }
+              else if(res.Message === "Incorrect OTP"){
+                this.toastr.success("Incorrect OTP, Please Try With Valid OTP ","Success");
+                this.otpSuccess = true;
+                this.withdrawal.value.WithdrawalOTP = "";
+                $('.loaderbo').hide();
+              }
+              else if(res.Message === "success"){
+                this.withdrawal.value.WithdrawalOTP = "";
+                this.toastr.success("Withdrawal request is Successful","Congratulations !!")
+                this.router.navigate(['/dashboard']);
+              }
+              else{
+                this.withdrawal.value.WithdrawalOTP = "";
+                this.toastr.error(res.Message)
+              }
+              $('.loaderbo').hide();
+            },
+            err =>{
+              this.withdrawal.value.WithdrawalOTP = "";
+              this.toastr.error("Something went wrong");
+              $('.loaderbo').hide();
             }
-            $('.loaderbo').hide();
-          },
-          err =>{
-            this.toastr.error("Something went wrong");
-            $('.loaderbo').hide();
-          }
-        )
+          )
+        }
+        
     }
 
     CalculateFees(){

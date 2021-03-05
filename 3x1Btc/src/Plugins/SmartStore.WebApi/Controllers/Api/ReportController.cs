@@ -175,8 +175,8 @@ namespace SmartStore.WebApi.Controllers.Api
 				var transModel = new TransactionModel
 				{
 					Id = x.Id,
-					FinalAmountRaw = x.Amount + " " + currency,
-					FinalAmount = x.Amount,
+					FinalAmountRaw = x.Amount / 4 + " " + currency,
+					FinalAmount = x.Amount / 4,
 					TransactionDate = x.TransactionDate,
 					StatusId = x.StatusId,
 					IsVisible = Is_Visible,
@@ -583,6 +583,7 @@ namespace SmartStore.WebApi.Controllers.Api
 			{
 				var transModel = new AllTransactionModel
 				{
+					Id = x.Id,
 					CustomerId = x.CustomerId,
 					FinalAmountRaw = x.Amount + " " + (Coin.Contains(x.TranscationTypeId) == true ? "Coin" : currency),
 					TransactionDate = x.TransactionDate,

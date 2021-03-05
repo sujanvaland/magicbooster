@@ -26,7 +26,7 @@ namespace SmartStore.Admin.Models.Investment
 			AvailablePlans = new List<SelectListItem>();
 			AvailableStatus = new List<SelectListItem>();
 		}
-
+		public string WithdrawalOTP { get; set; }
 		public string AccountNumber { get; set; }
 		public string NICR { get; set; }
 		public string BankName { get; set; }

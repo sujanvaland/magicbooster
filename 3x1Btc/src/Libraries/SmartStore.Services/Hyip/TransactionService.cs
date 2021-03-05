@@ -87,6 +87,69 @@ namespace SmartStore.Services.Hyip
 							&& x.CustomerId == customerid && x.Deleted == false).ToList();
 		}
 
+		public List<Transaction> GetTodaysInvestmentWithdrawalWithdrawal(int customerid)
+		{
+			var transType = (int)TransactionType.InvestmentWithdrawal;
+
+			return _transactionRepository.Table.
+				Where(x => x.TransactionDate.Year == DateTime.Now.Year
+							&& x.TransactionDate.Month == DateTime.Now.Month
+							&& x.TransactionDate.Day == DateTime.Now.Day
+							&& x.TranscationTypeId == transType
+							&& x.CustomerId == customerid && x.Deleted == false).ToList();
+		}
+
+		public float GetTodaysWithdrawalAmount(int customerid)
+		{
+			var transType = (int)TransactionType.Withdrawal;
+
+			float Result = 0;
+			var List = _transactionRepository.Table.
+						Where(x => x.TransactionDate.Year == DateTime.Now.Year
+							&& x.TransactionDate.Month == DateTime.Now.Month
+							&& x.TransactionDate.Day == DateTime.Now.Day
+							&& x.TranscationTypeId == transType
+							&& x.CustomerId == customerid && x.Deleted == false).Select(e => e.Amount).ToList();
+			if(List.Count != 0)
+			{
+				Result = List.Sum();
+			}
+			return Result;
+		}
+
+		public float GetTodaysInvestmentWithdrawalWithdrawalAmount(int customerid)
+		{
+			var transType = (int)TransactionType.InvestmentWithdrawal;
+
+			float Result = 0;
+			var List = _transactionRepository.Table.
+						Where(x => x.TransactionDate.Year == DateTime.Now.Year
+							&& x.TransactionDate.Month == DateTime.Now.Month
+							&& x.TransactionDate.Day == DateTime.Now.Day
+							&& x.TranscationTypeId == transType
+							&& x.CustomerId == customerid && x.Deleted == false).Select(e => e.Amount).ToList();
+			if (List.Count != 0)
+			{
+				Result = List.Sum();
+			}
+			return Result;
+		}
+
+		public float GetTodaysTransfer(int customerid)
+		{
+			var transType = (int)TransactionType.Transfer;
+			var query = _transactionRepository.Table.
+				Where(x => x.TransactionDate.Year == DateTime.Now.Year
+							&& x.TransactionDate.Month == DateTime.Now.Month
+							&& x.TransactionDate.Day == DateTime.Now.Day
+							&& x.TranscationTypeId == transType
+							&& x.CustomerId == customerid && x.Deleted == false).Select(e => e.Amount).ToList();
+			if (query.Count > 0)
+			{
+				return query.Select(x => x).Sum();
+			}
+			return 0;
+		}
 
 		public IPagedList<Transaction> GetAllTransactions(int transactionid, int customerid, DateTime? startTime, DateTime? endTime, int[] ts, int[] tt, int pageIndex = 0, int pageSize = int.MaxValue)
 		{
@@ -251,8 +314,18 @@ namespace SmartStore.Services.Hyip
 			return Transaction;
 		}
 
+		public List<Transaction> GetTotalShareList()
+		{
+			var transType = (int)TransactionType.SharePurchase;
+
+			return _transactionRepository.Table.
+				Where(x => x.TranscationTypeId == transType
+							&& x.Deleted == false).ToList();
+		}
+
 		public partial class AllTransactionModel
 		{
+			public int Id { get; set; }
 			public int CustomerId { get; set; }
 			public float Amount { get; set; }
 			public int TranscationTypeId { get; set; }

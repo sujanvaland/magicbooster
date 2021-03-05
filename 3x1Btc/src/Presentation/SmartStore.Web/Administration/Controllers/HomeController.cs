@@ -99,34 +99,49 @@ namespace SmartStore.Admin.Controllers
 				var transcation = _transactionService.GetAllTransactions(0, 0, null, null,
 							  StatusIds, TranscationTypeIds, 0, int.MaxValue);
 
-				model.CompletedWithdrawals = transcation.Sum(x => x.Amount);
+				model.CompletedWithdrawals = transcation.Sum(x => x.Amount) / 4;
+
+
+				int[] TranscationTypeIdBetEarning = { (int)TransactionType.BetEarning };
+				var BetEarningtranscation = _transactionService.GetAllTransactions(0, 0, null, null,
+							  StatusIds, TranscationTypeIdBetEarning, 0, int.MaxValue);
+								
+				model.BetEarning = BetEarningtranscation.Sum(x => x.Amount) / 4;
+
+				int[] TranscationTypeIdSharePurchase = { (int)TransactionType.SharePurchase };
+				var SharePurchasetranscation = _transactionService.GetAllTransactions(0, 0, null, null,
+							  StatusIds, TranscationTypeIdSharePurchase, 0, int.MaxValue);
+
+				var Amount = SharePurchasetranscation.Sum(x => x.Amount) / 4;
+				model.SharePurchase = Amount.ToString() + "/" + SharePurchasetranscation.Count.ToString();
+
 
 				StatusIds = "1".ToIntArray();
 				transcation = _transactionService.GetAllTransactions(0, 0, null, null,
 							  StatusIds, TranscationTypeIds, 0, int.MaxValue);
-				model.PendingWithdrawals = transcation.Sum(x => x.Amount);
+				model.PendingWithdrawals = transcation.Sum(x => x.Amount) / 4;
 
 				StatusIds = "2".ToIntArray();
 				int[] TranscationTypeIdsC = { (int)TransactionType.Commission };
 				transcation = _transactionService.GetAllTransactions(0, 0, null, null,
 							  StatusIds, TranscationTypeIdsC, 0, int.MaxValue);
-				model.CommissionPaid = transcation.Sum(x => x.Amount);
+				model.CommissionPaid = transcation.Sum(x => x.Amount) / 4;
 
 				StatusIds = "2".ToIntArray();
 				int[] TranscationTypeIdsD = { (int)TransactionType.Funding };
 				transcation = _transactionService.GetAllTransactions(0, 0, null, null,
 							  StatusIds, TranscationTypeIdsD, 0, int.MaxValue);
-				model.TotalDeposit = transcation.Sum(x => x.Amount);
+				model.TotalDeposit = transcation.Sum(x => x.Amount) / 4;
 				model.TodaysDeposit = transcation.Where(x => x.TransactionDate.Day == DateTime.Today.Day &&
 				x.TransactionDate.Month == DateTime.Today.Month &&
-				x.TransactionDate.Year == DateTime.Today.Year).Sum(x => x.Amount);
+				x.TransactionDate.Year == DateTime.Today.Year).Sum(x => x.Amount) / 4;
 
 				StatusIds = "1,2".ToIntArray();
 				transcation = _transactionService.GetAllTransactions(0, 0, null, null,
 							  StatusIds, TranscationTypeIds, 0, int.MaxValue);
 				model.TodaysWithdrawal = transcation.Where(x=> x.TransactionDate.Day == DateTime.Today.Day &&
 				x.TransactionDate.Month == DateTime.Today.Month &&
-				x.TransactionDate.Year == DateTime.Today.Year).Sum(x => x.Amount);
+				x.TransactionDate.Year == DateTime.Today.Year).Sum(x => x.Amount) / 4;
 				
 				var plans = _planService.GetAllPlans();
 				double totalInvestors = 0, totalInvestment = 0, totalROIPaid = 0, totalROIToPay = 0, totalPendingROI = 0;

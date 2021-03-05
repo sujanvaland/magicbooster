@@ -8,15 +8,36 @@
               <div class="card-body">
                 <form [formGroup]="login" (ngSubmit)="onSubmit()">
                   <h1>Password Recovery</h1>
-                  <p class="text-muted">Get password recovery link to your email</p>
+                  <p class="text-muted" *ngIf="!otpSuccess">Get OTP to your Phone number</p>
+                  <p class="text-muted" *ngIf="otpSuccess">Do Not Refresh This Page </p>
                   <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12" *ngIf="!otpSuccess">
                       <div class="form-group">
-                        <input type="text" formControlName="Email" class="form-control" placeholder="Email"
+                        <input type="text" formControlName="Email" class="form-control" placeholder="Username"
                           [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
                         <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
-                          <div *ngIf="f.Email.errors.required">Email is required</div>
-                          <div *ngIf="f.Email.errors?.pattern">Enter valid Email</div>
+                          <div *ngIf="f.Email.errors.required">Username is required</div>
+                          <div *ngIf="f.Email.errors?.pattern">Enter valid Username</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="!otpSuccess">
+                      <div class="form-group">
+                        <input type="text" formControlName="Phone" class="form-control" placeholder="Phone number"
+                          [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }" />
+                        <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                          <div *ngIf="f.Phone.errors.required">Phone number is required</div>
+                          <div *ngIf="f.Phone.errors?.pattern">Enter valid Phone number</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12" *ngIf="otpSuccess">
+                      <div class="form-group">
+                        <input type="text" formControlName="OTP" class="form-control" placeholder="OTP"
+                          [ngClass]="{ 'is-invalid': submitted && f.OTP.errors }" />
+                        <div *ngIf="submitted && f.OTP.errors" class="invalid-feedback">
+                          <div *ngIf="f.OTP.errors.required">OTP is required</div>
+                          <div *ngIf="f.OTP.errors?.pattern">Only Numbers Allowed in OTP</div>
                         </div>
                       </div>
                     </div>

@@ -11,6 +11,7 @@ import * as $ from 'jquery';
 export class ForgotComponent implements OnInit{
   login: FormGroup;
   submitted = false;
+  otpSuccess = false;
   constructor(private formBuilder: FormBuilder,
     private loginservice: LoginserviceService,
     private route: ActivatedRoute,
@@ -19,12 +20,25 @@ export class ForgotComponent implements OnInit{
 
 ngOnInit (){
     this.login =this.formBuilder.group({
-      Email: ['', [Validators.required,Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]]
+      Email: ['', [Validators.required]],
+      Phone: ['', [Validators.required]],
+      OTP : ['']
   });
 }
 
 get f() { return this.login.controls; }
-
+phonenumber(inputtxt) {
+  var phoneno = "/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/";
+  if((inputtxt.match(phoneno)))
+        {
+      return true;
+        }
+      else
+        {
+        alert("message");
+        return false;
+        }
+}
     onSubmit() {
         this.submitted = true;
           // stop here if form is invalid
@@ -35,8 +49,24 @@ get f() { return this.login.controls; }
         this.loginservice.PasswordRecovery(this.login.value)
         .subscribe(
           res => {
-            if(res.Message == "success"){
-              this.toastr.success("Password recovery link sent","Success");
+            if(res.Message == "otpsent"){
+              this.toastr.success("OTP Sent Successfully","Success");
+              this.otpSuccess = true;
+              $('.loaderbo').hide();
+            }
+            else if(res.Message == "success"){
+              this.toastr.success("New Password sent to your Phone Successfully","Success");
+              $('.loaderbo').hide();
+              this.router.navigate(['/login']);
+            }
+            else if(res.Message == "invalidphone"){
+              this.toastr.error("Invalid Phone number","Fail");
+       
+              $('.loaderbo').hide();
+            }
+            else if(res.Message == "invalidusername"){
+              this.toastr.error("Invalid Username","Fail");
+    
               $('.loaderbo').hide();
             }
             else{

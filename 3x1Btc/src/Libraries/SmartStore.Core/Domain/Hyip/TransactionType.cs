@@ -26,6 +26,7 @@ namespace SmartStore.Core.Domain.Hyip
 		TransferCoin,
 		EarnedCoin,
 		PurchaseByCoin,
-		RequestCoin
+		RequestCoin,
+		InvestmentWithdrawal
 	}
 }

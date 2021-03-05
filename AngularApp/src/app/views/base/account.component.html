@@ -12,6 +12,7 @@
             </div>
             <div class="card-body">
               <form [formGroup]="accountdetail">
+                <div *ngIf="!otpSuccess">
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
@@ -54,8 +55,6 @@
                     </div>
                   </div>
                 </div>
-                <!--/.row-->
-                 <!--/.row-->
                  <div class="row">
                   <div class="form-group col-sm-6">
                     <div class="col-md-9 col-form-label">
@@ -87,21 +86,21 @@
                     </div>
                   </div>
                 </div>
-                <!--/.row-->
-                <!-- <div class="row">
+                <div class="row">
                   <div class="col-sm-8">
                     <div class="form-group">
-                      <label for="name">Bitcoin Address:</label>
-                      <input type="text" formControlName="BitcoinAddress" class="form-control"
-                        placeholder="Enter Bitcoin address"
-                        [ngClass]="{ 'is-invalid': submitted && f.BitcoinAddress.errors }" />
-                      <div *ngIf="submitted && f.BitcoinAddress.errors" class="invalid-feedback">
-                        <div *ngIf="f.BitcoinAddress.errors.required">Bitcoin address is required</div>
+                      <label for="name">Phone Number:</label>
+                      <br>
+                      <small style="color: red;">Please Enter Phone Number With Country Code Only</small>
+                      <input type="text" formControlName="Phone" class="form-control"
+                        placeholder="Enter Phone Number"
+                        [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }" />
+                        <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.Phone.errors.required">Phone number is required</div>
                       </div>
                     </div>
                   </div>
-                </div> -->
-
+                </div>
                 <div class="row">
                   <div class="col-sm-8">
                     <div class="form-group">
@@ -162,7 +161,22 @@
                     </div>
                   </div>
                 </div>
-               
+              </div>
+              <div class="row" *ngIf="otpSuccess">
+                <h3><p class="text-muted" *ngIf="otpSuccess">Do Not Refresh This Page</p></h3>
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <label for="name">Enter OTP:</label>
+                    <input type="text" formControlName="AccountSettingOTP" class="form-control"
+                      placeholder="Enter OTP"
+                      [ngClass]="{ 'is-invalid': submitted && f.AccountSettingOTP.errors }" />
+                    <div *ngIf="submitted && f.AccountSettingOTP.errors" class="invalid-feedback">
+                      <div *ngIf="f.AccountSettingOTP.errors.required">OTP is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
                 <div>
                   <button type="save" (click)="onSubmit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Save</button>
                   <button type="cancel" (click)="onReset()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>

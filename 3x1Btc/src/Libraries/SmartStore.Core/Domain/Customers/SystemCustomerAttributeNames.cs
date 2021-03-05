@@ -25,7 +25,9 @@ namespace SmartStore.Core.Domain.Customers
 		public static string CustomerNumber { get { return "CustomerNumber"; } }
 		public static string SolidTrustPayAcc { get { return "SolidTrustPayAcc"; } }
 		public static string BitcoinAddressAcc { get { return "BitcoinAddressAcc"; } }
-
+		public static string AccountSettingOTP { get { return "AccountSettingOTP"; } }
+		public static string WithdrawalOTP { get { return "WithdrawalOTP"; } }
+		
 		public static string AccountNumber { get { return "AccountNumber"; } }
 		public static string NICR { get { return "NICR"; } }
 		public static string BankName { get { return "BankName"; } }
@@ -50,7 +52,8 @@ namespace SmartStore.Core.Domain.Customers
         public static string ForumPostCount { get { return "ForumPostCount"; } }
         public static string Signature { get { return "Signature"; } }
         public static string PasswordRecoveryToken { get { return "PasswordRecoveryToken"; } }
-        public static string AccountActivationToken { get { return "AccountActivationToken"; } }
+		public static string PasswordResetOTP { get { return "PasswordResetOTP"; } }
+		public static string AccountActivationToken { get { return "AccountActivationToken"; } }
         public static string LastVisitedPage { get { return "LastVisitedPage"; } }
 		public static string LastUserAgent { get { return "LastUserAgent"; } }
 		public static string ImpersonatedCustomerId { get { return "ImpersonatedCustomerId"; } }

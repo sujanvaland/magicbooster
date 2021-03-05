@@ -42,6 +42,10 @@ export class TransferFundComponent {
       this.toastr.error("Please enter Amount");
       return;
     }
+    if(model.Amount > 100){
+      this.toastr.error("Maximum Transfer 100$ Per Day.");
+      return;
+    }
 
     $('.loaderbo').show();
     this.commonservice.TransferFund(model)
