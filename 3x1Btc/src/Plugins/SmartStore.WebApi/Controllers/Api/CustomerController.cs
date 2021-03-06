@@ -443,7 +443,7 @@ namespace SmartStore.WebApi.Controllers.Api
 
 				Random generator = new Random();
 				string newpassword = generator.Next(0, 1000000).ToString("D6");
-				var OldPhone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+				//var OldPhone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
 				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountSettingOTP, newpassword);
 
 				var message1 = MessageResource.Create(
