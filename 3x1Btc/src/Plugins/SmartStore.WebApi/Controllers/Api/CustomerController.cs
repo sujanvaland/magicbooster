@@ -411,7 +411,29 @@ namespace SmartStore.WebApi.Controllers.Api
 					return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect 2FA Pin" });
 				}
 			}
+			var OldPhone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+			if(OldPhone == null)
+			{
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.StokistCommision);
 
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.CountryId, model.CountryId);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.Gender, model.Gender);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.FirstName, model.FirstName);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.LastName, model.LastName);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BitcoinAddressAcc, model.BitcoinAddress);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.Phone, model.Phone);
+
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountNumber, model.AccountNumber);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.AccountHolderName, model.AccountHolderName);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.NICR, model.NICR);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.BankName, model.BankName);
+
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayzaAcc, model.PayzaAcc);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PMAcc, model.PMAcc);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.SolidTrustPayAcc, model.SolidTrustPayAcc);
+				_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.PayeerAcc, model.PayeerAcc);
+				return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success", data = model });
+			}
 			if (string.IsNullOrEmpty(model.AccountSettingOTP))
 			{
 				string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
