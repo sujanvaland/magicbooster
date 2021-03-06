@@ -241,122 +241,122 @@ namespace SmartStore.WebApi.Controllers.Api
 
 				if (ModelState.IsValid)
 				{
-					if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//{
+					//	string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+					//	string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+					//	TwilioClient.Init(accountSid, authToken);
+
+					//	Random generator = new Random();
+					//	string newpassword = generator.Next(0, 1000000).ToString("D6");
+					//	var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+					//	_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
+
+					//	var message1 = MessageResource.Create(
+					//		body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
+					//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+					//		to: new Twilio.Types.PhoneNumber(Phone)
+					//	);
+					//	if (!string.IsNullOrEmpty(message1.ErrorMessage))
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+					//	}
+					//}
+					//else
+					//{
+					//var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
+
+					//if (WithdrawalOTP == model.WithdrawalOTP)
+					//{
+					if (withdrawalSettings.AllowAutoWithdrawal)
 					{
-						string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-						string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-
-						TwilioClient.Init(accountSid, authToken);
-
-						Random generator = new Random();
-						string newpassword = generator.Next(0, 1000000).ToString("D6");
-						var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
-						_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
-
-						var message1 = MessageResource.Create(
-							body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
-							from: new Twilio.Types.PhoneNumber("+17192498304"),
-							to: new Twilio.Types.PhoneNumber(Phone)
-						);
-						if (!string.IsNullOrEmpty(message1.ErrorMessage))
+						try
 						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+							model.Amount = model.Amount * 4;
+							model.FinalAmount = model.Amount;
+							model.TransactionDate = DateTime.Now;
+
+							model.RefId = 0;
+							model.TranscationTypeId = (int)TransactionType.Withdrawal;
+
+							var customer = _customerService.GetCustomerById(model.CustomerId);
+							model.BitcoinAddress = customer.GetAttribute<string>(SystemCustomerAttributeNames.BitcoinAddressAcc);
+
+							model.BankName = customer.GetAttribute<string>(SystemCustomerAttributeNames.BankName);
+							model.AccountHolderName = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountHolderName);
+							model.AccountNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountNumber);
+							model.NICR = customer.GetAttribute<string>(SystemCustomerAttributeNames.NICR);
+
+							model.PayzaAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayzaAcc);
+							model.SolidTrustPayAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.SolidTrustPayAcc);
+							model.PayeerAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayeerAcc);
+							model.PMAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PMAcc);
+							model.AdvanceCashAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.AdvanceCashAcc);
+							if (model.ProcessorId == (int)PaymentMethod.CoinPayment)
+							{
+								model.WithdrawalAccount = model.BitcoinAddress;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.BankTransfer)
+							{
+								model.WithdrawalAccount = model.BankName;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.Payza)
+							{
+								model.WithdrawalAccount = model.PayzaAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.SolidTrustPay)
+							{
+								model.WithdrawalAccount = model.SolidTrustPayAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.Payeer)
+							{
+								model.WithdrawalAccount = model.PayeerAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.PM)
+							{
+								model.WithdrawalAccount = model.PMAcc;
+							}
+
+							if (model.WithdrawalAccount.IsEmpty())
+							{
+								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Please update your Withdrawal account in Profile page" });
+							}
+							var transcation = model.ToEntity();
+							transcation.ProcessorId = model.ProcessorId;
+							transcation.TranscationTypeId = model.TranscationTypeId;
+							transcation.StatusId = (int)Status.Pending;
+							transcation.WithdrawalAddress = model.WithdrawalAccount;
+							_transactionService.InsertTransaction(transcation);
+
+							// Notifications
+							if (withdrawalSettings.NotifyWithdrawalRequestToUser)
+								Services.MessageFactory.SendWithdrawalNotificationMessageToUser(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
+							if (withdrawalSettings.NotifyWithdrawalRequestToAdmin)
+								Services.MessageFactory.SendWithdrawalNotificationMessageToAdmin(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
+
+							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success" });
 						}
-						else
+						catch (Exception ex)
 						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+
 						}
+
 					}
 					else
 					{
-						var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
-
-						if (WithdrawalOTP == model.WithdrawalOTP)
-						{
-							if (withdrawalSettings.AllowAutoWithdrawal)
-							{
-								try
-								{
-									model.Amount = model.Amount * 4;
-									model.FinalAmount = model.Amount * 4;
-									model.TransactionDate = DateTime.Now;
-
-									model.RefId = 0;
-									model.TranscationTypeId = (int)TransactionType.Withdrawal;
-
-									var customer = _customerService.GetCustomerById(model.CustomerId);
-									model.BitcoinAddress = customer.GetAttribute<string>(SystemCustomerAttributeNames.BitcoinAddressAcc);
-
-									model.BankName = customer.GetAttribute<string>(SystemCustomerAttributeNames.BankName);
-									model.AccountHolderName = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountHolderName);
-									model.AccountNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountNumber);
-									model.NICR = customer.GetAttribute<string>(SystemCustomerAttributeNames.NICR);
-
-									model.PayzaAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayzaAcc);
-									model.SolidTrustPayAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.SolidTrustPayAcc);
-									model.PayeerAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayeerAcc);
-									model.PMAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PMAcc);
-									model.AdvanceCashAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.AdvanceCashAcc);
-									if (model.ProcessorId == (int)PaymentMethod.CoinPayment)
-									{
-										model.WithdrawalAccount = model.BitcoinAddress;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.BankTransfer)
-									{
-										model.WithdrawalAccount = model.BankName;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.Payza)
-									{
-										model.WithdrawalAccount = model.PayzaAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.SolidTrustPay)
-									{
-										model.WithdrawalAccount = model.SolidTrustPayAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.Payeer)
-									{
-										model.WithdrawalAccount = model.PayeerAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.PM)
-									{
-										model.WithdrawalAccount = model.PMAcc;
-									}
-
-									if (model.WithdrawalAccount.IsEmpty())
-									{
-										return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Please update your Withdrawal account in Profile page" });
-									}
-									var transcation = model.ToEntity();
-									transcation.ProcessorId = model.ProcessorId;
-									transcation.TranscationTypeId = model.TranscationTypeId;
-									transcation.StatusId = (int)Status.Pending;
-									transcation.WithdrawalAddress = model.WithdrawalAccount;
-									_transactionService.InsertTransaction(transcation);
-
-									// Notifications
-									if (withdrawalSettings.NotifyWithdrawalRequestToUser)
-										Services.MessageFactory.SendWithdrawalNotificationMessageToUser(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
-									if (withdrawalSettings.NotifyWithdrawalRequestToAdmin)
-										Services.MessageFactory.SendWithdrawalNotificationMessageToAdmin(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
-
-									return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success" });
-								}
-								catch (Exception ex)
-								{
-
-								}
-
-							}
-							else
-							{
-								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
-							}							
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
-						}
+						return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
 					}
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
+					//	}
+					//}
 				}
 			}
 			catch (Exception exception)
@@ -418,121 +418,121 @@ namespace SmartStore.WebApi.Controllers.Api
 
 				if (ModelState.IsValid)
 				{
-					if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//{
+					//	string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+					//	string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+
+					//	TwilioClient.Init(accountSid, authToken);
+
+					//	Random generator = new Random();
+					//	string newpassword = generator.Next(0, 1000000).ToString("D6");
+					//	var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+					//	_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
+
+					//	var message1 = MessageResource.Create(
+					//		body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
+					//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+					//		to: new Twilio.Types.PhoneNumber(Phone)
+					//	);
+					//	if (!string.IsNullOrEmpty(message1.ErrorMessage))
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+					//	}
+					//}
+					//else
+					//{
+					//var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
+
+					//if (WithdrawalOTP == model.WithdrawalOTP)
+					//{
+					if (withdrawalSettings.AllowAutoWithdrawal)
 					{
-						string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-						string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-
-						TwilioClient.Init(accountSid, authToken);
-
-						Random generator = new Random();
-						string newpassword = generator.Next(0, 1000000).ToString("D6");
-						var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
-						_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
-
-						var message1 = MessageResource.Create(
-							body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
-							from: new Twilio.Types.PhoneNumber("+17192498304"),
-							to: new Twilio.Types.PhoneNumber(Phone)
-						);
-						if (!string.IsNullOrEmpty(message1.ErrorMessage))
+						try
 						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+							model.Amount = model.Amount * 4;
+							model.FinalAmount = model.Amount;
+							model.TransactionDate = DateTime.Now;
+
+							model.RefId = 0;
+							model.TranscationTypeId = (int)TransactionType.InvestmentWithdrawal;
+
+							var customer = _customerService.GetCustomerById(model.CustomerId);
+							model.BitcoinAddress = customer.GetAttribute<string>(SystemCustomerAttributeNames.BitcoinAddressAcc);
+
+							model.BankName = customer.GetAttribute<string>(SystemCustomerAttributeNames.BankName);
+							model.AccountHolderName = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountHolderName);
+							model.AccountNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountNumber);
+							model.NICR = customer.GetAttribute<string>(SystemCustomerAttributeNames.NICR);
+
+							model.PayzaAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayzaAcc);
+							model.SolidTrustPayAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.SolidTrustPayAcc);
+							model.PayeerAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayeerAcc);
+							model.PMAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PMAcc);
+							model.AdvanceCashAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.AdvanceCashAcc);
+							if (model.ProcessorId == (int)PaymentMethod.CoinPayment)
+							{
+								model.WithdrawalAccount = model.BitcoinAddress;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.BankTransfer)
+							{
+								model.WithdrawalAccount = model.BankName;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.Payza)
+							{
+								model.WithdrawalAccount = model.PayzaAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.SolidTrustPay)
+							{
+								model.WithdrawalAccount = model.SolidTrustPayAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.Payeer)
+							{
+								model.WithdrawalAccount = model.PayeerAcc;
+							}
+							if (model.ProcessorId == (int)PaymentMethod.PM)
+							{
+								model.WithdrawalAccount = model.PMAcc;
+							}
+
+							if (model.WithdrawalAccount.IsEmpty())
+							{
+								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Please update your Withdrawal account in Profile page" });
+							}
+							var transcation = model.ToEntity();
+							transcation.ProcessorId = model.ProcessorId;
+							transcation.TranscationTypeId = model.TranscationTypeId;
+							transcation.StatusId = (int)Status.Pending;
+							transcation.WithdrawalAddress = model.WithdrawalAccount;
+							_transactionService.InsertTransaction(transcation);
+
+							// Notifications
+							if (withdrawalSettings.NotifyWithdrawalRequestToUser)
+								Services.MessageFactory.SendWithdrawalNotificationMessageToUser(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
+							if (withdrawalSettings.NotifyWithdrawalRequestToAdmin)
+								Services.MessageFactory.SendWithdrawalNotificationMessageToAdmin(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
+
+							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success" });
 						}
-						else
+						catch (Exception ex)
 						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+
 						}
 					}
 					else
 					{
-						var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
-
-						if (WithdrawalOTP == model.WithdrawalOTP)
-						{
-							if (withdrawalSettings.AllowAutoWithdrawal)
-							{
-								try
-								{
-									model.Amount = model.Amount * 4;
-									model.FinalAmount = model.Amount * 4;
-									model.TransactionDate = DateTime.Now;
-
-									model.RefId = 0;
-									model.TranscationTypeId = (int)TransactionType.InvestmentWithdrawal;
-
-									var customer = _customerService.GetCustomerById(model.CustomerId);
-									model.BitcoinAddress = customer.GetAttribute<string>(SystemCustomerAttributeNames.BitcoinAddressAcc);
-
-									model.BankName = customer.GetAttribute<string>(SystemCustomerAttributeNames.BankName);
-									model.AccountHolderName = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountHolderName);
-									model.AccountNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountNumber);
-									model.NICR = customer.GetAttribute<string>(SystemCustomerAttributeNames.NICR);
-
-									model.PayzaAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayzaAcc);
-									model.SolidTrustPayAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.SolidTrustPayAcc);
-									model.PayeerAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PayeerAcc);
-									model.PMAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.PMAcc);
-									model.AdvanceCashAcc = customer.GetAttribute<string>(SystemCustomerAttributeNames.AdvanceCashAcc);
-									if (model.ProcessorId == (int)PaymentMethod.CoinPayment)
-									{
-										model.WithdrawalAccount = model.BitcoinAddress;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.BankTransfer)
-									{
-										model.WithdrawalAccount = model.BankName;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.Payza)
-									{
-										model.WithdrawalAccount = model.PayzaAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.SolidTrustPay)
-									{
-										model.WithdrawalAccount = model.SolidTrustPayAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.Payeer)
-									{
-										model.WithdrawalAccount = model.PayeerAcc;
-									}
-									if (model.ProcessorId == (int)PaymentMethod.PM)
-									{
-										model.WithdrawalAccount = model.PMAcc;
-									}
-
-									if (model.WithdrawalAccount.IsEmpty())
-									{
-										return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Please update your Withdrawal account in Profile page" });
-									}
-									var transcation = model.ToEntity();
-									transcation.ProcessorId = model.ProcessorId;
-									transcation.TranscationTypeId = model.TranscationTypeId;
-									transcation.StatusId = (int)Status.Pending;
-									transcation.WithdrawalAddress = model.WithdrawalAccount;
-									_transactionService.InsertTransaction(transcation);
-
-									// Notifications
-									if (withdrawalSettings.NotifyWithdrawalRequestToUser)
-										Services.MessageFactory.SendWithdrawalNotificationMessageToUser(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
-									if (withdrawalSettings.NotifyWithdrawalRequestToAdmin)
-										Services.MessageFactory.SendWithdrawalNotificationMessageToAdmin(transcation, "", "", _localizationSettings.DefaultAdminLanguageId);
-
-									return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "success" });
-								}
-								catch (Exception ex)
-								{
-
-								}
-							}
-							else
-							{
-								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
-							}
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
-						}
+						return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
 					}
+					//}
+					//else
+					//{
+					//	return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
+					//}
+					//}
 				}
 			}
 			catch (Exception exception)
