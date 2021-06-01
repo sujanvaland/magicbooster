@@ -241,38 +241,38 @@ namespace SmartStore.WebApi.Controllers.Api
 
 				if (ModelState.IsValid)
 				{
-					if (string.IsNullOrEmpty(model.WithdrawalOTP))
-					{
-						string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-						string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+					//if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//{
+					//	string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+					//	string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
 
-						TwilioClient.Init(accountSid, authToken);
+					//	TwilioClient.Init(accountSid, authToken);
 
-						Random generator = new Random();
-						string newpassword = generator.Next(0, 1000000).ToString("D6");
-						var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
-						_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
+					//	Random generator = new Random();
+					//	string newpassword = generator.Next(0, 1000000).ToString("D6");
+					//	var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+					//	_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
 
-						var message1 = MessageResource.Create(
-							body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
-							from: new Twilio.Types.PhoneNumber("+17192498304"),
-							to: new Twilio.Types.PhoneNumber(Phone)
-						);
-						if (!string.IsNullOrEmpty(message1.ErrorMessage))
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
-						}
-					}
-					else
-					{
-						var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
+					//	var message1 = MessageResource.Create(
+					//		body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
+					//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+					//		to: new Twilio.Types.PhoneNumber(Phone)
+					//	);
+					//	if (!string.IsNullOrEmpty(message1.ErrorMessage))
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+					//	}
+					//}
+					//else
+					//{
+						//var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
 
-						if (WithdrawalOTP == model.WithdrawalOTP)
-						{
+						//if (WithdrawalOTP == model.WithdrawalOTP)
+						//{
 							if (withdrawalSettings.AllowAutoWithdrawal)
 							{
 								try
@@ -351,12 +351,12 @@ namespace SmartStore.WebApi.Controllers.Api
 							{
 								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
 							}							
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
-						}
-					}
+						//}
+						//else
+						//{
+						//	return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
+						//}
+					//}
 				}
 			}
 			catch (Exception exception)
@@ -418,38 +418,38 @@ namespace SmartStore.WebApi.Controllers.Api
 
 				if (ModelState.IsValid)
 				{
-					if (string.IsNullOrEmpty(model.WithdrawalOTP))
-					{
-						string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-						string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
+					//if (string.IsNullOrEmpty(model.WithdrawalOTP))
+					//{
+					//	string accountSid = "ACc887bcf83d1f79d47ed76860c6dd288f"; //Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
+					//	string authToken = "9ef4bc2a45051f3e79a85ffbb19bfd61"; //Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
 
-						TwilioClient.Init(accountSid, authToken);
+					//	TwilioClient.Init(accountSid, authToken);
 
-						Random generator = new Random();
-						string newpassword = generator.Next(0, 1000000).ToString("D6");
-						var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
-						_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
+					//	Random generator = new Random();
+					//	string newpassword = generator.Next(0, 1000000).ToString("D6");
+					//	var Phone = cust.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+					//	_genericAttributeService.SaveAttribute(cust, SystemCustomerAttributeNames.WithdrawalOTP, newpassword);
 
-						var message1 = MessageResource.Create(
-							body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
-							from: new Twilio.Types.PhoneNumber("+17192498304"),
-							to: new Twilio.Types.PhoneNumber(Phone)
-						);
-						if (!string.IsNullOrEmpty(message1.ErrorMessage))
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
-						}
-					}
-					else
-					{
-						var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
+					//	var message1 = MessageResource.Create(
+					//		body: "OTP For Withdrawal USD From Magic Booster Account Is :" + newpassword,
+					//		from: new Twilio.Types.PhoneNumber("+17192498304"),
+					//		to: new Twilio.Types.PhoneNumber(Phone)
+					//	);
+					//	if (!string.IsNullOrEmpty(message1.ErrorMessage))
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect Phone number" });
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "OTP Sent to Your Registered Mobile Number" });
+					//	}
+					//}
+					//else
+					//{
+					//	var WithdrawalOTP = cust.GetAttribute<string>(SystemCustomerAttributeNames.WithdrawalOTP);
 
-						if (WithdrawalOTP == model.WithdrawalOTP)
-						{
+					//	if (WithdrawalOTP == model.WithdrawalOTP)
+					//	{
 							if (withdrawalSettings.AllowAutoWithdrawal)
 							{
 								try
@@ -527,12 +527,12 @@ namespace SmartStore.WebApi.Controllers.Api
 							{
 								return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Withdrawal temporary disabled" });
 							}
-						}
-						else
-						{
-							return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
-						}
-					}
+					//	}
+					//	else
+					//	{
+					//		return Request.CreateResponse(HttpStatusCode.OK, new { code = 0, Message = "Incorrect OTP" });
+					//	}
+					//}
 				}
 			}
 			catch (Exception exception)
